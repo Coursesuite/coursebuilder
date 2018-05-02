@@ -1,0 +1,71 @@
+.content-container .ui-layout-pane-south {
+	background: url(../css/white_hint_bg_h.png) repeat-x top left,
+				@tocColour url(../css/black_hint_bg_h.png) repeat-x bottom right;
+
+}
+.BottomBar {
+  	display: block;
+  	padding: 18px 10px;
+
+  	.halfColour(@secondaryColour);
+
+	.bottom-link {
+		margin-left: 1em;
+		i {
+			margin-right: .3em;
+		}
+	}
+
+	font-size: 1.15em;
+
+  	#BottomMenu {
+  		float: right;
+  		padding-right: 1em;
+  		margin-top: -5px;
+  		a {
+		  	color: #fff;
+		  	text-decoration: none;
+		  	&:hover {
+			  	.halfColour(@secondaryColour)
+		  	}
+			&.ActionLink {
+				.halfColour(#7DBB00);
+				margin-left: 1em;
+				font-size: 1.15em;
+				i {
+					margin-right: .3em;
+				}
+				text-decoration: none;
+				&:hover {
+					.readableColour(@primaryColour);
+					border-bottom: 1px dashed #BDDE7B;
+				}
+			}
+  		}
+		.navigation-button-wrapper {
+			line-height: 25px;
+			margin-left: 25px;
+			a {
+				vertical-align: sub;
+			  	color: #fff;
+			  	text-decoration: none;
+			  	i {
+				  	.icon-2x;
+			  	}
+			  	&:hover {
+				  	.halfColour(@secondaryColour)
+			  	}
+			}
+		}
+  	}
+  	#Copyright {
+		font-size: 1.15em;
+		float: left;
+  		.halfColour(@secondaryColour);
+		a {
+		    color: inherit;
+			font-size: inherit;
+		}
+  	}
+  	
+}

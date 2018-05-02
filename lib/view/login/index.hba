@@ -1,0 +1,48 @@
+{{> navbar}}
+
+<section class='site-logon'>
+
+<div class="container">
+    <div class="row">
+		<div class="span12 well">
+			<form class="form-horizontal" action="{{baseurl}}/login/authenticate" method="post">
+			  <input type="hidden" name="csrf_token" value="{{csrf}}" />
+			  <fieldset>
+			    <div id="legend">
+			      <legend class="">Login</legend>
+			    </div>
+			    <p class="lead">CourseSuite users should use the <a href="https://www.coursesuite.ninja/store/info/coursebuildr">CourseBuilder Store Page</a> to log on. If you have been supplied a private username and password, enter them below.</p>
+			    <div class="control-group">
+			      <!-- Username -->
+			      <label class="control-label"  for="username">Username</label>
+			      <div class="controls">
+			        <input type="text" id="username" name="username" placeholder="" class="input-xlarge">
+			      </div>
+			    </div>
+			    <div class="control-group">
+			      <!-- Password-->
+			      <label class="control-label" for="password">Password</label>
+			      <div class="controls">
+			        <input type="password" id="password" name="password" placeholder="" class="input-xlarge">
+			      </div>
+			    </div>
+			    {{#if feedback}}
+			    <div class="control-group">
+			      <div class="controls">
+			      	<p class="feedback">{{feedback}}</p>
+			      </div>
+			    </div>
+			    {{/if}}
+			    <div class="control-group">
+			      <!-- Button -->
+			      <div class="controls">
+			        <button class="btn btn-success">Login</button>
+			      </div>
+			    </div>
+			  </fieldset>
+			</form>
+		</div>
+	</div>
+</div>
+
+</section>

@@ -1,0 +1,14 @@
+{{#each todo}}
+<fieldset class='todo-container'>
+	<legend>{{course}}</legend>
+	{{#each items}}
+	<div class='container-fluid'>
+	<a href="#" data-id="{{id}}" class="text-error pull-right"><i class="icon-remove-sign"></i></a>
+	<div class="input-prepend">
+		<span class="add-on"><input type="checkbox" value="{{id}}"></span>
+		<input class="span5" type="text" placeholder="{{note}}" value="{{note}}" data-id="{{id}}">
+	</div>
+	</div>
+	{{/each}}
+</fieldset>
+{{/each}}

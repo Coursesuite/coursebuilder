@@ -1,0 +1,45 @@
+.ui-layout-pane-north {
+  	background: @tocColour url(@headerBackgroundImage) @headerBackgroundAttachment @headerBackgroundRepeat;
+  	background-size: @headerBackgroundSize;
+}
+#header_all {
+	#WelcomeTitle {
+	  	position: relative;
+	  	height: @northHeight;
+
+		h2 {
+			position: absolute;
+			bottom: -15px;
+			left: 0;
+			width:400px;
+			height: 37px;
+			background: transparent url(../../en-us/Content/media/dec_gtil.png) no-repeat bottom right;
+			text-indent: -9999px;
+		}
+	}
+	.navigation-button-wrapper {
+		position: absolute;
+		right: 0;
+		bottom: 0;
+		width: 180px;
+		padding: 10px 0 10px 40px;
+		border-radius: 50px 0 0 0;
+		background-color: #fff;
+		box-shadow: inset 3px 3px 5px rgba(0,0,0,.1); 
+		a {
+			color: @primaryColour;
+			text-decoration: none;
+			i {
+				.icon-2x;
+			}
+			&:hover {
+				.halfColour(@primaryColour);
+			}
+		}
+	}
+}
+
+// drop shadow for IE8
+.lt-ie9 #header_all #WelcomeTitle h2 {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=1, Direction=135, Color='#000000')";
+}

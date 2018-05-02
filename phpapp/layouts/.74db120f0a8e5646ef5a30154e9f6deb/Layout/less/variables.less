@@ -1,0 +1,67 @@
+// begin font import
+@import url(http://fonts.googleapis.com/css?family=Roboto+Condensed:700italic,400);
+// end font import
+
+
+// Colours
+/*
+	Primary: Top header background + TOC background + H1 + H4
+	Seconday: Footer background + H2 + H5
+	Tertiary: H3 + H6
+	
+	Base Text: paragraphs, etc
+	Alt-text: 
+	
+*/
+
+@primaryColour:		#6caad1;
+@secondaryColour:	#8abf7d;
+@tertiaryColour:	#db8b8b;
+
+@baseText:			#000000;
+@altText:			#999;
+
+@baseBorder:		#cccccc;
+@baseBorderFill:	#eeeeee;
+
+@pageBackground:	#ffffff;
+
+// Header background properties
+
+@headerBackgroundImage:			"../../en-us/Content/media/header-bg.jpg";
+@headerBackgroundAttachment:	center;
+@headerBackgroundRepeat:		no-repeat;
+@headerBackgroundSize:			100% auto;
+
+// corners, grid-related properties
+
+@cornerRadius:		2px;
+@standardGutter:	10px;
+@tocIndent:			9px;
+
+// layout calculation settings
+
+@northHeight:		80px;
+@southHeight:		50px;
+
+
+// for quizzes, the colours representing correct and incorrect icons / badges
+@correct: 			#66B800;
+@incorrect:			#D63B38;
+
+// font properties
+@headerFont:		'Hobo Std';
+@bodyFont:			'Tekton Pro';
+@fontSize:			13px;
+@lineHeight:		unit((3 * (@fontSize/2)), "px"); /* roughly right-feeling line height for any given font size */
+@FontAwesomePath:    "../css/font";
+@FontAwesomeVersion: "3.1.0";
+@borderColor:        #eee;
+@iconMuted:          #eee;
+@iconLight:          #fff;
+@iconDark:           #333;
+
+// body properties
+@bodyheight:		100;
+@bodyunit:			'%';
+

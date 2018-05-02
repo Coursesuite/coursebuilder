@@ -1,0 +1,5 @@
+<div class='rp-slideshow clearblock' data-effect='{{effect}}' id='slideshow{{uniqueid}}'>
+{{#each slide}}
+	<img src="Content/media/{{uri}}" />
+{{/each}}
+</div>

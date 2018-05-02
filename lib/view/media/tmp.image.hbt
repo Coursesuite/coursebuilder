@@ -1,0 +1,89 @@
+<h4>Media Details</h4>
+<section class='summary'>
+<figure>
+	<img src="{{thumbnail image 150}}">
+</figure>
+<div class='actions'>
+	<p class='filename'>{{name}}</p>
+	<p class='date'>{{datecreated}}</p>
+	<p class='size'>{{filesize}}</p>
+	<p class='dimensions'>{{width}} x {{height}}</p>
+	<a class='edit' href='#edit'>Edit Image</a>
+	<a class='delete' href='#delete'>Delete permanently</a>
+</div>
+</section>
+
+<section class='editables'>
+
+<div class="media-sidebar visible">
+
+	<div class="media-uploader-status" style="display: none;">
+		<h2>Uploading</h2>
+		<button type="button" class="button-link upload-dismiss-errors"><span class="screen-reader-text">Dismiss Errors</span></button>
+
+		<div class="media-progress-bar"><div></div></div>
+		<div class="upload-details">
+			<span class="upload-count">
+				<span class="upload-index"></span> / <span class="upload-total"></span>
+			</span>
+			<span class="upload-detail-separator">–</span>
+			<span class="upload-filename"></span>
+		</div>
+		<div class="upload-errors"></div>
+	</div>
+
+	<form class="compat-item"></form><div class="attachment-display-settings">
+		<h2>Attachment Display Settings</h2>
+		<label class="setting align">
+			<span>Alignment</span>
+			<select class="alignment" data-setting="align" data-user-setting="align">
+				<option value="left">
+					Left
+				</option>
+				<option value="center">
+					Centre
+				</option>
+				<option value="right">
+					Right
+				</option>
+				<option value="none" selected="">
+					None
+				</option>
+			</select>
+		</label>
+		<div class="setting">
+			<label>
+				<span>Link To</span>
+				<select class="link-to" data-setting="link" data-user-setting="urlbutton">
+					<option value="none" selected="">
+						None
+					</option>
+					<option value="file">
+						Media File					
+					</option>
+					<option value="post">
+						Attachment Page					
+					</option>
+					<option value="custom">
+						Custom URL
+					</option>
+				</select>
+			</label>
+			<input type="text" class="link-to-custom hidden" data-setting="linkUrl">
+		</div>
+		<label class="setting">
+			<span>Size</span>
+			<select class="size" name="size" data-setting="size" data-user-setting="imgsize">
+				<option value="thumbnail">
+					Thumbnail – 150 × 150
+				</option>
+				<option value="medium">
+					Medium – 300 × 200
+				</option>
+				<option value="full" selected="selected">
+					Full Size – 600 × 400
+				</option>
+			</select>
+		</label>
+	</form>
+</div>

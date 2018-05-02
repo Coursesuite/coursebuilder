@@ -1,0 +1,8 @@
+<div class="jqueryui-accordion" id="accordion{{uniqueid}}">
+	{{#each tab}}
+	<div>
+		<h3><a href="#">{{title}}</a></h3>
+		<div>{{{content}}}</div>
+	</div>
+	{{/each}}
+</div>

@@ -1,0 +1,54 @@
+
+input[type=button],
+button,
+a.rp-button-dialogue {
+  .standard-button(@baseBorderFill);
+}
+
+i.mr { // icons to the right of text, not the left, so we margin the left not the right
+  margin-left: .3em;
+  margin-right: 0;
+}
+
+a.rp-button-dialogue {
+  .readableColour(@baseBorderFill);
+}
+
+input[type=button], button {
+  // margin on quiz buttons, 
+  margin-bottom: .3em; 
+}
+input[type=button].disabled,
+button.disabled {
+  cursor: default;
+  .disabled-button(@baseBorderFill);
+}
+
+input[name=evalButton] {
+  // check answer button
+}
+
+// TOC expanded node button icon; rather than s point it se
+.icon-caret-down {
+  .rotate(-45deg);
+}
+
+.rp-fullscreenvideo {
+	.standard-button(@baseBorderFill);
+}
+
+// hack on top of font-awesome to allow superscript icons
+.icon-super {
+  vertical-align: super;
+  font-size: .75em;
+  &.icon-border {
+    border-width: 1px;
+    .border-radius(4px);
+  }
+}
+
+.glossary-term, .tiptext, .overlay-textlink {
+	text-decoration: none;
+	border-bottom: 1px dashed @baseBorder;
+  cursor: pointer;
+}

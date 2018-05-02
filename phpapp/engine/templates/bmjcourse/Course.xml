@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<languages xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" lastEdited="en-us" default="en-us">
+  <language menu="true" glossary="false" resources="true" help="false" code="en-us" name="English (United States)" passingScore="80">
+    <name>
+    	Wound Managment
+    </name>
+    <description>
+    	The practice of wound management
+    </description>
+  </language>
+</languages>

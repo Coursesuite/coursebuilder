@@ -1,0 +1,69 @@
+
+<table class='layout-edit header-colour header-element pri-colour'>
+	<thead>
+		<tr>
+			<td class="left">
+				<label>Show <select data-id="layout.titleheader.text">
+					<option value="name"{{#compare layout.titleheader.text "name"}} selected{{/compare}}{{#compare layout.titleheader.text "both"}} selected{{/compare}}>Course name</option>
+					<option value="description"{{#compare layout.titleheader.text "description"}} selected{{/compare}}>Course description</option>
+					<option value="none"{{#compare layout.titleheader.text "none"}} selected{{/compare}}>None</option>
+				</select></label>
+			</td>
+			<td>
+				<div>Header background image (auto-stretch)</div>
+				<div id="hdl" data-type="image" class="browse-image" data-id="headerleft.content">{{{headerleft.content}}}</div>
+			</td>
+		</tr>
+	</thead>
+</table>
+<table class='layout-edit page-colour'>
+	<tbody>
+		<tr>
+			<td class='content'>
+				<img src='http://cpd.test.avant.org.au/theme/avant/pix/logo_avant_riskiq.png' style='float:right'>
+				<h1 class='pri-colour-text'>Avant layout</h1>
+				<p>The avant layout is designed for Moodle integration. You probably want to set the course description/name to "none", since it will be represented in the Moodle page header.</p>
+				<h2 class='sec-colour-text'>Settable stuff</h2>
+				<p>The colours and buttons are set by the theme on disk. These are not settable directly.</p>
+				<h3 class='ter-colour-text'>Other notes</h3>
+				<p>Footer is 50px high and has a grey gradient background. Header is 80px high and has a stretched background.</p>
+				<p><b>Player height:</b> <input type="number" data-id="layout.bodyheight" min="50" max="1000" step="10" value="{{#if layout.bodyheight}}{{layout.bodyheight}}{{else}}100{{/if}}"> <select data-id="layout.bodyunit">
+					<option value="pc"{{#compare layout.bodyunit "pc"}} selected{{/compare}}{{#unless layout.container.unit}} selected{{/unless}}>Percent</option>
+					<option value="px"{{#compare layout.bodyunit "px"}} selected{{/compare}}>Pixels</option></select></p>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<table class='layout-edit sec-colour'>
+	<tfoot>
+		<tr>
+			<td class="left"><div><input data-type="string" data-id="copyright.content" type="text" id="primary-colour" placeholder="Copyright text" value="{{{copyright.content}}}"></div>
+				<label><input type="checkbox" data-type="boolean" data-id="copyright.visible"{{#if copyright.visible}} checked{{/if}}> Copyright text visible</label>
+			</td>
+			<td class="right">
+				<label><input type="checkbox" data-type="boolean" data-id="navigation.progress.visible"{{#if navigation.progress.visible}} checked{{/if}}> {{navigation.progress.label}} visible</label>
+				<label><input type="checkbox" data-type="boolean" data-id="navigation.glossary.visible"{{#if navigation.glossary.visible}} checked{{/if}}> {{navigation.glossary.label}} visible</label>
+				<label><input type="checkbox" data-type="boolean" data-id="navigation.resources.visible"{{#if navigation.resources.visible}} checked{{/if}}> {{navigation.resources.label}} visible</label>
+				<label><input type="checkbox" data-type="boolean" data-id="navigation.help.visible"{{#if navigation.help.visible}} checked{{/if}}> {{navigation.help.label}} visible</label>
+			</td>
+		</tr>
+	</tfoot>
+</table>
+
+<div class='hidden'>
+
+	<input type="text" data-type="string" class="input-mini" data-id="layout.basecolour" value="#0068A4" readonly disabled>
+	<input type="text" data-type="string" class="input-mini" data-id="layout.altcolour" value="#0068A4" readonly disabled>
+	<input type="text" data-type="string" class="input-mini" data-id="layout.altcolour2" value="#083FA3" readonly disabled>
+
+	<input type="checkbox" data-type="boolean" data-id="tocheader.visible" readonly disabled>
+	<input type="text" data-type="string" class="input-mini" data-id="navigation.previous.label" value="" readonly disabled>
+	<input type="text" data-type="string" class="input-mini" data-id="navigation.home.label" value="" readonly disabled>
+	<input type="text" data-type="string" class="input-mini" data-id="navigation.next.label" value="" readonly disabled>
+	<input type="number" class="input-mini" min="40" title="Height of north pane (includes navigation)" data-id="layout.panesize.north" data-type="number" value="80" readonly disabled>
+	<input type="number" class="input-mini" min="40" title="Height of south pane" data-id="layout.panesize.south" data-type="number" value="50" readonly disabled>
+	<input type="checkbox" data-type="boolean" readonly disabled title="Show name / description / nav button row" data-id="layout.titleheader.visible" checked>
+	<input type="checkbox" data-type="boolean" readonly disabled data-id="layout.titleheader.navigation" checked>
+	<input type="checkbox" data-type="boolean" readonly disabled data-id="layout.footer.navigation" checked>
+	<input type="checkbox" readonly disabled data-type="boolean" title="Show footer" data-id="layout.footer.visible" checked>
+</div>

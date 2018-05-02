@@ -1,0 +1,6 @@
+<div class='rp-completion' id='rp-notyetcompetent'>
+	<h1>{{title}}</h1>
+	<p>The module is <strong>incomplete</strong>. Your current score is {{score}}.
+	To pass, you still need to achieve an overall score of or above {{passingScore}}.</p>
+	<p>Please press the <span class='button-like'>Save &amp; Exit</span> button at the top-right of this screen to return to the Dashboard (your progress will be saved).</p>
+</div>

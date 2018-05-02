@@ -1,0 +1,9 @@
+<div class="inline-shortanswer" data-scormid="rpsa_{{uniqueid}}">
+	{{#if question}}<p class="question">{{question}}</p>{{/if}}
+	<div><textarea maxlength="160" rows="4" cols="40">{{value}}</textarea></div>
+	<div class="counter">{{remaining}} characters remaining</div>
+	<div class="submit clearblock">
+		<a href="#save" class="standard-button"><i class="icon-save"></i>Save</a>
+		<span class="feedback {{#unless feedback}}hide{{/unless}}">Your selection has been saved.</span>
+	</div>
+</div>

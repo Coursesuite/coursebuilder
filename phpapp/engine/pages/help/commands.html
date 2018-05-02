@@ -1,0 +1,187 @@
+<H4>TextPlayer Commands</H4>
+
+<p><font color=red>THIS IS OUT OF DATE!</font></p>
+
+<P>The TextPlayer engine
+(TARDis / Lucidity) lets you put in plain text and it transforms
+it to rich html. It uses <I>Tokens</I> in the text, which are
+commands encapsulating values that are transformed in a particular
+way. In general, a token is written with curly brackets around it,
+and encapsulates the text or image within the brackets. Multiple
+values are supported and in cases required, and these are each
+seperated with a vertical bar character - |. This document lists the
+supported tokens:</P>
+<P><BR>
+</P>
+<H5>{link My Link|pageName.html}</H5>
+<P>Link to a different
+page within the Content folder.</P>
+<P><pre>&lt;a
+href=”Content/pageName.html”&gt;My Link&lt;/a&gt;</pre></P>
+<P><BR>
+</P>
+<H5>{external My Link|http://abc.net.au</pre>}</H5>
+<P>Link to an external
+site, uses an icon to denote the link is external.</P>
+<P><pre>&lt;a
+target='_blank' href='</pre><pre>http://abc.net.au</pre></pre><pre>'&gt;&lt;i
+class='icon-external-link'&gt;&lt;/i&gt; My Link&lt;/a&gt;</pre></P>
+<P><BR>
+</P>
+<H5>{load filename.html}</H5>
+<P>Load the content of an
+external file into the place where the token is</P>
+<P>Output: (contents of
+file between &lt;body&gt; tags)</P>
+<P>Note: If filename
+contains :// then it tries to load it from an external source,
+otherwise it tries to load the file from the Contents/ folder.</P>
+<P><BR>
+</P>
+<H5>{parse filename.html}</H5>
+<P>Output: (contents of
+file between &lt;body&gt; tags)</P>
+<P>Similar option to
+{load} except that it will look for and interpret tokens in the
+external file.</P>
+<P><BR>
+</P>
+<H5>{overlay Show stuff|stuff.html}</H5>
+<H5>{popup Show stuff|stuff.html}</H5>
+<P>Draws a button on the
+page with the text that links to an overlay window. See  the naming
+help on the Pages tab for how you can name includes so they are
+parsed properly.</P>
+<P><pre>&lt;a
+href='Content/stuff.html' rev='overlay'
+class='rp-button-dialogue'&gt;Show stuff&lt;/a&gt;</pre></P>
+<P><BR>
+</P>
+<H5>{centered show this text in the middle}</H5>
+<H5>{center show this text in the middle}</H5>
+<P>Draws the value
+centered on the page. Often used to wrap an overlay button.</P>
+<P><pre>&lt;p
+class='centered'&gt;show this text in the middle&lt;/p&gt;</pre></P>
+<P><BR>
+</P>
+<H5>{fastfact Quick Note!|In australia, the sky is
+blue just like in America.}</H5>
+<P>Draws a fast-fact box
+on the right of the page. If no text is entered before the first |
+character, the words “fast fact” are used.</P>
+<P><pre>&lt;div
+id='fastfact'&gt;&lt;h3&gt;Quick Note!&lt;/h3&gt;&lt;p&gt;In
+australia, the sky is blue just like in America.&lt;/p&gt;&lt;/div&gt;</pre></P>
+<P><BR>
+</P>
+<H5>{image foo.jpg}</H5>
+<P>Draws an image from the
+/Content/media folder</P>
+<P><pre>&lt;img
+src='Content/media/foo.jpg' class='rp-image' /&gt;</pre></P>
+<P><BR>
+</P>
+<H5>{bullets point 1|point 2|point 3|point 4}</H5>
+<P>Draws a list of dot
+points</P>
+<P><pre>&lt;ul&gt;&lt;li&gt;point
+1&lt;/li&gt;&lt;li&gt;point 2&lt;/li&gt;&lt;li&gt;point
+3&lt;/li&gt;&lt;li&gt;point 4&lt;/li&gt;&lt;/ul&gt;</pre></P>
+<P><BR>
+</P>
+<H5>{numbers point 1|point 2|point 3|point 4}</H5>
+<P>Draws a numbered list
+of points</P>
+<P><pre>&lt;ol&gt;&lt;li&gt;point
+1&lt;/li&gt;&lt;li&gt;point 2&lt;/li&gt;&lt;li&gt;point
+3&lt;/li&gt;&lt;li&gt;point 4&lt;/li&gt;&lt;/ol&gt;</pre></P>
+<P><BR>
+</P>
+<H5>{rightimages image1.jpg|image2.png|image3.gif}</H5>
+<P>Draws images on the
+right of the page that fade in in sequence when the page loads.
+Images are assumed to be in the /Content/media folder. Supports one
+or more images. If the first element does not end in an extension, it
+is assumed to be a classname, which is applied to each image.</P>
+<P><pre>&lt;img
+src='Content/media/image1.jpg' class='rp-fadein' /&gt;&lt;img
+src='Content/media/image2.png' class='rp-fadein' /&gt;&lt;img
+src='Content/media/image3.gif' class='rp-fadein' /&gt;</pre></P>
+<P><BR>
+</P>
+<H5>{tag marquee|i hate the marquee tag}</H5>
+<P>Draws any html tag to
+the page. Useful because all HTML is stripped to begin with. Can be
+useful for adding things like bold or italic text. Can not specify
+any attributes.</P>
+<P><pre>&lt;marquee&gt;I
+hate the marquee tag&lt;/marquee&gt;</pre></P>
+<P><BR>
+</P>
+<H5>{ref 6}</H5>
+<P>Draws a number within a
+super tag. Javascript then automatically links the number to the
+matching value in the resources.html file (assumes ordered list is
+used for references).</P>
+<P><pre>&lt;sup&gt;6&lt;/sup&gt;</pre></P>
+<P><BR>
+</P>
+<H5>{term definition of a strawberry|strawberry}</H5>
+<P>Draws a link to a
+definition (uses glossary.html, requires each term to have an anchor
+named the same as the value in the data attribute).</P>
+<P><pre>&lt;dfn
+data='strawberry'&gt;definition of a strawberry&lt;/dfn&gt;</pre></P>
+<P><BR>
+</P>
+<H5>{clickimage image1.jpg|A picture of a
+duck|image2.jpg|A picture of a banana}</H5>
+<P>Draws a sequence of
+images with a  checkbox over the right top corner that allows the
+user to click to select one or more items. Stores the values in the
+SCO. The text value of each image is revealed in feedback after the
+user clicks Submit or re-loads an already saved page.</P>
+<P><BR>
+</P>
+<H5>{clickcheck I feel great|Ifeel ok|I feel
+terrible}</H5>
+<P>Draws a sequence of
+checkboxes with text labels to the right that allows the user to
+click to select one or more items. Stores the values in the SCO.</P>
+<P><BR>
+</P>
+<H5>{survey 5|Grapes are tasty|Apples are
+nice|Bananas are wonderful}</H5>
+<P>Draws a series of radio
+buttons for each line of text. Useful for surveys where one or more
+texts have a rating from 1 to N. The first parameter determines the
+number of radio buttons to draw for each line. Stores results in the
+SCO.</P>
+<P><BR>
+</P>
+<H5>{wrap spice|salt, pepper, tumeric}</H5>
+<P>Draws a span tag with
+the specified class wrapping the content.</P>
+<P><pre>&lt;span
+class='spice'&gt;salt, pepper, tumeric&lt;/span&gt;</pre></P>
+<P><BR>
+</P>
+<H5>{tabs Bananas|bananas.html|Apricots|apricots
+aren't too bad either}</H5>
+<P>Draws a tab strip and
+loads or inserts content for each tab. When loading content, it
+assumes the files are stored in the Content/ folder and can't load
+from external sources. Does not parse the resulting files, and only
+shows the value within the &lt;body&gt; tags. Each set of two
+parameters has first the title, then the url. If the second parameter
+doesn't contain a filename, the value becomes the body text within
+the tab itself.</P>
+<P><BR>
+</P>
+<H5>{quiz}</H5>
+<P>Will draw a quiz; not
+yet functioning.</P>
+<H5>{anything else}</H5>
+<P>If the tag isn't
+matched, it is drawn as a standard paragraph within &lt;p&gt; tags.</P>

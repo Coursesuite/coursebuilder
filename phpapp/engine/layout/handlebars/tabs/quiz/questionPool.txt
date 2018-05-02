@@ -1,0 +1,12 @@
+		<div class="tab-pane active" data-id="questionPool.{{c}}" data-grouping='questionPool'>
+			<div class='form-horizontal question-append-to'>
+				<div class="control-group">
+					<label class="control-label" for="deliver{{c}}">Deliver from pool</label>
+					<div class="controls"><input data-id="questionPool.{{c}}.deliver" type="number" max="99" min="0" class="input-mini" id="deliver{{c}}" placeholder="0 means all" value="0"><span class="help-inline">Show X questions from this pool (0 means all)</span></div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="order{{c}}">Question Order</label>
+					<div class="controls"><input data-id="questionPool.{{c}}.order" type="radio" value="shuffle" id="order{{c}}" name="order{{c}}" checked>Random <input data-id="questionPool.c.order" type="radio" value="natural" id="order{{c}}" name="order{{c}}">Natural</div>
+				</div>
+			</div>
+		</div>

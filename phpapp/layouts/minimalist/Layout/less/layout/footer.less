@@ -1,0 +1,51 @@
+.ui-layout-south {
+	background-color: #fff;
+	footer {
+		padding: @standardGutter @standardGutter 0 @standardGutter;
+		display: flex;
+		flex: 1;
+		justify-content: flex-start;
+		align-items: center;
+		a {
+			display: inline-flex;
+			justify-content: center;
+			align-items: center;
+			transition: background-color .1s ease, color .1s ease;
+			background-color: #fff;
+			border: 2px solid #808da1;
+			color: #808da1;
+			padding: (@standardGutter / 2) @standardGutter;
+			min-width: 100px;
+			margin-right: @standardGutter;
+			border-radius: 4px;
+			text-decoration: none;
+			&:last-of-type {
+				margin-right: 0;
+			}
+			&.Menu {
+				justify-content: center;
+			}
+			&.Next {
+				border-color: #70ab37;
+				color: #70ab37;
+				&:hover {
+					background-color: #70ab37;
+					color: #fff;
+				}
+			}
+			&.Previous {
+				margin-left: auto;
+				> span {
+					text-align: right;
+				}
+			}
+			> span {
+				flex: 1;
+			}
+			&:hover {
+				background-color: #808da1;
+				color: #fff;
+			}
+		}
+	}
+}

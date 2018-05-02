@@ -1,0 +1,8 @@
+<div class='classifier'>
+	<label for='{{id}}'>{{label}}</label>
+	<select id='{{id}}' size='{{lengthOf items}}' data-label='{{label}}'>
+	{{#each items}}
+		<option value='{{.}}'{{#compare . ../current}}selected{{/compare}}>{{.}}</option>
+	{{/each}}
+	</select>
+</div>

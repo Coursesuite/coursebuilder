@@ -1,0 +1,70 @@
+{
+	"actions": [
+		{
+			"name": "image",
+			"label": "Insert single image",
+			"selection": "single",
+			"classifiers": [
+				{"label":"Class","items":["box-shadow","fade-in","fade-in-fast","bounce-in","slide-in","blind-in"], "default":"box-shadow"}
+			]
+		},
+		{
+			"name": "rightimages",
+			"label": "Insert side bar images",
+			"selection": "multiple",
+			"classifiers": [
+				{"label":"Class","items":["box-shadow","fade-in","fade-in-fast","bounce-in","slide-in","blind-in"], "default":"box-shadow"}
+			]
+		},
+		{
+			"name": "pagebg",
+			"label": "Insert page background",
+			"selection": "single",
+			"classifiers": []
+		},
+		{
+			"name": "slideshow",
+			"label": "Create slideshow",
+			"selection": "multiple",
+			"classifiers": [
+				{"label":"Effect","items":["none", "blindX", "blindY", "blindZ", "cover", "curtainX", "curtainY", "fade", "fadeZoom", "growX", "growY", "scrollUp", "scrollDown", "scrollLeft", "scrollRight", "scrollHorz", "scrollVert", "shuffle", "slideX", "slideY", "toss", "turnUp", "turnDown", "turnLeft", "turnRight", "uncover", "wipe", "zoom"], "default":"fade"}
+			]
+		},
+		{
+			"name": "zoomimage",
+			"label": "Insert zoomable image",
+			"selection": "two",
+			"classifiers": []
+		},
+		{
+			"name": "splitimage",
+			"label": "Insert splittable image",
+			"selection": "two",
+			"classifiers": []
+		},
+		{
+			"name": "imageflip",
+			"label": "Insert two-sided image",
+			"selection": "two",
+			"classifiers": []
+		},
+		{
+			"name": "fullscreenvideo",
+			"label": "Video (overlay)",
+			"selection": "single",
+			"classifiers": []
+		},
+		{
+			"name": "inlinevideo",
+			"label": "Video (inline)",
+			"selection": "single",
+			"classifiers": []
+		},
+		{
+			"name": "clickimage",
+			"label": "Selectable image interaction",
+			"selection": "mutliple",
+			"classifiers": []
+		}
+	]
+}

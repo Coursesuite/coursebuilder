@@ -1,0 +1,8 @@
+<form>
+	<p>This is basically a document seperate to the content. It gets parsed in the same way, so you can mark it up just like any other page.</p>
+	<div id="help-area">
+		<textarea class="input-block-level" rows="15" placeholder="Enter the help text. This file is parsed in the same way as normal content." id="help-content">
+			{{{content}}}
+		</textarea>
+	</div>
+</form>

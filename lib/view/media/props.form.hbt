@@ -1,0 +1,27 @@
+<form class="attachment-details">
+	<input type="hidden" name="hash" value="{{hash}}">
+	<label>
+		<span class="name">URL</span>
+		<input type="text" value="{{packageurl}}" readonly="">
+	</label>
+	
+	<label>
+		<span class="name">Title</span>
+		<input type="text" value="{{title}}" name="title">
+	</label>
+			
+	<label>
+		<span class="name">Caption</span>
+		<textarea class="materialize-textarea" name="caption">{{caption}}</textarea>
+	</label>
+	
+	<label>
+		<span class="name">Alt Text</span>
+		<input type="text" value="{{alt}}" name="alt">
+	</label>
+	
+	<label>
+		<span class="name">Description</span>
+		<textarea class="materialize-textarea" name="description">{{description}}</textarea>
+	</label>
+</form>

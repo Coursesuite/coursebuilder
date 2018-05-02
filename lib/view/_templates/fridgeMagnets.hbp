@@ -1,0 +1,8 @@
+<div id="word-adder">
+	<div class="input-append">
+	  <input class="input-large" id="appendedInputButton" type="text" placeholder="Add new words...">
+	  <button class="btn" type="button" id="addAWord">Add 'em</button>
+	  <button class="btn btn-inverse" type="button" id="randomiseXY">Shuffle!</button>
+	</div>
+</div>
+<button id="magnet-toggle" class="btn btn-mini btn-inverse">Fridge magnets are off!</button>

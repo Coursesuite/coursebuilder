@@ -1,0 +1,23 @@
+<form id="codemirror" action="/engine/action.asp?id={{id}}&action=override_save" method="post" class="visible-form">
+<input type="hidden" name="file" value="{{file}}">
+<textarea id="code" name="code">
+{{{content}}}
+</textarea>
+<div class="text-right"><input type="submit" value="Save" class="btn btn-success"></div></form>
+
+<form id="codemirror" action="/engine/action.asp?id={{id}}&action=override_delete" method="post" class="visible-form">
+<input type="hidden" name="file" value="{{file}}">
+<p><input type="submit" value="Delete this file" class="btn btn-danger"></p>
+</form>
+
+<script>
+  var cmeditor = CodeMirror.fromTextArea(document.getElementById("code"), {
+    extraKeys: {"Ctrl-Space": "autocomplete"},
+    lineNumbers: true,
+    matchBrackets: true,
+	styleActiveLine: true,
+	mode: {{{mode}}}
+  });
+  
+  cmeditor.setSize("100%", "100%");
+</script>

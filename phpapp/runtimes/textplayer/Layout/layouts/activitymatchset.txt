@@ -1,0 +1,14 @@
+<div class="activity-match-set" data-scormid="rpqiz_{{uniqueid}}" data-uservalue="{{user}}">
+<div class="answers">
+{{#each answers}}<span data-index="{{.}}">{{@key}}</span>{{/each}}
+</div>
+<table class="activities">
+	<tbody>
+	{{#each questions}}
+	<tr data-required="{{answer}}" data-order="{{order}}">
+		<th class="question w60"><div class="text">{{{text}}}</div></th>
+		<td class="drop w20"></td>
+	</tr>
+	{{/each}}
+</tbody></table>
+</div>

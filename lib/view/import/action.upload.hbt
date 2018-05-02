@@ -1,0 +1,5 @@
+<section class="flex-center" data-action-source="" data-init="UI.Init.DropFile">
+	<form action="/app/media/drop/{{context}}"
+	      class="dropzone"
+	      id="my-awesome-dropzone"></form>
+</section>

@@ -1,0 +1,6 @@
+.ds_store
+thumbs.db
+\.git\
+\editor\
+.htaccess
+about.txt

@@ -1,0 +1,8 @@
+<div class="grid no-gap" id="book" role="main">
+	<div class="col-1-2 left-page">
+		{{{left}}}
+	</div>
+	<div class="col-1-2 right-page">
+		{{{right}}}
+	</div>
+</div>

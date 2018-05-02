@@ -1,0 +1,54 @@
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--><html class="no-js" lang="en"><!--<![endif]-->
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title>Quiz 1</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1">
+		<link rel="stylesheet" href="../../Player/css/jquery-layout-default-latest.css">
+		<link rel="stylesheet" href="../../Player/css/base.css">
+		<link rel="stylesheet" href="../../Player/css/quiz.css">
+		<link rel="stylesheet" href="css/pages.css">
+		<script src="../../Player/js/libs/modernizr-2.5.3.min.js"></script>
+		<script src="../../Player/js/libs/jquery-1.6.2.min.js"></script>
+		<script src="../../Player/js/plugins.js"></script>
+		<script src="../../Player/js/run.js"></script>
+
+		<script language="javascript" type="text/javascript" src="../../Player/js/redphone.quiz.js"></script>
+		<script>
+			$(document).ready(function() {
+				initQuiz();
+				$("[data='rp-quiz-layout']").layout({
+					applyDefaultStyles : true,
+					east: {
+						size : 250,
+						closable : true,
+						resizable : false,
+						spacing_open: 5
+					},
+					south : {
+						size: 40,
+						closable: false,
+						resizable: false,
+						spacing_open: 0
+					}
+				})
+			});
+		</script>
+	</head>
+	<body data="rp-quiz-layout">
+		<div id="main" role="main" class="ui-layout-center">
+			<div class="question" id="question">&nbsp;</div>
+		</div>
+		<div class="ui-layout-east">
+			<div id="questionList">&nbsp;</div>
+		</div>
+		<div class="ui-layout-south">
+			<div id="timeLimit"></div>
+			<div id="testStatus">&nbsp;</div>
+		</div>
+	</body>
+</html>

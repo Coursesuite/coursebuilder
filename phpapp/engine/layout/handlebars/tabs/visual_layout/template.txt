@@ -1,0 +1,30 @@
+<div id='tab-toolbar' class='row-fluid well well-small block-labels'>
+	<div class='span3'>
+		<label for='template-switcher'>Template</label>
+		<select data-id='layout.template' id='template-switcher'>
+		{{#each layouts}}<option>{{.}}</option>{{/each}}
+		</select>
+	</div>
+	<div class='span2'>
+		<label>API</label>
+		<div class="btn-group" id="scorm-version">
+			<button class='btn{{#compare settings.engine.sco '==' '1.2'}} btn-primary{{/compare}} state-true'>1.2</button>
+			<button class='btn{{#compare settings.engine.sco 2004}} btn-primary{{/compare}} state-false'>2004</button>
+		</div>
+	</div>
+	<div class='span4'>
+		<label>SCORM debugging</label>
+		<div class="btn-group" id="scorm-debug">
+			<button class='btn{{#if settings.engine.scodebug}} btn-primary{{/if}} state-true'>On</button>
+			<button class='btn{{#unless settings.engine.scodebug}} btn-primary{{/unless}} state-false'>Off</button>
+		</div>
+	</div>
+	<div class='span3'>
+		<label>&nbsp;</label>
+		<a class='btn pull-right btn-primary' href='#' id='tab-save'>Save</a>
+	</div>
+</div>
+
+<div id='tab-body'>
+
+</div>

@@ -1,0 +1,19 @@
+<form>
+	<p>There's a citation (e.g. <em>Carr, A. Ory D (2006), Oxford Press, p.206</em>), and then there's the reference: this can be text or a hyperlink, but not both. To reference a file in the course folder, type <strong>ref://</strong><em>filename.pdf</em> (file must exist first). Press the <i class='icon-remove-sign'></i> to remove an item, or there's a button at the bottom to add rows.</p>
+	{{#if returnmode}}<p class="standout">To select a reference for the editor, click the radio button next to one and then press Save.</p>{{/if}}
+	<div class="sortable-elements">
+	{{#each references}}
+	<table class="reference-item" data-id="{{uniqueid}}">
+		<tr>
+			{{#if ../returnmode}}<td rowspan="2" width="1%"><input type="radio" name="refselect" value="{{uniqueid}}"></td>{{/if}}
+			<td width="1%" rowspan="2"><i class="icon-resize-vertical"></i></td>
+			<td width="99%"><input class="stretch" type="text" name="cite" placeholder="Citation" value="{{title}}"></td>
+			<td width="1%" rowspan="2"><a href="#remove" class="btn"><i class="icon-remove-sign"></i></a></td>
+		</tr>
+		<tr>
+			<td><input class="stretch" type="text" name="reference" placeholder="Hyperlink or description" value="{{#if description}}{{description}}{{else}}{{#compare hyperlink "#"}}{{else}}{{hyperlink}}{{/compare}}{{/if}}"></td>
+		</tr>
+	</table>
+	{{/each}}
+	</div>
+</form>

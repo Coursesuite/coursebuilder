@@ -1,0 +1,3 @@
+{{#each tiles}}
+	<figure>{{dump .}}</figure>
+{{/each}}

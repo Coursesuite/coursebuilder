@@ -1,0 +1,73 @@
+<!-- #include file="engine/lib/incBase64Decode.asp" -->
+<!-- #include file="engine/lib/page_initialise.asp" -->
+
+<%
+
+Sub Unauth()
+    Call Response.AddHeader("WWW-Authenticate", "Basic realm=""CourseSuite CourseBuilder""")
+    Response.Status = "401 Unauthorized"
+    Call Response.End()
+End Sub
+
+Dim strAuth
+strAuth = Request.ServerVariables("HTTP_AUTHORIZATION")
+
+' tim:
+' the app is configured to use the tardproof_pool user for its app pool
+' I turned anonymous auth on, then gave iusrs group modify access to the courses folder
+' I then added tardproof_pool to the iusrs group
+
+If Request.QueryString("token") > "" Or Request.QueryString("apikey") > "" then ' logon via querystring
+	Response.Redirect "login.php?" & Request.QueryString
+
+ElseIf Request.Cookies("authkey") > "" Then ' logon via cookie, if it's still valid
+	Response.Redirect "login.php?" & Request.Cookies("authkey")
+
+ElseIf Request.QueryString("demo") > "" Then ' logging on as the ntlm demo account is causing script craziness
+	Response.Cookies("Username") = "coursebuilderdemo"
+	response.redirect ("/app/")
+
+ElseIf IsNull(strAuth) Or IsEmpty(strAuth) Or strAuth = "" Then ' logon via internal authentication
+    Call Unauth
+
+Else 
+    %>
+    <html>
+    <body>
+    <% 
+    Dim aParts, aCredentials, strType, strBase64, strPlain, strUser, strPassword, iLoop
+    aParts = Split(strAuth, " ")
+    If aParts(0) = "Basic" Then
+        strPlain = Base64Decode(aParts(1))
+        aCredentials = Split(strPlain, ":")
+
+		strUser = aCredentials(0)
+		strPassword = aCredentials(1)
+		db.openDefault()
+		If (db.count("plebs","name='" & db.sqlsafe(lcase(strUser)) & "' and password='" & md5er.hash(strPassword) & "'") > 0) Then
+			Response.Cookies("Username") = strUser
+			response.redirect ("/app/")
+		Else
+			Response.Write "error condition " & md5er.hash(strPassword)
+		End if
+        
+    ElseIf aParts(0) = "NTLM" Then
+    
+    	strUser = Replace(Request.ServerVariables("LOGON_USER"), "VMH18524\", "")
+		db.openDefault()
+		If (db.count("plebs","name='" & db.sqlsafe(lcase(strUser)) & "'") > 0) Then
+			Response.Cookies("Username") = strUser
+			response.redirect ("/engine/pages/index/")
+		Else
+			Response.Write Request.ServerVariables("LOGON_USER") & " is not a valid user."
+		End if
+
+    Else
+	    Call Unauth
+	End If
+    %>
+    </body>
+    </html>
+    <%
+End If
+%>

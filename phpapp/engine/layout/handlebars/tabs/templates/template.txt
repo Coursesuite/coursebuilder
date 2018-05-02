@@ -1,0 +1,30 @@
+{{#if overridden}}
+<form method="post" action="/engine/action.asp?id={{id}}&action=override_reset" method="post" class="pull-right">
+	<p class="text-center"><input type="submit" class="btn btn-primary" value="Reset to default"></p>
+</form>
+{{/if}}
+<p class='lead'>Override files in the <b>{{settings.layout.template}}</b> template just for this course</p>
+
+{{#if overridden}}
+
+<div class="template-editor-layout container-fluid no-padding">
+	<div class="row-fluid">
+		<div class="template-filetree-container span3">
+		<ul><li>Root node</li></ul>
+		</div>
+		<div class="template-codemirror-container span9">
+		<p>Double-click a file in the tree to edit it.</p>	
+		</div>
+	</div>
+</div>
+
+{{else}}
+
+	<p>You are using the standard template. To override files, click the button below to create a custom copy of the files in this template.</p>
+	<form method="post" action="/engine/action.asp?id={{id}}&action=override_create" method="post">
+		<p>Copy customisations from course: <select name="copy_from"><option value="" selected>Base {{settings.layout.template}} template</option>
+		{{#each copyfrom}}<option value="{{hash}}">{{name}}</option>{{/each}}</select></p>
+		<p class="text-center"><input type="submit" class="btn btn-primary" value="Customise template"></p>
+	</form>
+
+{{/if}}

@@ -1,0 +1,55 @@
+<header>
+	{{#with summary}}
+	<h1>{{title}}</h1>
+	
+	<div class="exam-results">
+		<div class="graph">
+			<div class="indicator">
+				<i id='caret' class='icon-caret-down' title='Your score: {{score}}%'></i>
+			</div>
+			<div class="fill">
+				<div class="bar">Pass mark: {{passmark}}%</div>
+			</div>
+		</div>
+		<div class="statement-container">
+			<p>{{#compare correct ">" 0}}
+			You have correctly answered {{correct}} of {{required}} questions, earning you a score of {{score}}%.
+				{{#compare score ">=" passmark}}
+					Congratulations! You have passed the {{kind}}.
+				{{else}}
+					You have not yet passed this {{kind}}.
+				{{/compare}}</p>
+			{{else}}
+			You have not yet answered any questions.
+			{{/compare}}
+		</div>
+	</div>
+	{{/with}}
+</header>
+
+{{#with missed}}
+{{#if visible}}
+<div id="missing">
+	<h3>{{title}}</h3>
+	<ul>
+	{{#each items}}
+		<li><a href="#" data-pool="{{pool}}" data-question="{{question}}">{{{text}}}</a></li>
+	{{/each}}
+	</ul>
+</div>
+{{/if}}
+{{/with}}
+
+<div id="controls">
+	{{#with buttons}}
+	<nav class="grid">
+		<div class="col-1-2 movement">
+			<button id="precede"><i class='icon-circle-arrow-left'></i>{{precede.text}}</button>
+		</div>
+		<div class="col-1-2 tools">
+			{{#if retake.visible}}<button id="retake"><i class='icon-undo'></i>{{retake.text}}</button>{{/if}}
+			{{#if showgrade.visible}}<button id="showgrade"><i class='icon-list-alt'></i>{{showgrade.text}}</button>{{/if}}
+		</div>
+	</nav>
+	{{/with}}
+</div>

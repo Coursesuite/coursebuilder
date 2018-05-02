@@ -1,0 +1,99 @@
+<div style='background-color: #fff; padding: 5px;border:3px solid #eee;border-radius: 6px;'>
+
+<p style='color:#999'>MPM Layout has a footer pane with the various buttons, and a fly-out menu with the table of contents as buttons in a columns</p>
+<hr>
+
+<div class='layout-edit page-colour' style='display:flex;'>
+	<fieldset class='layout-edit' style='flex:1; border-right: 3px solid #eee; padding-right: 5px;margin-right:5px;'>
+		<legend>Menu / TOC</legend>
+
+		<label>Background colour
+			<input data-type="string" data-id="layout.toccolour" type="text" class="input-small" id="toc-colour" placeholder="TOC Colour" value="{{layout.toccolour}}">
+		</label>
+		
+		<label>Background image
+			<div id="hdl" data-type="image" class="browse-image" data-id="headerleft.content">{{{headerleft.content}}}</div>
+		</label>
+
+		<p>Introduction</p>
+		<p>Course Material</p>
+		<p>&nbsp;-&nbsp;More Course Material</p>
+		<p>&nbsp;-&nbsp;Even More .. you get it</p>
+		<p>Quiz</p>
+		<p>Results</p>
+
+	</fieldset>
+	
+	<fieldset class='layout-edit' style='flex:2;border-right: 3px solid #eee; padding-right: 5px;margin-right:5px;'>
+		<legend>Content</legend>
+		
+		<p class="pick-colour"><label>Background colour
+			<input data-type="string" data-id="layout.pagecolour" type="text" class="input-small" id="page-colour" placeholder="Page background colour" value="{{layout.pagecolour}}">
+		</label></p>
+		
+		<h1><h1>H1</h1>
+		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam congue lorem non velit maximus blandit. In ullamcorper rhoncus dui, eu varius tellus egestas sit amet.</p>
+
+		<h2>H2, H3</h2>
+		<p class="pick-colour"><label>
+			<input data-type="string" data-id="layout.altcolour" type="text" class="input-small" id="secondary-colour" placeholder="Alternate Colour" value="{{layout.altcolour}}">
+		</label></p>
+
+		<h4>Quiz questions, etc</h4>
+		<p class="pick-colour"><label>
+			<input data-type="string" data-id="layout.altcolour2" type="text" class="input-small" id="secondary-colour" placeholder="Alternate Colour 2" value="{{layout.altcolour2}}">
+		</label></p>
+		
+	</fieldset>
+	
+	<fieldset class='layout-edit' style='flex:1;'>
+		<legend>Navigation / Footer</legend>
+
+		<label>Background colour
+			<input data-type="string" data-id="layout.basecolour" type="text" class="input-small" id="primary-colour" placeholder="Footer Colour" value="{{layout.basecolour}}">
+		</label>
+
+		<div style='display:flex;flex-direction:column'>
+			<label><input type="checkbox" data-type="boolean" data-id="navigation.previous.visible"{{#if navigation.previous.visible}} checked{{/if}}><input type='text' data-type='string' data-id='navigation.previous.label' placeholder='Previous' value='{{{navigation.previous.label}}}' size='15' style='width:auto;'></label>
+			<label><input type="checkbox" data-type="boolean" data-id="navigation.home.visible"{{#if navigation.home.visible}} checked{{/if}}><input type='text' data-type='string' data-id='navigation.home.label' placeholder='Home' value='{{{navigation.home.label}}}' size='15' style='width:auto;'></label>
+			<label><input type="checkbox" data-type="boolean" data-id="navigation.toggle.visible"{{#if navigation.toggle.visible}} checked{{/if}}><input type='text' data-type='string' data-id='navigation.toggle.label' placeholder='Menu' value='{{{navigation.toggle.label}}}' size='15' style='width:auto;'></label>
+			<label><input type="checkbox" data-type="boolean" data-id="navigation.progress.visible"{{#if navigation.progress.visible}} checked{{/if}}><input type='text' data-type='string' data-id='navigation.progress.label' placeholder='Progress' value='{{{navigation.progress.label}}}' size='15' style='width:auto;'></label>
+			<label><input type="checkbox" data-type="boolean" data-id="navigation.glossary.visible"{{#if navigation.glossary.visible}} checked{{/if}}><input type='text' data-type='string' data-id='navigation.glossary.label' placeholder='Glossary' value='{{{navigation.glossary.label}}}' size='15' style='width:auto;'></label>
+			<label><input type="checkbox" data-type="boolean" data-id="navigation.resources.visible"{{#if navigation.resources.visible}} checked{{/if}}><input type='text' data-type='string' data-id='navigation.resources.label' placeholder='Resources' value='{{{navigation.resources.label}}}' size='15' style='width:auto;'></label>
+			<label><input type="checkbox" data-type="boolean" data-id="navigation.help.visible"{{#if navigation.help.visible}} checked{{/if}}><input type='text' data-type='string' data-id='navigation.help.label' placeholder='Help' value='{{{navigation.help.label}}}' size='15' style='width:auto;'></label>
+			<label><input type="checkbox" data-type="boolean" data-id="navigation.next.visible"{{#if navigation.next.visible}} checked{{/if}}><input type='text' data-type='string' data-id='navigation.next.label' placeholder='Next' value='{{{navigation.next.label}}}' size='15' style='width:auto;'></label>
+		</div>
+		
+	</fieldset>
+</div>
+
+<div style='background-color: {{layout.basecolour}}; display: flex;'>
+	<div style='margin: 1px; border: 1px solid rgba(255,255,255,.25); text-align: center; padding: 10px; flex:1; color: rgba(255,255,255,.8)'>Button 1</div>
+	<div style='margin: 1px; border: 1px solid rgba(255,255,255,.25); text-align: center; padding: 10px; flex:1; color: rgba(255,255,255,.8)'>Button 2</div>
+	<div style='margin: 1px; border: 1px solid rgba(255,255,255,.25); text-align: center; padding: 10px; flex:1; color: rgba(255,255,255,.8)'>Button 3</div>
+	<div style='margin: 1px; border: 1px solid rgba(255,255,255,.25); text-align: center; padding: 10px; flex:1; color: rgba(255,255,255,.8)'>Button 4</div>
+</div>
+
+</div>
+
+
+<div class='hidden'>
+	<input type='hidden' data-id='layout.header.imagealign' data-type='string' class='radio-listener' value='{{layout.header.imagealign}}'>
+	<input type='hidden' data-id='layout.header.imagerepeat' data-type='string' class='radio-listener' value='{{layout.header.imagerepeat}}'>
+	<input type='text' class='input-medium' data-type='string' data-id='layout.header.imagesize' value='100% auto' placeholder='auto|length|cover|contain|intial|inherit'>
+	<input type="number" class="input-mini" min="400" title="Size of content before nav collapses" data-id="layout.minwidth" data-type="number" value="{{layout.minwidth}}" />
+	<input type="checkbox" data-type="boolean" data-id="layout.toc" data-type="number" {{#if layout.toc}} checked{{/if}} />
+	<input type="number" data-id="layout.bodyheight" min="50" max="1000" step="10" value="100">
+	<input type="hidden" data-id="layout.bodyunit" value="pc">
+	<input type="checkbox" data-type="boolean" data-id="copyright.visible">
+	<input data-type="string" data-id="copyright.content" type="text" placeholder="Copyright text" value="{{{copyright.content}}}">
+	
+	<input type="text" data-type="string" data-id="layout.titleheader.text" value="none">
+	<input type="checkbox" data-type="boolean" data-id="tocheader.visible" readonly disabled>
+	<input type="number" class="input-mini" min="0" title="Height of north pane (includes navigation)" data-id="layout.panesize.north" data-type="number" value="0" readonly disabled>
+	<input type="number" class="input-mini" min="40" title="Height of south pane" data-id="layout.panesize.south" data-type="number" value="50" readonly disabled>
+	<input type="checkbox" data-type="boolean" readonly disabled title="Show name / description / nav button row" data-id="layout.titleheader.visible" checked>
+	<input type="checkbox" data-type="boolean" readonly disabled data-id="layout.titleheader.navigation" checked>
+	<input type="checkbox" data-type="boolean" readonly disabled data-id="layout.footer.navigation" checked>
+	<input type="checkbox" readonly disabled data-type="boolean" title="Show footer" data-id="layout.footer.visible" checked>
+</div>

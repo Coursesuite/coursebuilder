@@ -1,0 +1,57 @@
+.slide-box {
+	position: relative;
+	padding: 0;
+	
+	.pages {
+		overflow: hidden;
+		.page {
+			display: block;
+			padding: 0;
+			margin: 0;
+			border: 1px solid @pageBackground; // fixes layout glitch calculating offsetTop
+		}
+	}
+
+	&[data-orientation='horizontal'] {
+		.pages {
+			white-space: nowrap;
+			.page {
+				white-space: normal;
+				display: inline-block;
+				vertical-align: top; /* important for inline-block */
+			}
+		}
+	}
+
+	.navigator {
+		.opacity(33);
+		background-color: @baseBorderFill;
+		.readableColour(@baseBorderFill);
+		.border-radius;
+		.clearfix;
+		width: 100%;
+		padding: (@standardGutter / 2);
+		border: 1px solid @baseBorder;
+		text-align: center;
+		.action-minus {
+			float:left;
+		}
+		.action-plus {
+			float: right;
+		}
+		i {
+			cursor: pointer;
+			&:hover {
+				color: @primaryColour;
+			}
+		}
+	}
+	&:hover {
+		.navigator {
+			.opacity(100);
+		}
+	}
+}
+html.touch .slide-box .navigator {
+	.opacity(100);
+}

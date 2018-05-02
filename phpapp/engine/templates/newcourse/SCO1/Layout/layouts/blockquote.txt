@@ -1,0 +1,3 @@
+<blockquote>
+	<i class='icon-quote-left icon-4x pull-left icon-muted'></i>{{{value}}}
+</blockquote>

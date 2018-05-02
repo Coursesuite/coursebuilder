@@ -1,0 +1,138 @@
+
+<table class='layout-edit header-colour header-element pri-colour'>
+	<thead>
+		<tr>
+			<td width="100%" colspan="2">
+				<label>Show <select data-id="layout.titleheader.text">
+					<option value="name"{{#compare layout.titleheader.text "name"}} selected{{/compare}}{{#compare layout.titleheader.text "both"}} selected{{/compare}}>Course name</option>
+					<option value="description"{{#compare layout.titleheader.text "description"}} selected{{/compare}}>Course description</option>
+					<option value="none"{{#compare layout.titleheader.text "none"}} selected{{/compare}}>None</option>
+				</select></label>
+			</td>
+		</tr>
+		<tr>
+			<td width="70%">
+				<table width='100%' class='minimal-table'><tr>
+				<td rowspan='3'>
+					<label>Header background</label>
+					<div id="hdl" data-type="image" class="browse-image" data-id="headerleft.content">{{{headerleft.content}}}</div>
+				</td><td title='Image alignment'>
+					<input type='hidden' data-id='layout.header.imagealign' data-type='string' class='radio-listener' value='{{layout.header.imagealign}}'>
+					<label class='radio inline'>
+						<input type='radio' name='align' value='top'{{#compare layout.header.imagealign "top"}} checked{{/compare}}>Top
+					</label>
+					<label class='radio inline'>
+						<input type='radio' name='align' value='center'{{#compare layout.header.imagealign "center"}} checked{{/compare}}{{#compare layout.header.imagealign "is" "empty"}} checked{{/compare}}>Center
+					</label>
+					<label class='radio inline'>
+						<input type='radio' name='align' value='bottom'{{#compare layout.header.imagealign "bottom"}} checked{{/compare}}>Bottom
+					</label>
+				</td></tr>
+				<tr><td title='Repeat'>
+					<input type='hidden' data-id='layout.header.imagerepeat' data-type='string' class='radio-listener' value='{{layout.header.imagerepeat}}'>
+					<label class='radio inline'>
+						<input type='radio' name='repeat' value='no-repeat'{{#compare layout.header.imagerepeat "no-repeat"}} checked{{/compare}}{{#compare layout.header.imagerepeat "is" "empty"}} checked{{/compare}}>None
+					</label>
+					<label class='radio inline'>
+						<input type='radio' name='repeat' value='repeat-x'{{#compare layout.header.imagerepeat "repeat-x"}} checked{{/compare}}>X
+					</label>
+					<label class='radio inline'>
+						<input type='radio' name='repeat' value='repeat-y'{{#compare layout.header.imagerepeat "repeat-y"}} checked{{/compare}}>Y
+					</label>
+					<label class='radio inline'>
+						<input type='radio' name='repeat' value='repeat'{{#compare layout.header.imagerepeat "repeat"}} checked{{/compare}}>X+Y
+					</label>
+				</td></tr>
+				<tr><td title='Background size property'>
+					<label>
+						Size: <input type='text' class='input-medium' data-type='string' data-id='layout.header.imagesize' value='{{#compare layout.header.imagesize "is" "empty"}}100% auto{{else}}{{layout.header.imagesize}}{{/compare}}' placeholder='auto|length|cover|contain|intial|inherit'>
+					</label>
+				</td></tr>
+				</table>
+			</td>
+			<td width="30%" class='header-nav page-colour'>
+				<label><input type="checkbox" data-type="boolean" data-id="navigation.previous.visible"{{#if navigation.previous.visible}} checked{{/if}}> Previous</label>
+				<label><input type="checkbox" data-type="boolean" data-id="navigation.home.visible"{{#if navigation.home.visible}} checked{{/if}}> Home</label>
+				<label><input type="checkbox" data-type="boolean" data-id="navigation.next.visible"{{#if navigation.next.visible}} checked{{/if}}> Next</label>
+			</td>
+		</tr>
+	</thead>
+</table>
+<table class='layout-edit'>
+	<tbody>
+		<tr>
+			<td class='nav pri-colour'>
+				<p>
+					<label>Auto-hide width
+							<input type="number" class="input-mini" min="400" title="Size of content before nav collapses" data-id="layout.minwidth" data-type="number" value="{{layout.minwidth}}" />
+					</label>
+
+					<label>Menu starts open
+							<input type="checkbox" data-type="boolean" data-id="layout.toc" data-type="number" {{#if layout.toc}} checked{{/if}} />
+					</label>
+
+				</p>
+			</td>
+			<td class='content page-colour'>
+				<p><b>Player height:</b> <input type="number" data-id="layout.bodyheight" min="50" max="1000" step="10" value="{{#if layout.bodyheight}}{{layout.bodyheight}}{{else}}100{{/if}}"> <select data-id="layout.bodyunit">
+					<option value="pc"{{#compare layout.bodyunit "pc"}} selected{{/compare}}{{#unless layout.container.unit}} selected{{/unless}}>Percent</option>
+					<option value="px"{{#compare layout.bodyunit "px"}} selected{{/compare}}>Pixels</option></select></p>
+				<h1 class='pri-text-colour'>Primary heading</h1>
+				<p>The Cousesuite layout which has an image-header stretching across, navigation at top and bottom, and TOC, which is hidden by default.</p>
+				<p>Content, quizzes and interactions are loaded in this area.</p>
+				<p class="pick-colour">
+					<label>Primary colour (+ Header and TOC BG)
+						<input data-type="string" data-id="layout.basecolour" type="text" class="input-small" id="primary-colour" placeholder="Base Colour" value="{{layout.basecolour}}">
+						<small>Default: #1381b3</small>
+					</label>
+				</p>
+				<h2 class='sec-text-colour'>Secondary heading</h2>
+				<p class="pick-colour">
+					<label>Secondary colour (+ Footer BG)
+						<input data-type="string" data-id="layout.altcolour" type="text" class="input-small" id="secondary-colour" placeholder="Alternate Colour" value="{{layout.altcolour}}">
+						<small>Default: #7fb903</small>
+					</label>
+				</p>
+				<h3 class='ter-text-colour'>Tertiary heading</h3>
+				<p class="pick-colour">
+					<label>Tertiary colour
+						<input data-type="string" data-id="layout.altcolour2" type="text" class="input-small" id="tertiary-colour" placeholder="Tertiary Colour" value="{{layout.altcolour2}}">
+					</label>
+				</p>
+				<p class="pick-colour">
+					<label>Page colour
+						<input data-type="string" data-id="layout.pagecolour" type="text" class="input-small" id="page-colour" placeholder="Page background colour" value="{{layout.pagecolour}}">
+					</label>
+				</p>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<table class='layout-edit footer-colour footer-element'>
+	<tfoot>
+		<tr>
+			<td class="left sec-colour"><div><input data-type="string" data-id="copyright.content" type="text" placeholder="Copyright text" value="{{{copyright.content}}}"></div>
+				<label><input type="checkbox" data-type="boolean" data-id="copyright.visible"{{#if copyright.visible}} checked{{/if}}> Copyright text visible</label>
+			</td>
+			<td class="sec-colour right">
+				<label><input type="checkbox" data-type="boolean" data-id="navigation.progress.visible"{{#if navigation.progress.visible}} checked{{/if}}> {{navigation.progress.label}}</label>
+				<label><input type="checkbox" data-type="boolean" data-id="navigation.glossary.visible"{{#if navigation.glossary.visible}} checked{{/if}}> {{navigation.glossary.label}}</label>
+				<label><input type="checkbox" data-type="boolean" data-id="navigation.resources.visible"{{#if navigation.resources.visible}} checked{{/if}}> {{navigation.resources.label}}</label>
+				<label><input type="checkbox" data-type="boolean" data-id="navigation.help.visible"{{#if navigation.help.visible}} checked{{/if}}> {{navigation.help.label}}</label>
+			</td>
+		</tr>
+	</tfoot>
+</table>
+
+<div class='hidden'>
+	<input type="checkbox" data-type="boolean" data-id="tocheader.visible" readonly disabled>
+	<input type="text" data-type="string" class="input-mini" data-id="navigation.previous.label" value="" readonly disabled>
+	<input type="text" data-type="string" class="input-mini" data-id="navigation.home.label" value="" readonly disabled>
+	<input type="text" data-type="string" class="input-mini" data-id="navigation.next.label" value="" readonly disabled>
+	<input type="number" class="input-mini" min="40" title="Height of north pane (includes navigation)" data-id="layout.panesize.north" data-type="number" value="80" readonly disabled>
+	<input type="number" class="input-mini" min="40" title="Height of south pane" data-id="layout.panesize.south" data-type="number" value="50" readonly disabled>
+	<input type="checkbox" data-type="boolean" readonly disabled title="Show name / description / nav button row" data-id="layout.titleheader.visible" checked>
+	<input type="checkbox" data-type="boolean" readonly disabled data-id="layout.titleheader.navigation" checked>
+	<input type="checkbox" data-type="boolean" readonly disabled data-id="layout.footer.navigation" checked>
+	<input type="checkbox" readonly disabled data-type="boolean" title="Show footer" data-id="layout.footer.visible" checked>
+</div>

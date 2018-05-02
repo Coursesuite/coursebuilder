@@ -1,0 +1,77 @@
+<p>You can resize an image to fit a given column width, given an expected course player width, or resize to a common fixed size. This will save a copy of the selected image.</p>
+<table class='settings'>
+	<tr>
+		<th>Course width:</th>
+		<td>
+			<input type="range" min="768" max="1024" step="8" value="{{size}}" name="size" placeholder="Course width (px)">
+			<span class="input-group-addon" id="range-value">{{size}}</span>px <em id="range-fixed">(actual content = {{size}}px)</em>
+		</td>
+	</tr>
+	<tr>
+		<th>Current image size:</th>
+		<td>{{width}} x {{height}}</td>
+	</tr>
+	<tr>
+		<th>Allow up-scaling?</th>
+		<td><label><input type='checkbox' value='yes' id='upscale'> Yes</label></td>
+	</tr>
+</table>
+
+<table class='layout'>
+	<tr>
+		<td class='half-width'>
+		<table class='results'>
+			<tr>
+				<th width="10%">Column</th>
+				<th width="90%">Resize to (W x H)</th>
+			</tr>
+			<tr>
+				<td>&frac12;</td>
+				<td data-scale="0.5"><button>Apply</button></td>
+			</tr>
+			<tr>
+				<td>&frac13;</td>
+				<td data-scale="0.333"><button>Apply</button></td>
+			</tr>
+			<tr>
+				<td>&frac14;</td>
+				<td data-scale="0.25"><button>Apply</button></td>
+			</tr>
+			<tr>
+				<td>&frac15;</td>
+				<td data-scale="0.2"><button>Apply</button></td>
+			</tr>
+			<tr>
+				<td>&frac16;</td>
+				<td data-scale="0.166"><button>Apply</button></td>
+			</tr>
+			<tr>
+				<td>&frac18;</td>
+				<td data-scale="0.125"><button>Apply</button></td>
+			</tr>
+		</table>
+		</td><td class='half-width'>
+		<table class='results'>
+			<tr>
+				<th width="10%">Fixed</th>
+				<th width="90%">Resize to (W x H)</th>
+			</tr>
+			<tr>
+				<td>240px</td>
+				<td data-fixedwidth="240"><button>Apply</button></td>
+			</tr>
+			<tr>
+				<td>160px</td>
+				<td data-fixedwidth="160"><button>Apply</button></td>
+			</tr>
+			<tr>
+				<td>120px</td>
+				<td data-fixedwidth="120"><button>Apply</button></td>
+			</tr>
+			<tr>
+				<td>Specify</td>
+				<td data-custom="custom"><input id="custom-width" type="number" min="1" max="{{width}}" step="1" value="{{width}}" title="Width (pixels)"> x <input id="custom-height" type="number" min="1" max="{{height}}" step="1" value="{{height}}" title="Height (pixels)">
+					<br /><button data-function="custom">Apply</button></td>
+		</table>
+	</td>
+</table>

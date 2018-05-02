@@ -1,0 +1,93 @@
+<div>
+	{{#with question}}
+	<h1>{{title}}</h1>
+	<div class="question">{{{text}}}</div>
+	<div class="instruction{{#if instruction}} text{{/if}}">{{instruction}}</div>
+	{{/with}}
+</div>
+
+{{#if question.media}}
+<div id="answers" class='answer-media'>
+	<img src='Content/media/{{question.media}}' usemap='#ansmap'>
+	<map name='ansmap'>
+	{{#each answer}}
+		{{{areatag @index label readonly selected}}}
+	{{/each}}
+	</map>
+	{{#each answer}}
+	<input class='hidden' type='checkbox' name='answer' value='{{value}}' id='answer{{@index}}'{{#if selected}} checked="checked"{{/if}}{{#if readonly}} disabled="disabled"{{/if}}>
+	{{/each}}
+</div>
+{{else}}
+<div id="answers" class="layout-{{question.layout}}">
+	{{#each answer}}
+		{{#compare type "list"}}
+		<div class="match grid">
+			<ul class="match-to col-1-3">
+			{{#each left}}
+				<li data-value="{{@index}}">{{{label}}}</li>
+			{{/each}}
+			</ul>
+			<ul class="match-these col-1-3{{#unless readonly}} quiz-sortable{{/unless}}">
+			{{#each right}}
+				<li data-value="{{value}}">{{{label}}}<i class='icon-resize-vertical mr'></i></li>
+			{{/each}}
+			</ul>
+		</div>
+		{{else}}{{#compare type "fillin"}}
+		<div class="row">
+			<input type="text" name="answer" value="{{value}}" id="answer{{@index}}"{{#if readonly}} disabled="disabled"{{/if}}>
+		</div>
+		{{else}}{{#compare type "rank"}}
+		<div class="rank">
+		<ul class="drag-these{{#unless readonly}} quiz-sortable{{/unless}}">
+		{{#each items}}
+			<li data-value="{{index}}">{{alpha}}{{{label}}}<i class='icon-resize-vertical mr'></i></li>
+		{{/each}}</ul>
+		</div>
+		{{else}}{{#compare type "dragtolist"}}
+		
+		{{! uses special helper due to complexity}}
+		{{{drag2list expected value lists}}}
+		
+		{{else}}
+		<div class="row">
+			<input type="{{type}}" name="answer" value="{{value}}" id="answer{{@index}}"{{#if selected}} checked="checked"{{/if}}{{#if readonly}} disabled="disabled"{{/if}}>
+			<label for="answer{{@index}}">{{{label}}}</label>
+		</div>
+		{{/compare}}{{/compare}}{{/compare}}{{/compare}}
+	{{/each}}
+</div>
+{{/if}}
+
+<div id="marking">
+	{{#if buttons.check.visible}}
+	<button id="check" class="disabled" data-type="{{question.type}}"><i class='icon-question-sign'></i>{{buttons.check.text}}</button>
+	{{/if}}
+	{{#if response.marked}}
+	<span class="{{response.icon}}"><i class="icon-{{response.icon}}"></i>{{{response.text}}}</div></span>
+	{{/if}}
+</div>
+
+{{#with response}}
+{{#if answered}}
+<div id="response">
+	{{#if response.feedback}}<div class="feedback">{{{response.feedback}}}{{/if}}
+</div>
+{{/if}}
+{{/with}}
+
+<div id="controls">
+	{{#with buttons}}
+	<nav class="grid">
+		<div class="col-1-2 movement">
+		{{#if precede.visible}}<button id="precede"><i class='icon-circle-arrow-left'></i>{{precede.text}}</button>{{/if}}
+		{{#if advance.visible}}<button id="advance">{{advance.text}}<i class='icon-circle-arrow-right mr'></i></button>{{/if}}
+		</div>
+		<div class="col-1-2 tools">
+		{{#if retake.visible}}<button id="retake"><i class='icon-undo'></i>{{retake.text}}</button>{{/if}}
+		{{#if showgrade.visible}}<button id="showgrade"><i class='icon-list-alt'></i>{{showgrade.text}}</button>{{/if}}
+		</div>
+	</nav>
+	{{/with}}
+</div>

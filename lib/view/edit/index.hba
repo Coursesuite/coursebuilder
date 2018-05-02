@@ -1,0 +1,10 @@
+<h1>{{course.name}}</h1>
+<p class='uk-text-lead'>temporary php edit page</p>
+
+<h2>Drop a DocNinja on here to upload it into the course</h2>
+
+	<form action="/app/import/drop/{{context}}/" id="my-awesome-dropzone" class="dropzone"></form>
+
+<h2>Results, to be processed by javascript</h2>
+
+<div id="outdata"></div>

@@ -1,0 +1,336 @@
+<?xml version="1.0" standalone="no"?>
+<manifest identifier="MANIFEST1" version="1.2" xmlns="http://www.imsproject.org/xsd/imscp_rootv1p1p2" xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_rootv1p2" xmlns:imsmd="http://www.imsglobal.org/xsd/imsmd_rootv1p2p1" xmlns:c2lcp="http://www.click2learn.com/xsd/c21_cp_rootv1p1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsproject.org/xsd/imscp_rootv1p1p2 imscp_rootv1p1p2.xsd http://www.imsglobal.org/xsd/imsmd_rootv1p2p1 imsmd_rootv1p2p1.xsd http://www.adlnet.org/xsd/adlcp_rootv1p2 adlcp_rootv1p2.xsd http://www.click2learn.com/xsd/c21_cp_rootv1p1 c21_cp_rootv1p1.xsd">
+  <metadata>
+    <schema>ADL SCORM</schema>
+    <schemaversion>1.2</schemaversion>
+    <lom xmlns="http://www.imsglobal.org/xsd/imsmd_rootv1p2p1">
+      <general>
+        <title>tiny</title>
+        <catalogentry>
+          <catalog>catalog</catalog>
+          <entry>
+            <langstring xml:lang="en-US">entry</langstring>
+          </entry>
+        </catalogentry>
+        <language>en-US</language>
+        <description>a really short course for testing scorm</description>
+        <keyword>
+          <langstring xml:lang="en-US">Default</langstring>
+        </keyword>
+        <aggregationlevel>
+          <source>
+            <langstring xml:lang="x-none">LOMv1.0</langstring>
+          </source>
+          <value>
+            <langstring xml:lang="x-none">3</langstring>
+          </value>
+        </aggregationlevel>
+      </general>
+      <lifecycle>
+        <version>
+          <langstring xml:lang="x-none">1.0</langstring>
+        </version>
+        <status>
+          <source>
+            <langstring xml:lang="x-none">LOMv1.0</langstring>
+          </source>
+          <value>
+            <langstring xml:lang="x-none">Final</langstring>
+          </value>
+        </status>
+        <contribute>
+          <role>
+            <source>
+              <langstring xml:lang="x-none">LOMv1.0</langstring>
+            </source>
+            <value>
+              <langstring xml:lang="x-none">Author</langstring>
+            </value>
+          </role>
+          <centity>
+            <vcard>BEGIN:vCard ORG: END:vCard</vcard>
+          </centity>
+          <date>
+            <datetime>2009-05-01</datetime>
+          </date>
+        </contribute>
+      </lifecycle>
+      <metametadata>
+        <metadatascheme>ADL SCORM 1.2</metadatascheme>
+        <language>en-US</language>
+      </metametadata>
+      <technical>
+        <format>text/html</format>
+        <location type="URI">.</location>
+      </technical>
+      <educational>
+        <learningresourcetype>
+          <source>
+            <langstring xml:lang="x-none">LOMv1.0</langstring>
+          </source>
+          <value>
+            <langstring xml:lang="x-none">Exercise</langstring>
+          </value>
+        </learningresourcetype>
+      </educational>
+      <rights>
+        <cost>
+          <source>
+            <langstring xml:lang="x-none">LOMv1.0</langstring>
+          </source>
+          <value>
+            <langstring xml:lang="x-none">no</langstring>
+          </value>
+        </cost>
+        <copyrightandotherrestrictions>
+          <source>
+            <langstring xml:lang="x-none">LOMv1.0</langstring>
+          </source>
+          <value>
+            <langstring xml:lang="x-none">yes</langstring>
+          </value>
+        </copyrightandotherrestrictions>
+        <description>
+          <langstring xml:lang="en-US">All rights reserved</langstring>
+        </description>
+      </rights>
+      <classification>
+        <purpose>
+          <source>
+            <langstring xml:lang="x-none">LOMv1.0</langstring>
+          </source>
+          <value>
+            <langstring xml:lang="x-none">Educational Objective</langstring>
+          </value>
+        </purpose>
+        <description>
+          <langstring xml:lang="en-US">ID</langstring>
+        </description>
+        <keyword>
+          <langstring xml:lang="en-US">Default</langstring>
+        </keyword>
+      </classification>
+    </lom>
+  </metadata>
+  <organizations default="ORG-D5BC6BB4FA2F4DD7935C51220980214B">
+    <organization identifier="ORG-D5BC6BB4FA2F4DD7935C51220980214B">
+      <title>tiny</title>
+      <item identifier="ITEM-14EB0A2F0C3C4DC290EB618D5F17CD53" identifierref="RES-C14A704BEC424CB385529245A92EA647">
+        <title>tiny</title>
+      </item>
+    </organization>
+  </organizations>
+  <resources>
+    <resource identifier="RES-C14A704BEC424CB385529245A92EA647" type="webcontent" adlcp:scormtype="sco" href="SCO1/index.html">
+	<file href="/courses/current/tiny/SCO1/Configuration/glossary.json" />
+	<file href="/courses/current/tiny/SCO1/Configuration/help.txt" />
+	<file href="/courses/current/tiny/SCO1/Configuration/Language_en-us.xml" />
+	<file href="/courses/current/tiny/SCO1/Configuration/references.json" />
+	<file href="/courses/current/tiny/SCO1/Configuration/settings.json" />
+	<file href="/courses/current/tiny/SCO1/en-us/Content/Introduction.html" />
+	<file href="/courses/current/tiny/SCO1/en-us/Content/mcmp_0.8.swf" />
+	<file href="/courses/current/tiny/SCO1/en-us/Content/player_mp3_maxi.swf" />
+	<file href="/courses/current/tiny/SCO1/en-us/Content/Quiz_1.html" />
+	<file href="/courses/current/tiny/SCO1/en-us/Content/Quiz_1.json" />
+	<file href="/courses/current/tiny/SCO1/en-us/Content/Quiz_1.xml" />
+	<file href="/courses/current/tiny/SCO1/en-us/Content/Quiz_2.html" />
+	<file href="/courses/current/tiny/SCO1/en-us/Content/Quiz_2.xml" />
+	<file href="/courses/current/tiny/SCO1/en-us/Content/Summary.html" />
+	<file href="/courses/current/tiny/SCO1/en-us/Content.html" />
+	<file href="/courses/current/tiny/SCO1/en-us/Pages.xml" />
+	<file href="/courses/current/tiny/SCO1/en-us/Quiz.html" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/font/font-awesome-ie7.css" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/font/font-awesome-ie7.min.css" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/font/font-awesome.css" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/font/fontawesome-webfont.eot" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/font/fontawesome-webfont.svg" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/font/fontawesome-webfont.ttf" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/font/fontawesome-webfont.woff" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/font/FontAwesome.otf" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/frumbox/close.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/frumbox/jquery.frumbox.css" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/images/arrow-next.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/images/arrow-prev.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/images/closedhand.cur" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/images/openhand.cur" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/images/quiz-timer.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/images/quiz-tip.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/images/shadow-top-back.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/images/shadow-top-forward.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/images/shadow.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/jquery-ui/animated-overlay.gif" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/jquery-ui/ui-bg_glass_75_e6e6e6_1x400.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/jquery-ui/ui-icons_222222_256x240.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/jquery-ui/ui-icons_2e83ff_256x240.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/jquery-ui/ui-icons_454545_256x240.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/jquery-ui/ui-icons_888888_256x240.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/jquery-ui/ui-icons_cd0a0a_256x240.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/jquerytools/apple_overlay_black.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/jquerytools/apple_overlay_close.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/jquerytools/apple_overlay_white.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/jquerytools/overlay-apple.css" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/jquerytools/overlay_close_IE6.gif" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/jquerytools/overlay_IE6.gif" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/jquerytools/transparent.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/avide.player.css" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/base.css" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/blue_50.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/br_shadow.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/home.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/ie678.css" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/ie8.css" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/ie9.css" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/ieshadow.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/jquery-layout-default-latest.css" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/jquery.qtip.min.css" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/menu.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/nav_button.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/nav_button_off.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/next2.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/next_disabled2.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/old.css" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/PIE.htc" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/player.css" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/previous2.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/previous_disabled2.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/progress.css" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/quiz.css" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/redphone.css" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/shadow1.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/tipTip.css" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/tl_shadow.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/top-left.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/top-right.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/tristate_back.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/tristate_next.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/tstyle.css" />
+	<file href="/courses/current/tiny/SCO1/Layout/css/_jCje2O-7QL947BeMhJzWQ.woff" />
+	<file href="/courses/current/tiny/SCO1/Layout/js/core.js" />
+	<file href="/courses/current/tiny/SCO1/Layout/js/html5shiv.js" />
+	<file href="/courses/current/tiny/SCO1/Layout/js/less-1.3.3.min.js" />
+	<file href="/courses/current/tiny/SCO1/Layout/js/PIE.js" />
+	<file href="/courses/current/tiny/SCO1/Layout/js/player.js" />
+	<file href="/courses/current/tiny/SCO1/Layout/js/quiz.js" />
+	<file href="/courses/current/tiny/SCO1/Layout/js/sco_api.js" />
+	<file href="/courses/current/tiny/SCO1/Layout/js/shivs.js" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/completion/competent.txt" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/completion/notyetcompetent.txt" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/grids/auto.txt" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/grids/grid0.txt" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/grids/grid1212l.txt" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/grids/grid1212r.txt" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/grids/grid3414.txt" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/grids/grid3525.txt" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/grids/ngrid.txt" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/Images/audio-player-background.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/Images/button-stretch.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/Images/footer_image.gif" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/Images/in_between_prev_nxt.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/Images/kc-correct.gif" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/Images/kc-feedback-correct.gif" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/Images/kc-feedback-incorrect.gif" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/Images/kc-incorrect.gif" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/Images/kc-not-attempted.gif" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/Images/kc-ungraded.gif" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/Images/kc_arrow.gif" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/Images/left_side_bar_grad.gif" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/Images/nav-button-background.gif" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/Images/next-arrow.gif" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/Images/previous-arrow.gif" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/Images/toc-complete.gif" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/Images/toc-expanded.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/Images/toc-hide-over.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/Images/toc-hide.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/Images/toc-incomplete.gif" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/Images/toc-not-expanded.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/Images/toc-not-visited.gif" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/Images/toc-resize-bar.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/Images/toc-resize-tab.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/Images/toc-show-over.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/Images/toc-show.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/Images/top_bar.gif" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/quiz/answers.txt" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/quiz/index.txt" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/quiz/intro.txt" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/quiz/question.txt" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/quiz/results copy.txt" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/quiz/results.txt" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/accordion.txt" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/blockquote.txt" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/clickcheck.txt" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/clickimage.txt" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/clicksurvey.txt" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/clicktf.txt" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/content.txt" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/fastfact.txt" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/flipcards.txt" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/glossary.txt" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/help.txt" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/player.txt" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/progress.txt" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/references.txt" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/slideshow.txt" />
+	<file href="/courses/current/tiny/SCO1/Layout/layouts/tabs.txt" />
+	<file href="/courses/current/tiny/SCO1/Layout/less/content/blockquote.less" />
+	<file href="/courses/current/tiny/SCO1/Layout/less/content/content.less" />
+	<file href="/courses/current/tiny/SCO1/Layout/less/content/fastfact.less" />
+	<file href="/courses/current/tiny/SCO1/Layout/less/content/images.less" />
+	<file href="/courses/current/tiny/SCO1/Layout/less/content/inlinescorm.less" />
+	<file href="/courses/current/tiny/SCO1/Layout/less/content/quickflip.less" />
+	<file href="/courses/current/tiny/SCO1/Layout/less/font-awesome/core.less" />
+	<file href="/courses/current/tiny/SCO1/Layout/less/font-awesome/extras.less" />
+	<file href="/courses/current/tiny/SCO1/Layout/less/font-awesome/font-awesome-ie7.less" />
+	<file href="/courses/current/tiny/SCO1/Layout/less/font-awesome/font-awesome.less" />
+	<file href="/courses/current/tiny/SCO1/Layout/less/font-awesome/icons.less" />
+	<file href="/courses/current/tiny/SCO1/Layout/less/font-awesome/path.less" />
+	<file href="/courses/current/tiny/SCO1/Layout/less/app.css" />
+	<file href="/courses/current/tiny/SCO1/Layout/less/app.less" />
+	<file href="/courses/current/tiny/SCO1/Layout/less/buttons.less" />
+	<file href="/courses/current/tiny/SCO1/Layout/less/colours.less" />
+	<file href="/courses/current/tiny/SCO1/Layout/less/footer.less" />
+	<file href="/courses/current/tiny/SCO1/Layout/less/grid.less" />
+	<file href="/courses/current/tiny/SCO1/Layout/less/header.less" />
+	<file href="/courses/current/tiny/SCO1/Layout/less/helpers.less" />
+	<file href="/courses/current/tiny/SCO1/Layout/less/jqueryui.less" />
+	<file href="/courses/current/tiny/SCO1/Layout/less/layout.less" />
+	<file href="/courses/current/tiny/SCO1/Layout/less/media-queries.less" />
+	<file href="/courses/current/tiny/SCO1/Layout/less/mixins.less" />
+	<file href="/courses/current/tiny/SCO1/Layout/less/printing.less" />
+	<file href="/courses/current/tiny/SCO1/Layout/less/quiz.less" />
+	<file href="/courses/current/tiny/SCO1/Layout/less/text.less" />
+	<file href="/courses/current/tiny/SCO1/Layout/media/kc-correct.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/media/kc-empty.gif" />
+	<file href="/courses/current/tiny/SCO1/Layout/media/kc-incorrect.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/media/kc-not-attempted.gif" />
+	<file href="/courses/current/tiny/SCO1/Layout/media/kc-ungraded.gif" />
+	<file href="/courses/current/tiny/SCO1/Layout/media/kc_arrow.gif" />
+	<file href="/courses/current/tiny/SCO1/Layout/media/ql_correct.gif" />
+	<file href="/courses/current/tiny/SCO1/Layout/media/ql_incorrect.gif" />
+	<file href="/courses/current/tiny/SCO1/Layout/media/ql_item.gif" />
+	<file href="/courses/current/tiny/SCO1/Layout/media/ql_none.gif" />
+	<file href="/courses/current/tiny/SCO1/Layout/media/ql_selected.gif" />
+	<file href="/courses/current/tiny/SCO1/Layout/media/toc-complete.gif" />
+	<file href="/courses/current/tiny/SCO1/Layout/media/toc-complete.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/media/toc-expanded.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/media/toc-hide.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/media/toc-incomplete.gif" />
+	<file href="/courses/current/tiny/SCO1/Layout/media/toc-incomplete.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/media/toc-not-expanded.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/media/toc-not-visited.gif" />
+	<file href="/courses/current/tiny/SCO1/Layout/media/toc-not-visited.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/media/toc-show.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/media/watermark-content.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/media/watermark-navigation-plain.png" />
+	<file href="/courses/current/tiny/SCO1/Layout/media/watermark-navigation.png" />
+	<file href="/courses/current/tiny/SCO1/index.html" />
+	<file href="/courses/current/tiny/SCO1/version.xml" />
+	<file href="/courses/current/tiny/adlcp_rootv1p2.xsd" />
+	<file href="/courses/current/tiny/Course.xml" />
+	<file href="/courses/current/tiny/imscp_rootv1p1p2.xsd" />
+	<file href="/courses/current/tiny/imsmanifest.xml" />
+	<file href="/courses/current/tiny/imsmd_rootv1p2p1.xsd" />
+	<file href="/courses/current/tiny/ims_xml.xsd" />
+
+    </resource>
+  </resources>
+</manifest>

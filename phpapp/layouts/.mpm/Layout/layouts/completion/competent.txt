@@ -1,0 +1,9 @@
+<div class='rp-completion' id='rp-competent'>
+	<h1>{{title}}</h1>
+	<p>Congratulations, you have now <strong>completed</strong> the course. The pass mark is {{passingScore}}, and you attained a score of {{score}}.</p>
+{{#if completionMessage}}
+	<p>{{{completionMessage}}}</p>
+{{else}}
+	<p>Your CPE hours have now been recorded. Please press the Save & Exit button at the top of this screen to return to the course catalogue.</p>
+{{/if}}
+</div>

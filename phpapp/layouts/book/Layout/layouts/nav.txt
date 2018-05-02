@@ -1,0 +1,14 @@
+{{#if page}}
+<ul>
+{{#each page}}
+{{! work out how to not get these empty ul's}}
+	{{#unless hidden}}
+	<li>
+		<a href='{{filename}}' data-action='toc-node' id='toc_{{number}}'>{{title}}</a>
+		{{#if page}}<a href='#' data-action='toc-expand'><i class="icon-caret-down"></i></a>{{/if}}
+		{{> pageNav}}
+	</li>
+	{{/unless}}
+{{/each}}
+</ul>
+{{/if}}

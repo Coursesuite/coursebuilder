@@ -1,0 +1,37 @@
+#progress-details {
+	.progress-status-icon {
+		min-width: 120px;
+		text-align: left;
+		display: block;
+		i {
+			// icon
+			margin-right: .3em;
+			&.icon-colour-incomplete {
+				color: @incorrect;
+			}
+			
+			&.icon-colour-notattempted {
+				color: mix(@correct, @incorrect);
+			}
+			&.icon-colour-complete {
+				color: @correct;
+			}
+		}
+	}
+	
+	ul.status-texts {
+		.resetlist;
+		.ditch();
+		.border-radius();
+		li {
+			padding: .3em;
+			&:nth-child(odd) {
+				background-color: lighten(@baseBorderFill,5%);
+			}
+			&:hover {
+				background-color: darken(@baseBorderFill,5%);
+			}
+		}
+	}
+
+}

@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Course</title>
+<link rel="stylesheet" href="../Player/css/player.css" type="text/css"/>
+<script type="text/javascript" src="../Player/js/scorm/sco_api.js"></script>
+<script type="text/javascript" src="../Player/js/player.js"></script>
+<script type="text/javascript">
+	// get the state data for the SCO
+	initCourse();
+</script>
+</head>
+<body onresize="resizeCourse()" onkeydown="return doKeyDown(event);" onmousemove="tocBarOnMove(event)" onmouseup="tocBarUp()" onload = "loadCourse()" onunload = "termSCO()">
+<noscript>This page uses JavaScript to automatically launch the course. This course will only function if JavaScript is enabled</noscript>
+
+<div id="WelcomeLogo"></div>
+<div id="WelcomeTitle">
+<span><script type="text/javascript">document.write(_oCourse.Name)</script></span></div>
+
+<div>
+<div id="TOC"></div>
+<div id="tocControls">
+		<div id="tocBar" onmousedown="tocBarDown()">&nbsp;</div>
+		<img title="Show/hide the menu" alt="" src="../Player/Images/toc-hide.png" id="tocHideShow" onclick="tocHideShowClick()" onmouseover="tocHideShowOver(this)" onmouseout="tocHideShowOut(this)"/>
+	</div>
+<div id="contentContainer">
+<iframe title="Course content" width="100%" scrolling="auto" height="100%" frameborder="0" src="about:blank" name="FRM_CONTENT" id="FRM_CONTENT"></iframe>
+</div>
+</div>
+<div class="BottomBar">
+    <div id="BottomMenu">
+        <ul>
+            <!-- ## START SHOW/HIDE MENU BUTTON ## -->
+            <li><a href="#" id="buttonOpenCloseMenu" onclick="tocHideShowClick();return false;">
+              <script type="text/javascript">document.write(_sButtonCloseMenu)</script></a>
+            </li>
+            <!-- ## END SHOW/HIDE MENU BUTTON ## -->
+            
+            <!-- ## START PROGRESS BUTTON ## -->
+            <li><a href="#" id="buttonProgress" onclick="showProgress();return false;">
+              <script type="text/javascript">document.write(_sButtonProgress)</script></a>
+            </li>
+            <!-- ## END PROGRESS BUTTON ## -->
+
+            <!-- ## START GLOSSARY BUTTON ## -->
+            <li><a id="buttonGlossary" href="#" onclick="Glossary();return false;">
+              <script type="text/javascript">document.write(_sButtonGlossary)</script></a></li>
+            <!-- ## END GLOSSARY BUTTON  ## -->
+
+            <!-- ## START RESOURCES BUTTON ## -->
+            <li><a id="buttonResources" href="#" onclick="Resources();return false;">
+              <script type="text/javascript">document.write(_sButtonResources)</script></a></li>
+            <!-- ## END RESOURCES BUTTON ## -->
+
+            <!-- ## START HELP BUTTON ## -->
+            <li><a href="#" id="buttonHelp" onclick="Help();return false;">
+              <script type="text/javascript">document.write(_sButtonHelp)</script></a></li>
+            <!-- ## END HELP BUTTON ## -->
+        </ul>
+    </div>
+
+	<table cellspacing="0" cellpadding="0" style="float:right;">
+		<tbody><tr>
+		    <td><img title="Previous Page" alt="" onclick="PreviousPage(); return false;" src="../Player/Images/previous-arrow.gif" id="imgPrevArrow"/></td>
+			<td><div id="buttonPrevious"><a class="NavLink" id="NavPrev" onclick="PreviousPage(); return false;" href="#"><script type="text/javascript">document.write(_sButtonPrevious)</script></a></div></td>
+			<td><img title="Separator" alt="" width="5" src="../Player/Images/in_between_prev_nxt.png" id="NextPrevSeparator"/></td>
+			<td><div id="buttonNext"><a class="NavLink" id="NavNext" onclick="NextPage(); return false;" href="#"><script type="text/javascript">document.write(_sButtonNext)</script></a></div></td>
+			<td><img title="Next Page" alt="" onclick="NextPage(); return false;" src="../Player/Images/next-arrow.gif" id="imgNextArrow"/></td>
+			<td><div style="width:50px"/></td>
+		</tr></tbody>
+	</table>
+
+    <div id="audioPlayer" style="float:right;padding-left:2px;width:265px;height:44px;background-repeat:no-repeat;background-image:url(../Player/Images/audio-player-background.png);"/>
+</div>
+
+<div id="tocBarCover"><div id="tocBarMove">&nbsp;</div></div>
+</body>
+</html>

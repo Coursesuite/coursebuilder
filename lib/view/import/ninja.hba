@@ -1,0 +1,4 @@
+<h1>{{course.name}}</h1>
+<p>Drop a DocNinja file below to append it to your course tree</p>
+
+<form action="/app/import/drop/{{course.id}}/" id="ninja-upload-dropzone" class="dropzone"></form>

@@ -1,0 +1,109 @@
+.ui-layout-north {
+	background: @baseColour url(../css/footer.png) repeat-x bottom;
+	.inset-shadow(0,-3px,5px,-10);
+	height: @northHeight;
+	.readableColour(@baseColour);
+	.readableColourShadow(@baseColour);
+	.icon-chevron-sign-left,.icon-chevron-sign-right {
+		.icon-2x;
+	}
+	a[data-action] {
+		.readableColour(@baseColour);
+		.readableColourShadow(@baseColour);
+		padding: @gridGutter;
+		text-decoration: none;
+		&:hover {
+		  	.halfColour(@baseColour);
+		}
+	}
+	/*.nav-pane {
+		overflow: hidden;
+		position: absolute;
+		left: 22px; // gets updated
+		top: 0; */
+	ul {
+		margin: 0;
+		padding: 0;
+		list-style-position: inside;
+		list-style-type: none;
+		li {
+			float: left;
+			a {
+				.readableColour(@baseColour);
+				.readableColourShadow(@baseColour);
+				padding: @gridGutter;
+				line-height: 2em;
+				text-decoration: none;
+				display: inline-block;
+				&:hover {
+				  	.halfColour(@baseColour);
+				}
+			}
+			a[data-action='toc-expand'] {
+				margin-left: -@gridGutter;
+				padding-left: (@gridGutter/2);
+			}
+			ul {
+				display: none;
+				clear: right;
+				z-index: 5;
+				width: 100px;
+				ul {
+					display: block;
+				}
+				li {
+					float: none;
+				}
+			}
+		}
+	}
+
+	.pan-left {
+		position: absolute;
+		left: 0;
+		top: 0;
+		i {
+			.icon-translucent;
+		}
+		&.active i {
+			.icon-opaque;
+		}
+	}
+	.pan-right {
+		position: absolute;
+		right: 0;
+		top: 0;
+		i {
+			.icon-translucent;
+		}
+		&.active i {
+			.icon-opaque;
+		}
+	}
+}
+
+// drop shadow for IE8
+.lt-ie9 #header_all #WelcomeTitle h2 {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=1, Direction=135, Color='#000000')";
+}
+
+// technically cloned to body, but it's related to the header
+.toc-submenu {
+	background-color: mix(@baseBackground, desaturate(@baseColour, 50%), 50%);
+	border: 2px solid @baseColour;
+	border-top: none;
+	.border-radius-custom(0,0,5px,5px);
+	.box-shadow(0,3px,5px,10);
+	padding: @gridGutter;
+	ul {
+		list-style-position: inside;
+		margin: 0;
+		padding: 0;
+		li {
+			margin: (@gridGutter/2) 0;
+		}
+		ul {
+			margin-left: 1em;
+		}
+	}
+}

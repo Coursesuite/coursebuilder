@@ -1,0 +1,202 @@
+/* Mixins, via http://designshack.net/articles/css/10-less-css-examples-you-should-steal-for-your-projects/  */
+.plain() {
+    -webkit-border-radius: none;
+    -moz-border-radius: none;
+    border-radius: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    -webkit-text-shadow: none;
+    -moz-text-shadow: none;
+    text-shadow: none;
+    border: none;
+    background-color: transparent;
+}
+
+.polaroid(@pad) {
+  background-color: #fff;
+  padding: @pad;
+  margin-bottom: (@pad * 2);
+  .box-shadow(0, (@pad/2), @pad, 10);
+  border: 1px solid @baseBorder;
+}
+
+.rotate(@degree: 0deg) {
+  -moz-transform:rotate(@degree);
+  -webkit-transform:rotate(@degree);
+  -ms-transform:rotate(@degree);
+  -o-transform:rotate(@degree);
+}
+
+
+.border-radius (@radius: 5px) {
+    -webkit-border-radius: @radius;
+    -moz-border-radius: @radius;
+    border-radius: @radius;
+}
+
+.border-radius-custom (@topleft: 5px, @topright: 5px, @bottomright: 5px, @bottomleft: 5px) {
+    -webkit-border-radius: @topleft @topright @bottomright @bottomleft;
+    -moz-border-radius: @topleft @topright @bottomright @bottomleft;
+    border-radius: @topleft @topright @bottomright @bottomleft;
+}
+
+.box-shadow (@x: 0px, @y: 3px, @blur: 5px, @alpha: 50) {
+    -webkit-box-shadow: @x @y @blur rgba(0, 0, 0, (@alpha / 100));
+    -moz-box-shadow: @x @y @blur rgba(0, 0, 0, (@alpha / 100));
+    box-shadow: @x @y @blur rgba(0, 0, 0, (@alpha / 100));
+}
+
+.inset-shadow (@x: 0px, @y: 3px, @blur: 5px, @alpha: 50) {
+    -webkit-box-shadow: inset @x @y @blur rgba(0, 0, 0, (@alpha / 100));
+    -moz-box-shadow: inset @x @y @blur rgba(0, 0, 0, (@alpha / 100));
+    box-shadow: inset @x @y @blur rgba(0, 0, 0, (@alpha / 100));
+}
+
+.text-shadow (@x: 1px, @y: 1px, @blur: 0px, @alpha: 50) {
+    -webkit-text-shadow: @x @y @blur rgba(0, 0, 0, (@alpha / 100));
+    -moz-text-shadow: @x @y @blur rgba(0, 0, 0, (@alpha / 100));
+    text-shadow: @x @y @blur rgba(0, 0, 0, (@alpha / 100));
+}
+.white-shadow (@x: 1px, @y: 1px, @blur: 0px, @alpha: 50) {
+    -webkit-text-shadow: @x @y @blur rgba(255, 255, 255, (@alpha / 100));
+    -moz-text-shadow: @x @y @blur rgba(255, 255, 255, (@alpha / 100));
+    text-shadow: @x @y @blur rgba(255, 255, 255, (@alpha / 100));
+}
+
+.transition (@prop: all, @time: 1s, @ease: linear) {
+    -webkit-transition: @prop @time @ease;
+    -moz-transition: @prop @time @ease;
+    -o-transition: @prop @time @ease;
+    -ms-transition: @prop @time @ease;
+    transition: @prop @time @ease;
+}
+
+.opacity(@opacity) {
+  opacity: (@opacity / 100);
+  filter: ~"alpha(opacity=@{opacity})";
+}
+
+.transform (@rotate: 90deg, @scale: 1, @skew: 1deg, @translate: 10px) {
+    -webkit-transform: rotate(@rotate) scale(@scale) skew(@skew) translate(@translate);
+    -moz-transform: rotate(@rotate) scale(@scale) skew(@skew) translate(@translate);
+    -o-transform: rotate(@rotate) scale(@scale) skew(@skew) translate(@translate);
+    -ms-transform: rotate(@rotate) scale(@scale) skew(@skew) translate(@translate);
+    transform: rotate(@rotate) scale(@scale) skew(@skew) translate(@translate);
+}
+
+.scale (@scale: 1.5) {
+    -webkit-transform: scale(@scale);
+    -moz-transform: scale(@scale);
+    -o-transform: scale(@scale);
+    -ms-transform: scale(@scale);
+    transform: scale(@scale);
+}
+
+.gradient (@origin: left, @start: #ffffff, @stop: #000000) {
+    background-color: @start;
+    background-image: -webkit-linear-gradient(@origin, @start, @stop);
+    background-image: -moz-linear-gradient(@origin, @start, @stop);
+    background-image: -o-linear-gradient(@origin, @start, @stop);
+    background-image: -ms-linear-gradient(@origin, @start, @stop);
+    background-image: linear-gradient(@origin, @start, @stop);
+}
+
+.quick-gradient (@origin: left, @alpha: 0.2, @key: 0) {
+    background-image: -webkit-linear-gradient(@origin, rgba(0,0,0,0.0), rgba(@key,@key,@key,@alpha));
+    background-image: -moz-linear-gradient(@origin, rgba(0,0,0,0.0), rgba(@key,@key,@key,@alpha));
+    background-image: -o-linear-gradient(@origin, rgba(0,0,0,0.0), rgba(@key,@key,@key,@alpha));
+    background-image: -ms-linear-gradient(@origin, rgba(0,0,0,0.0), rgba(@key,@key,@key,@alpha));
+    background-image: linear-gradient(@origin, rgba(0,0,0,0.0), rgba(@key,@key,@key,@alpha));
+}
+
+.white-gradient (@origin: left) {
+  .quick-gradient(@origin, 0.2, 255);
+}
+
+.black-gradient (@origin: left) {
+  .quick-gradient(@origin, 0.2, 0);
+}
+
+.reflect (@length: 50%, @opacity: 0.2){
+    -webkit-box-reflect: below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(@length, transparent), to(rgba(255,255,255,@opacity)));
+}
+
+.pie {
+  behaviour: url('PIE.htc'); /* relative to content.html */
+}
+
+.columns(@colwidth: 250px, @colcount: 0, @colgap: 50px, @columnRuleColor: #EEE, @columnRuleStyle: solid, @columnRuleWidth: 1px) {
+  -moz-column-width: @colwidth;
+  -moz-column-count: @colcount;
+  -moz-column-gap: @colgap;
+  -moz-column-rule-color: @columnRuleColor;
+  -moz-column-rule-style: @columnRuleStyle;
+  -moz-column-rule-width: @columnRuleWidth;
+  -webkit-column-width: @colwidth;
+  -webkit-column-count: @colcount;
+  -webkit-column-gap: @colgap;
+  -webkit-column-rule-color: @columnRuleColor;
+  -webkit-column-rule-style: @columnRuleStyle;
+  -webkit-column-rule-width: @columnRuleWidth;
+  column-width: @colwidth;
+  column-count: @colcount;
+  column-gap: @colgap;
+  column-rule-color: @columnRuleColor;
+  column-rule-style: @columnRuleStyle;
+  column-rule-width: @columnRuleWidth;
+}
+
+.user-select(@argument: none) {
+  -webkit-user-select: @argument;
+  -moz-user-select: @argument;
+  -ms-user-select: @argument;
+  user-select: @argument;
+}
+
+.well(@pad: 5px) {
+  .ditch(@pad);
+  background-color: @baseBorderFill;  
+}
+.ditch(@pad: 5px) {
+  padding: @pad;
+  border: 1px solid @baseBorder;
+}
+
+.resetlist {
+  list-style-position: inside;
+  margin: 0;
+  padding: 0;
+  li {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.icon-stack(@width: 2em, @height: 2em, @top-font-size: 1em, @base-font-size: 2em) {
+  .icon-stack {
+    position: relative;
+    display: inline-block;
+    width: @width;
+    height: @height;
+    line-height: @width;
+    vertical-align: -35%;
+    [class^="icon-"],
+    [class*=" icon-"] {
+      display: block;
+      text-align: center;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      font-size: @top-font-size;
+      line-height: inherit;
+      *line-height: @height;
+    }
+    .icon-stack-base {
+      font-size: @base-font-size;
+      *line-height: @height / @base-font-size;
+    }
+  }
+}
+

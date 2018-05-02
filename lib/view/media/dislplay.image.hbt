@@ -1,0 +1,20 @@
+<div class="image-display-settings">
+	<h2>Display Settings</h2>
+	<label class="setting">
+		<span>Size</span>
+		<select class="size" name="size" data-setting="size">
+			<option value="thumbnail">
+				Thumbnail – 150 × 150
+			</option>
+			<option value="medium">
+				Medium – 300 × 200
+			</option>
+			<option value="large">
+				Medium – 600 × 400
+			</option>
+			<option value="full" selected="selected">
+				Full Size
+			</option>
+		</select>
+	</label>
+</div>

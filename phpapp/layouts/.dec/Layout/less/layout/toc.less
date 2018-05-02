@@ -1,0 +1,91 @@
+#TOCContainer {
+	background: url(../css/toc_shine.png) no-repeat top left,
+				@tocColour url(../css/toc_shine_2.png) no-repeat bottom right;
+	font-size: (@fontSize + 2); // needs to be a bit bigger for readability
+}
+
+
+.level1Container, .level2Container, .level3Container,
+.level4Container, .level5Container {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    margin: 0 1px;
+    padding-top: 10px; // finger friendly
+    font-weight: normal;
+    img {
+      cursor: pointer;
+    }
+    &:hover {
+      
+    }
+	a {
+		.halfColour(@primaryColour);
+		text-decoration: none;
+		&:hover {
+			text-decoration: underline;
+			.mixColour(@primaryColour, 50%);
+			i {
+				text-decoration: none;
+			}
+		}
+		&.state-Selected {
+			.readableColour(@primaryColour);
+			.rp-menuitem-text {
+				font-weight: 600;
+			}
+			i {
+				&.icon-muted {
+					color: #fff;
+				}
+			}
+			.node-status {
+				.opacity(90);
+			}
+		
+		}
+		.node-status {
+			.opacity(50);
+			i {
+				.mixColour(@primaryColour, 25%);
+			}
+		}
+	}
+}
+
+.icon-caret-down {
+  .rotate(-45deg);
+}
+
+/* tree arrow in toc */
+a.toc-tree { 
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.lt-ie9 {
+	.level1Container, .level2Container, .level3Container,
+	.level4Container, .level5Container {	
+	    text-overflow: clip;
+	}
+}
+
+.levelSelected {
+  font-weight: bold;
+}
+
+.level1Container { padding-left: (@tocIndent * 1); }
+.level2Container { padding-left: (@tocIndent * 2); }
+.level3Container { padding-left: (@tocIndent * 3); }
+.level4Container { padding-left: (@tocIndent * 4); }
+.level5Container { padding-left: (@tocIndent * 5); }
+
+.levelChild {
+  width: 15px;
+  float: left;
+}
+
+.toc-tree {
+	padding: 15px 0;
+}

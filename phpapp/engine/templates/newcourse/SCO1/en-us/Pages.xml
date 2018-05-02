@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<sco>
+<page title="Introduction" fileName="Introduction.html" type="Information" id="1" contribute="n" contributeScore="99" contributePercentage="100" nav="n" template="">
+<page title="Course objectives" fileName="Objectives.html" type="Information" id="57" contribute="n" contributeScore="100" contributePercentage="100" nav="n" template="" />
+</page>
+<page title="Content" fileName="newFile58.html" type="Information" id="58" contribute="n" contributeScore="100" contributePercentage="100" nav="n" template="" />
+<page title="Final Quiz" fileName="Quiz_1.html" type="Quiz" id="8" contribute="p" contributeScore="50" contributePercentage="100" nav="n" template="" />
+<page title="Summary" fileName="Summary.html" type="Summary" id="56" contribute="n" contributeScore="100" contributePercentage="100" nav="n" template="" />
+</sco>

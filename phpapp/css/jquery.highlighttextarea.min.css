@@ -1,0 +1,27 @@
+/*!
+ * jQuery highlightTextarea 3.1.0
+ * Copyright 2014 Damien "Mistic" Sorel (http://www.strangeplanet.fr)
+ * Licensed under MIT (http://opensource.org/licenses/MIT)
+ */
+.highlightTextarea{position:relative;overflow:hidden}.highlightTextarea .container{position:absolute;margin:0;overflow:hidden}.highlightTextarea .highlighter{position:relative;border:none;padding:0;margin:0;color:transparent;cursor:text;overflow:hidden;white-space:pre-wrap;word-wrap:break-word}.highlightTextarea.debug .highlighter{color:red;border:1px solid red;margin:-1px}.highlightTextarea mark{line-height:inherit;color:transparent;margin:0;padding:0}.highlightTextarea input,.highlightTextarea textarea{position:absolute;left:0;top:0;resize:none;white-space:pre-wrap;word-wrap:break-word}.highlightTextarea .ui-wrapper{margin:0!important}.highlightTextarea .ui-resizable-se{bottom:15px;right:0}
+
+/*
+	what we are really trying out here is how to reveal nested markup
+	"mark" is a html5 tag that is by default #000 on #ff0
+*/
+
+mark {background-color: #ffb; text-shadow: 0 1px rgba(255,255,255,.5); boredr-radius: 5px; }
+mark mark {background-color: #bfb; }
+mark mark mark {background-color: #bff; }
+mark mark mark mark {background-color: #bbf; }
+mark mark mark mark mark {background-color: #bbb; }
+mark mark mark mark mark mark {background-color: #fbb; }
+mark mark mark mark mark mark mark {background-color: #f8b; }
+
+/* psuedo tag for pipes */
+mark.pipe {
+	background-color: #3fc !important;
+	text-shadow: 0 -4px 1px hsl(165, 50%, 50%),
+				  0 4px 1px hsl(165, 50%, 50%);
+	border-radius: none;
+}
