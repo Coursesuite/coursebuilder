@@ -1,0 +1,142 @@
+section.course-list {
+  width: 1000px;
+  margin: 0 auto;
+}
+section.course-list .header-row .material-icons {
+	margin-right: .3em;
+}
+section.course-list .header-row,
+section.course-list .course-row,
+section.course-list .start-row {
+  display: flex;
+  align-items: center;
+}
+section.course-list .start-row {
+  font-weight: bold;
+  margin-bottom:  calc(-1.4em - 10px);
+  color: #818181;
+
+  /* don't look at me */
+}
+section.course-list .header-row {
+  font-weight: bold;
+  margin: 10px 0;
+  color: #818181;
+}
+section.course-list .course-row {
+  background-color: #fff;
+  transition: background-color .1s;
+  border: 1px solid #d3d3d3;
+  border-bottom-width: 0px;
+}
+section.course-list .course-row:hover {
+  background-color: #f8f8f8;
+}
+section.course-list .course-row:last-of-type, section.course-list .course-row.last {
+  border-bottom-width: 1px;
+}
+section.course-list .course-row > * {
+  padding: 5px;
+}
+section.course-list .name {
+  flex: 8;
+}
+section.course-list .name a {
+	color: #474747;
+	text-decoration: none;
+}
+section.course-list .name a,
+section.course-list .name b {
+  display: block;
+  font-weight: bold;
+}
+section.course-list .name small {
+  opacity: 0.7;
+}
+section.course-list .tools {
+  flex: 1;
+  white-space: nowrap;
+  min-width: 186px;
+}
+section.course-list .tools button {
+  margin-left: -.4em;
+  border-radius: 0;
+}
+section.course-list .tools button:first-of-type {
+  border-top-left-radius: .3em;
+  border-bottom-left-radius: .3em;
+  margin-left: 0;
+}
+section.course-list .tools button:last-of-type {
+  border-top-right-radius: .3em;
+  border-bottom-right-radius: .3em;
+}
+section.course-list .date {
+  flex: 2;
+  white-space: nowrap;
+  min-width: 167px;
+}
+section.course-list .stage {
+  flex: 1;
+  min-width: 102px;
+}
+
+section.course-list .label {
+	color:white;
+	background-color: #999;
+	padding: 0 .3em;
+	border-radius: .3em;
+	white-space: nowrap;
+	text-shadow: 1px 1px 1px rgba(0,0,0,.1);
+  cursor: crosshair;
+}
+
+section.course-list button:not([transparent]) {
+  border: 1px solid #d3d3d3;
+  box-shadow: none;
+}
+section.course-list button:not([transparent]):hover {
+  background-color: #eee;
+}
+
+.label-warning {
+  background-color: var(--labelWarning) !important;
+}
+.label-important {
+  background-color: var(--labelImportant) !important;
+}
+.label-info {
+  background-color: var(--labelInfo) !important;
+}
+.label-inverse {
+  background-color: var(--labelInverse) !important;
+}
+.label-success {
+  background-color: var(--labelSuccess) !important;
+}
+
+.staged {
+  position: fixed;
+  white-space: nowrap;
+  background-color: white;
+  box-shadow:  0 0 25px 25px white;
+}
+.staged .label {
+  position: relative;
+  color: white;
+  background-color: #999;
+  padding: 0 .3em;
+  margin: 0 .3em;
+  border-radius: .3em;
+  white-space: nowrap;
+  text-shadow: 1px 1px 1px rgba(0,0,0,.1);
+  cursor: pointer;
+}
+.staged .label:hover::after {
+  content:  '';
+  position: absolute;
+  top: calc(100% + .5em);
+  left: 0;
+  width: 100%;
+  border-top: 2px solid blue;
+}

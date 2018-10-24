@@ -1,0 +1,9 @@
+{{> navbar}}
+
+<main>
+	<h2>the advanced settings form</h2>
+	<form method="post" action="/app/edit/advanced/{{course.id}}/config/">
+	{{{Utils::json_to_form course.config}}}
+		<div><input type='submit' value='save'></div>
+	</form>
+</main>

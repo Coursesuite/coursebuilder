@@ -1,0 +1,286 @@
+:root {
+	--asideB: #fff;
+	--asideF: #555;
+	--asideW: 225px;
+
+}
+
+body.page-edit.action-content {
+	overflow-y: hidden;
+}
+
+body > header .logo-narrow {
+  background-color: var(--theme);
+  height: var(--navHeight);
+  padding-top: 10px;
+  text-align: center;
+}
+body > header a.brand {
+  display: block;
+}
+
+body > main {
+	position: absolute;
+	top: var(--navHeight);
+	height: calc(100vh - (var(--navHeight) + 16px)); /* bottom is now 16 px from browser bottom to allow for status bar popover */
+	width: 100%;
+	left: 0;
+}
+body>main>aside,body>main>.gutter,body>main>article{
+  position: relative;
+  float: left;
+  height: 100%;
+}
+body>main>aside{
+  background-color: var(--asideB);
+  color: var(asideF);
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+body > main > article {
+  overflow: hidden;
+  overflow-y: auto;
+}
+
+.dd {
+  display: inline-block;
+  position: relative;
+}
+
+.dd-button {
+  display: inline-block;
+  border: 1px solid currentColor;
+  border-radius: 4px;
+  padding: 10px 30px 10px 20px;
+  background-color: #ffffff;
+  cursor: pointer;
+  white-space: nowrap;
+
+  border-radius: 4px;
+  padding: .3em 1.7em .3em .7em;
+  font-size: inherit;
+  font-weight: inherit;
+  text-shadow: inherit;
+  line-height: inherit;
+  cursor: pointer;
+}
+
+.dd-button:after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid black;
+}
+
+.dd-button:hover {
+  background-color: #eeeeee;
+}
+
+
+.dd-input {
+  display: none;
+}
+
+.dd-menu {
+  position: absolute;
+  top: 100%;
+  border: 1px solid currentColor;
+  border-radius: 4px;
+  padding: 0;
+  margin: 2px 0 0 0;
+  box-shadow: 0 0 6px 0 rgba(0,0,0,0.1);
+  background-color: #ffffff;
+  list-style-type: none;
+  z-index: 100;
+}
+
+.dd-input + .dd-menu {
+  display: none;
+}
+
+.dd-input:checked + .dd-menu {
+  display: block;
+}
+
+.dd-menu li {
+  padding: 10px 20px;
+  cursor: pointer;
+  white-space: nowrap;
+  text-align: left;
+}
+
+.dd-menu li:hover {
+  background-color: #f6f6f6;
+}
+
+.dd-menu li a {
+  display: block;
+  margin: -10px -20px;
+  padding: 10px 20px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.dd-menu li.divider{
+  padding: 0;
+  border-bottom: 1px solid currentColor;
+}
+
+
+
+/* rename inside jstree causes scroll; reset that afterwards */
+.jstree-rename-input {
+  max-width: calc(var(--asideW) - 48px);
+}
+
+#save-icon {
+  position: absolute;
+  top: 1em;
+  right: 1em;
+}
+
+.page-design {
+  background-color: white;
+  box-shadow: 0 0 25px rgba(0,0,0,.1);
+  margin: 25px auto 0;
+  padding: 25px;
+  max-width: 960px;
+  position: relative;
+}
+
+.template-navtree {
+  padding-top: 10px;
+}
+
+
+/* splitjs */
+.gutter {
+    background-color: #eee;
+    background-repeat: no-repeat;
+    background-position: 50%;
+}
+.gutter.gutter-vertical {
+    background-image:  url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAFAQMAAABo7865AAAABlBMVEVHcEzMzMzyAv2sAAAAAXRSTlMAQObYZgAAABBJREFUeF5jOAMEEAIEEFwAn3kMwcB6I2AAAAAASUVORK5CYII=')
+}
+.gutter.gutter-horizontal {
+    background-image:  url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==')
+}
+
+/* header menu items */
+
+body > header .details .course-name {
+  cursor: text;
+  font-style: italic;
+  opacity: .8;
+  transition: opacity .2s ease;
+}
+body > header .details .course-name:hover {
+  opacity: 1;
+}
+
+body > header .details .menu-items > a {
+  display: inline-block;
+  margin-right: 1em;
+  padding: 1em .7em .3em;
+  border-bottom:  2px solid transparent;
+}
+body > header .details .menu-items > a:first-of-type {
+  padding-left: 0;
+}
+body > header .details .menu-items > a.selected {
+  border-bottom-color: var(--theme);
+  position: relative;
+}
+body > header .details .menu-items > a.selected:after {
+  --size: 7px;
+  position: absolute;
+  top: 100%;
+  left: calc(50% - var(--size));
+  border: var(--size) solid transparent;
+  border-top-color: var(--theme);
+  content: '';
+}
+body.action-advanced form {
+  padding: 25px;
+}
+
+body.action-advanced form > .field-row {
+  display: flex;
+  margin-bottom: .5em;
+}
+body.action-advanced form > .field-row > label {
+  width: 250px;
+  padding: 5px;
+}
+
+body.action-advanced form > .field-row input[type='text'],
+body.action-advanced form > .field-row textarea {
+  min-width: 500px;
+  border: none;
+  box-shadow: 0 0 5px rgba(0,0,0,.2);
+  background-color: white;
+  color: inherit;
+  padding: 5px;
+  min-height: calc(1em + 10px);
+  resize: vertical;
+}
+body.action-advanced form > .field-row input[type='checkbox'] {
+  margin: 5px 0;
+}
+body.action-advanced form > .field-row input[type='number'] {
+  width: 75px;
+}
+
+.ft button, .ft .dd-button, .ft .dd-menu {
+  border: 1px solid #eee;
+}
+
+/*
+this stuff is related to animating the toolbar position and requires javascript
+.toolbar-placeholder{margin-bottom:0}
+.medium-editor-toolbar.fade-in{
+  animation:fadeIn .3s cubic-bezier(.49,-.22,.48,1.18);
+  animation-fill-mode:forwards;
+  animation-delay:.6s
+}
+.medium-editor-toolbar.placeholder {
+  opacity:0;
+  pointer-events:none;
+  transform:scale(1.2);
+  visibility:hidden
+}
+@media only screen and (max-width:767px){
+  .medium-editor-toolbar.placeholder{
+    transform:scale(.9)
+  }
+}
+.medium-editor-toolbar.placeholder::after{
+  display:none
+}
+.medium-editor-toolbar.toolbar-placeholder-clone{
+  -webkit-filter:grayscale(100%);
+  filter:grayscale(100%);
+  opacity:.05;
+  visibility:visible
+}.
+medium-editor-toolbar.toolbar-placeholder-clone li button{
+  visibility:hidden
+}
+.medium-editor-toolbar{
+  transition:all .45s cubic-bezier(.49,-.22,.48,1.18)
+}
+@keyframes fadeIn{
+  from{
+    opacity:0;
+    visibility:hidden
+  }to{
+    opacity:1;
+    visibility:visible
+}
+} */

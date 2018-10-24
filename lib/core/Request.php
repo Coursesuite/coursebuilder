@@ -16,6 +16,21 @@ class Request
         return $result;
     }
 
+    // when you want to grab what is going to be a row id, use rowint("key", default)
+    public static function rowint($key, $default = 0) {
+        $range = ['options'=>['min-range'=>1,'max-range'=>4294967295]];
+        $result = filter_input(INPUT_POST, $key, FILTER_VALIDATE_INT, $range);
+        if ($result === false || $result === null) $result = $default;
+        return $result;
+    }
+
+    // when you want a boolean post value that might be yes true 1 no false 0
+    public static function boolval($key, $default = false) {
+        $result = filter_input(INPUT_POST, $key, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+        if ($result === null) $result = $default;
+        return $result;
+    }
+
     public static function post_debug()
     {
         return print_r($_POST, true);
@@ -49,10 +64,18 @@ class Request
         }
     }
 
-    public static function cookie($key)
+    public static function cookie($key, $filter = true)
     {
         if (isset($_COOKIE[$key])) {
-            return $_COOKIE[$key];
+            if ($filter) {
+                return Filter::XSSFilter($_COOKIE[$key]);
+            } else {
+                return $_COOKIE[$key];
+            }
         }
+    }
+
+    public static function method() {
+        return strtoupper($_SERVER['REQUEST_METHOD']);
     }
 }

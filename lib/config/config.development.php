@@ -12,6 +12,7 @@ $lib = realpath(dirname(__FILE__) . '/../');
 $base = realpath(dirname(__FILE__) . '/../../');
 
 return array(
+    'HTTPS' => $https,
     'URL' => ($https ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . dirname($_SERVER['SCRIPT_NAME']),
     'ROOTURL' => ($https ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'],
     'RELATIVEURL' => dirname($_SERVER['SCRIPT_NAME']),
@@ -19,10 +20,13 @@ return array(
     'BASE' => $base,
     'LIB' => $lib,
 
+    'DEBUG' => true,
+
     'PATH_ROOT' => realpath(dirname(__FILE__) . '/../../../'),
 	'PATH_CONTROLLER' => $lib . '/controller/',
 	'PATH_VIEW' => $lib . '/view/',
     'PATH_CACHE' => $lib . '/cache/',
+    'PATH_PUBLIC_CACHE' => '/cache/',
     'PATH_COURSE_TEMPLATES' => $lib . '/templates/courses/',
 
     'PATH_TOURS' => $base . '/phpapp/js/tour/',

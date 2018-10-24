@@ -1,10 +1,65 @@
-<h1>{{course.name}}</h1>
-<p class='uk-text-lead'>temporary php edit page</p>
+{{> navbar}}
 
-<h2>Drop a DocNinja on here to upload it into the course</h2>
-
-	<form action="/app/import/drop/{{context}}/" id="my-awesome-dropzone" class="dropzone"></form>
-
-<h2>Results, to be processed by javascript</h2>
-
-<div id="outdata"></div>
+<main>
+	<aside>
+		<div id="pages"><div class="template-navtree">
+			<div><a class="jstree-anchor" href="#" tabindex="-1" id="page_1_anchor"><i class="jstree-icon jstree-themeicon material-icons material-icons-folder-shared jstree-themeicon-custom" role="presentation"></i>Content</a></div>
+			<div class="template-navtree-container"><ul><li>Tree</li></ul></div>
+			</div>
+		</div>
+	</aside>
+	<article>
+		<div class="page-design">
+			<div class="ft">
+			<div class="fl">
+				<button data-action='set-layout' data-layout='responsive'><span class='material-icons'>desktop_windows</button>
+				<button data-action='set-layout' data-layout='tablet'><span class='material-icons'>tablet_android</span></button>
+				<button data-action='set-layout' data-layout='phone'><span class='material-icons'>phone_android</span></button>
+			</div>
+			<div id="toolbar-placeholder" class="toolbar-placeholder"></div>
+			<div class="fr">
+				<button data-action='toggle-visibility'><span class="material-icons">visibility</span></button>
+		        <label class="dd">
+		            <div class="dd-button"><span class="material-icons">local_shipping</span></div>
+		            <input type="checkbox" class="dd-input">
+		            <ul class="dd-menu">
+		            <li><a href='#' data-action='page-navigation' data-value='n'><span class="material-icons">check_box</span> Standard navigation</a></li>
+		            <li><a href='#' data-action='page-navigation' data-value='v'><span class="material-icons">check_box_outline_blank</span> Must first visit this page</a></li>
+		            <li><a href='#' data-action='page-navigation' data-value='c'><span class="material-icons">check_box_outline_blank</span> Must first complete this page</a></li>
+		            <li><a href='#' data-action='page-navigation' data-value='p'><span class="material-icons">check_box_outline_blank</span> Must first pass this page</a></li>
+		            </ul>
+		        </label>
+		        <label class="dd">
+		            <div class="dd-button"><span class="material-icons">star_half</span></div>
+		            <input type="checkbox" class="dd-input">
+		            <ul class="dd-menu">
+		            <li><a href='#' data-action='page-score' data-value='n'><span class="material-icons">check_box</span> Not scored</a></li>
+		            <li><a href='#' data-action='page-score' data-value='v'><span class="material-icons">check_box_outline_blank</span> Visiting page assigns score</a></li>
+		            <li><a href='#' data-action='page-score' data-value='c'><span class="material-icons">check_box_outline_blank</span> Completing page assigns score</a></li>
+		            <li><a href='#' data-action='page-score' data-value='p'><span class="material-icons">check_box_outline_blank</span> Passing page assigns score</a></li>
+		            <li class="divider"></li>
+		            <li><label>Score: <input type="number" min="0" step="1" name="page-score-value" value="0" size="3"></label></li>
+		            <li><label>Contributes: <input type="number" min="0" step="1" max="100" name="page-percentage" value="100" size="3">%</label></li>
+		            </ul>
+		        </label>
+		        <label class="dd">
+		            <div class="dd-button"><span class="material-icons">settings_applications</span></div>
+		            <input type="checkbox" class="dd-input">
+		            <ul class="dd-menu">
+		            <li><label>Scorm ID: <input type="text" maxlength="32" name="page-scorm-id" value="" size="12"></label></li>
+		            </ul>
+		        </label>
+			</div>
+			</div>
+			<div id="save-icon" class="material-icons"></div>
+			<div id="editor"></div>
+{{!--
+			<p><a href="https://github.com/orthes/medium-editor-insert-plugin">https://github.com/orthes/medium-editor-insert-plugin</a></p>
+			<p><a href="https://github.com/yabwe/medium-editor">https://github.com/yabwe/medium-editor</a></p>
+			<p><a href="http://forked.yannick.io/orthes/medium-editor-insert-plugin">http://forked.yannick.io/orthes/medium-editor-insert-plugin</a></p>
+			<p><a href="https://github.com/pressblog/medium-editor-insert-plugin">https://github.com/pressblog/medium-editor-insert-plugin</a></p>
+			<pre style="font-size:10px">{{dump .}}</pre>
+--}}
+		</div>
+	</article>
+</main>

@@ -1,0 +1,4 @@
+<div class="template-navtree">
+<div><a class="jstree-anchor" href="#" tabindex="-1" id="page_1_anchor"><i class="jstree-icon jstree-themeicon material-icons material-icons-folder-shared jstree-themeicon-custom" role="presentation"></i>Content</a></div>
+<div class="template-navtree-container"><ul><li>Tree</li></ul></div>
+</div>

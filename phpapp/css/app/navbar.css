@@ -1,0 +1,104 @@
+:root {
+	--fixedZindex: 2;
+	--shadow: rgba(0,0,0,.2);
+	--navHeight: 80px;
+}
+body {
+	padding-top: calc(var(--navHeight) + 30px);
+}
+
+body > header a, body > header a:hover {
+	text-decoration: none;
+	font-weight: normal;
+	color: currentColor;
+}
+
+body>header {
+	z-index: var(--fixedZindex);
+	box-shadow: 0 3px 3px var(--shadow);
+	display: flex;
+	align-items: center;
+	position: fixed;
+	top: 0; left: 0;
+	height: var(--navHeight); width: 100vw;
+	background-color: white;
+	color: #474747;
+}
+body > header .search {
+	flex: 4;
+}
+body > header .search a {
+	color: currentColor;
+}
+body > header .search .search-container {
+	display: flex;
+	align-items: center;
+	flex-wrap: nowrap;
+	background-color: #f6f6f6;
+	border-radius: 50px;
+	padding: 5px 10px;
+}
+body > header .search .search-container > input {
+	flex: 1;
+	margin: 0; padding: 5px; border: none; background-color: transparent; outline: none;
+}
+body > header .search .search-container > input:placeholder-shown + button {
+	visibility: hidden;
+	pointer-events: none;
+}
+body > header .search .search-container > input:not(:placeholder-shown) + button {
+	visibility: visible;
+}
+body > header .search .search-container > *:not(input) {
+	margin-left: 1em;
+}
+body > header .search .search-container > *:first-child {
+	margin-left: 0;
+}
+
+body > header .actions,
+body > header .logo,
+body > header .logo-narrow {
+	padding: 5px 10px;
+}
+body > header .details .course-name,
+body > header .logo,
+body > header .logo-narrow {
+	font-size: 1.33em;
+}
+
+body > header .actions,
+body > header .logo {
+	display: flex;
+	flex: 1;
+}
+body > header .logo {
+	justify-content: flex-start;
+}
+body > header .logo-narrow img,
+body > header .logo img {
+	vertical-align: bottom;
+	margin-right: .3em;
+}
+body > header .logo-narrow a > span,
+body > header .logo a > span {
+	color: #999;
+}
+body > header .actions {
+	justify-content: flex-end;
+	padding-right: 20px;
+}
+body > header button[data-action] {
+	margin-left: .3em;
+	color: currentColor;
+	border: 1px solid currentColor;
+	border-radius: 4px;
+}
+
+body > header button[data-action='logout'] {
+	background: #f6f8f9;
+	background: -moz-linear-gradient(top, #f6f8f9 0%, #e5ebee 50%, #d7dee3 51%, #f5f7f9 100%);
+	background: -webkit-linear-gradient(top, #f6f8f9 0%,#e5ebee 50%,#d7dee3 51%,#f5f7f9 100%);
+	background: linear-gradient(to bottom, #f6f8f9 0%,#e5ebee 50%,#d7dee3 51%,#f5f7f9 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6f8f9', endColorstr='#f5f7f9',GradientType=0 );
+}

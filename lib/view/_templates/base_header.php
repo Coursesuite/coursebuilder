@@ -6,34 +6,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="<?php echo $this->page_description; ?>">
     <link rel="shortcut icon" href="/favicon.png">
-	<link rel="stylesheet/less" href="/css/tardproof.less" />
 <?php
 if (isset($this->sheets)) {
 	foreach ($this->sheets as $sheet) {
-		echo "	<link rel='stylesheet' type='text/css' href='$sheet'>" . PHP_EOL;
+		echo "	<link rel='stylesheet' type='text/css' href='{$sheet}'>", PHP_EOL;
 	}
-} ?>
-    <script>var less = {"env":"development"};</script>
-	<script type="text/javascript" src="/js/less-1.3.3.min.js"></script>
-	<script type="text/javascript" src="<?php echo $this->url . "/" . $this->page . "/js/" .  $this->context; ?>"></script>
-	<!--script src="https://use.fontawesome.com/c7c1c46f8a.js"></script -->
+}
+if (isset($this->less)) {
+  foreach ($this->less as $tag) {
+    echo "    <link rel='stylesheet/less' href='{$tag}' />", PHP_EOL;
+  }
+}
+if (isset($this->headjs)) {
+  foreach ($this->headjs as $js) {
+    echo "    <script src='{$js}'></script>", PHP_EOL;
+  }
+}
+if (isset($this->head)) {
+  foreach ($this->head as $tag) {
+    echo "    {$tag}", PHP_EOL;
+  }
+}
+if (isset($this->inlinejs)) {
+  echo "    <script>", implode(PHP_EOL, array_values((array) $this->inlinejs)), "</script>", PHP_EOL;
+}
 
-<!-- Piwik -->
-<!--script type="text/javascript">
-  var _paq = _paq || [];
-  /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
-  _paq.push(['trackPageView']);
-  _paq.push(['enableLinkTracking']);
-  (function() {
-    var u="//stats.coursesuite.ninja/";
-    _paq.push(['setTrackerUrl', u+'piwik.php']);
-    _paq.push(['setSiteId', '4']);
-    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
-  })();
-</script-->
-<!-- End Piwik Code -->
-<?php echo Licence::webservice_script(); ?>
+echo Licence::webservice_script();
+?>
 </head>
 
 <body class="page-<?php echo $this->page . ' action-' . $this->action; ?>">

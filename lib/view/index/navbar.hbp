@@ -1,0 +1,20 @@
+<header>
+    <div class="logo">
+        <a class="brand" href="/"><img src="/css/coursesuite.svg" width="30" height="30" title="another CourseSuite app"><span>Course</span> Ninja</a>
+    </div>
+    <div class="search">
+        <div class="search-container">
+            <i class="material-icons">search</i>
+            <input type='text' value='{{search.value}}' id='search' placeholder='Search courses'>
+            <button onclick="window.CourseBuildr.List.Reset();" transparent small><i class="material-icons">clear</i></button>
+{{#admins}}
+            <button data-action="toggle-archive" transparent>{{#equals search.archive "show"}}<i class="material-icons">toggle_on</i>{{else}}<i class="material-icons colour-muted">toggle_off</i>{{/equals}}Archived</button>
+            <button data-action="toggle-subscribers" transparent>{{#equals search.subs "show"}}<i class="material-icons">toggle_on</i>{{else}}<i class="material-icons colour-muted">toggle_off</i>{{/equals}}Subscribers</button>
+{{/admins}}
+        </div>
+    </div>
+    <div class="actions">
+        <div class="watchin"><div class="eyeball"><div class="iris"></div></div><div class="eyeball"><div class="iris"></div></div></div>
+        <button data-action="logout" leftmargin><i class="material-icons">lock</i> Log Out</button>
+    </div>
+</header>

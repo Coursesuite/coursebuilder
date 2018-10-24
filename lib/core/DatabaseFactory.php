@@ -113,7 +113,7 @@ class DatabaseFactory
 
     // get one or more records from a database table based on all params. if one field is specified and limit = 1, one column value is returned.
     public static function get_record($table, $params = array(), $fields='*', $limit = 1, $offset = 0, $orderby = "") {
-	    $sql = "select $fields from $table";
+	    $sql = "SELECT $fields FROM $table";
 	    $where = [];
 	    foreach ($params as $key => $value) {
 	    	$where[] = "$key=:$key";
@@ -121,9 +121,10 @@ class DatabaseFactory
 	    	unset($params[$key]);
 	    }
 	    if (count($where) > 0) { $sql .= " WHERE " . implode(" AND ", $where); }
+        if (!empty($orderby)) $sql .= " ORDER BY {$orderby}";
 	    if ($limit > 0) $sql .= " LIMIT $limit OFFSET $offset";
 		$database = self::getFactory()->getConnection();
-		$query = $database->prepare($sql .= " $orderby");
+		$query = $database->prepare($sql);
 		$query->execute($params);
 		if ($limit > 1) {
 			$result = $query->fetchAll();
@@ -136,5 +137,21 @@ class DatabaseFactory
 		}
 		$database = null;
 		return $result;
+    }
+    public static function count_records($table, $params = array()) {
+        $sql = "SELECT count(1) FROM $table";
+        $where = [];
+        foreach ($params as $key => $value) {
+            $where[] = "$key=:$key";
+            $params[":$key"] = $value;
+            unset($params[$key]);
+        }
+        if (count($where) > 0) { $sql .= " WHERE " . implode(" AND ", $where); }
+        $database = self::getFactory()->getConnection();
+        $query = $database->prepare($sql);
+        $query->execute($params);
+        $result = intval($query->fetchColumn(),10);
+        $database = null;
+        return $result;
     }
 }

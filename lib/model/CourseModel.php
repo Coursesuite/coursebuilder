@@ -92,12 +92,10 @@ class CourseModel extends Model {
         return $id;
     }
 
-    // magic methods! replace these :-/ but hey, replace php too
-    // https://stackoverflow.com/questions/4478661/getter-and-setter
     public function __set($property, $value){
 	    if ($property == "Pages") {
 		    return $this->$_pages = $value;
-	    } else if ($property == "Path" || $property == "RealPath") {
+	    } else if (in_array($property, ["Path", "RealPath", "DisplayPath"])) {
 		    throw new Exception("Unable to set path");
 	    }
 	    if ($property == self::ID_ROW_NAME) return; // disallow
@@ -106,12 +104,19 @@ class CourseModel extends Model {
 
     public function __get($property){
 	    if ($property == "Pages") {
-		    return $_pages;
-	    } else if ($property == "RealPath") {
+		    return isset($_pages)
+		    	? $_pages
+		    	: null
+		    	;
+	    } else if ($property == "RealPath") { // the realpath(folder_name) for filesystem uses
 			$path = DatabaseFactory::get_record("coursefolder", array("id" => $this->_data[self::ID_ROW_NAME]), "path");
 			return Config::get("BASE") . str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $path);
-	    } else if ($property == "Path") {
+	    } else if ($property == "Path") {  // e.g. /user_courses/username/course_folder for url alias use
 			$path = DatabaseFactory::get_record("coursefolder", array("id" => $this->_data[self::ID_ROW_NAME]), "path");
+			return $path;
+	    } else if ($property == "DisplayPath") { // e.g. username / course_folder for visibility to user
+			$path = realpath(Config::get("BASE") . DatabaseFactory::get_record("coursefolder", array("id" => $this->_data[self::ID_ROW_NAME]), "path"));
+			$path = str_replace(Config::get("PATH_CONTAINERS"), '', $path);
 			return $path;
 	    }
 		return array_key_exists($property, $this->_data)
@@ -122,6 +127,16 @@ class CourseModel extends Model {
 
     public function properties() {
 	    return array_keys($this->_data);
+    }
+
+    // takes pages and configuration from the disk and puts it into the database, where needed
+    public function upgrade() {
+    	$pages = DatabaseFactory::count_records("page", array("course" => $this->_data[self::ID_ROW_NAME]));
+    	if ($pages === 0) {
+    		$xml = simplexml_load_file($this->RealPath . "/SCO1/en-us/Pages.xml");
+    		PageModel::convertPages($xml, $this->RealPath . "/SCO1/en-us/Content/", 0, $this->_data[self::ID_ROW_NAME]);
+    	}
+    	PageModel::calculatePaths($this->_data[self::ID_ROW_NAME]);
     }
 
 }

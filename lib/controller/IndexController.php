@@ -1,5 +1,5 @@
 <?php
-	
+
 class IndexController extends Controller
 {
     public function __construct(...$params)
@@ -10,42 +10,40 @@ class IndexController extends Controller
 
     public function index()
     {
-
-        // parent::SetAspCookie();
-        
-        $this->View->requires("uikit");
-        $this->View->requires("base");
-        $this->View->requires("/css/tardproof.less");
-
-	    $this->View->requires("_templates/navbar");
-	    $this->View->requires("_templates/fridgeMagnets");
-	    $this->View->requires("index/newcourse");
-	    $this->View->requires("index/search");
-
-	    $this->View->requires("filedrop/jquery.filedrop.js");
+        $this->View->requires("minimal");
+	    $this->View->requires("index/navbar");
+	    $this->View->requires("/css/app/navbar.css");
 	    $this->View->requires("index/containers.hbt", "index/model");
-	    
+	    $this->View->requires("index/templates.hbt", "index/templates");
+
 		// do we need to trigger the introductory tour?
 	    // do we need to build a template course?
-	    if (IndexModel::should_trigger_tour()) {
-		    $this->View->requires("tour/index.js");
-		    $template = Config::get('PATH_COURSE_TEMPLATES') . 'classic/template.zip';
-		    IndexModel::create_course($template, "classic", "Example course");
-	    }
+	    // if (IndexModel::should_trigger_tour()) {
+		   //  $this->View->requires("tour/index.js");
+		   //  $template = Config::get('PATH_COURSE_TEMPLATES') . 'classic/template.zip';
+		   //  IndexModel::create_course($template, "classic", "Example course");
+	    // }
 
-		// build the display model
 	    $model = IndexModel::settings_model();
         $this->View->render("index/list", $model);
     }
-    
+
+    // called by <div data-model="index/templates">
+    public function templates() {
+    	parent::requiresAjax();
+    	$model = IndexModel::templates_model();
+        $this->View->renderJSON($model);
+    }
+
+    // called by <div data-model="index/model">
     public function model() {
 	    parent::RequiresAjax();
 	    $model = IndexModel::get_model(false);
 	    $this->View->renderJSON($model);
     }
-    
+
     // scripts used by this page
-    public function js() {
+    public function js($context = 0) {
 	    $model = array(
 		    "tier" => Session::CurrentTier(),
 		    "mycontainers" => Session::User()->containers,
@@ -63,7 +61,7 @@ class IndexController extends Controller
 	    }
 		Response::redirect("index");
     }
-    
+
     // index/action/535/lock/false => unlock the course
     // index/actin/535/delete => immediately delete the course record AND the folder on disk
     // index/action/535/clone => make a copy of the folder and course record, called "_clone"
@@ -74,117 +72,147 @@ class IndexController extends Controller
 	    try {
 
 		    if (!is_numeric($course)) {
-			    throw new Exception("Course incorrectly specified");
+			    throw new Exception("Course incorrectly specified ; $course ;");
+		    } else {
+		    	$course = intval($course,10);
 		    }
 
-	    	$course = new CourseModel($course);
-	    	$course->mustExist(false);
-	    	$course->validateAccess(Session::CurrentUserId());
+	    	if ($course === 0) { // general properties that don't require a course context
 
-		    switch ($property) {
-			    case "lock":
-			    	$locked = (filter_var($value, FILTER_VALIDATE_BOOLEAN) === true);
-			    	$course->locked = ($locked) ? 1 : 0;
-			    	$course->save();
-					$model["status"] = "ok";
-			    	break;
-			    	
-			    case "delete":
-			    	$folder = $course->RealPath;
-			    	$exists = is_dir($folder);
-			    	if ((int)$course->locked == 0 && $exists === TRUE) {
-				    	throw new Exception("Cannot delete an unlocked course");
-			    	}
-			    	if ($exists === TRUE) {
-				    	@closedir(opendir($folder)); // in case it's in use
-				    	// well, UNLINK and RMDIR are not working
+			    switch ($property) {
+			    	case "archive":
+			    		Response::Cookie("archive",Filter::XSSFilter($value));
+						$model["status"] = "reload";
+			    		break;
+			    	case "subscribers":
+			    		Response::Cookie("subs",Filter::XSSFilter($value));
+						$model["status"] = "reload";
+			    		break;
+			    }
 
-						// so "delete" the folder by moving it somewhere else, we dont care where
-						$dest = Config::get("PATH_IIS_TEMP") . uniqid();
-					    if (rename($folder, $dest)) {
-						    // shoulda worked
-					    } else {
-						  throw new Exception("Failed to remove/delete folder");
+			} else {
+
+		    	$course = new CourseModel($course);
+		    	$course->mustExist(false);
+		    	$course->validateAccess(Session::CurrentUserId());
+
+			    switch ($property) {
+			    	case "restage":
+			    		if (in_array($value, ["new","started","inprogress","almostdone","complete","archived"])) {
+				    		$course->stage = $value;
+				    		$course->save();
+				    		$model["id"] = $course->id;
+				    		$model["value"] = $value;
+							$model["status"] = "continue";
+				    	} else {
+							$model["status"] = "error";
+				    	}
+				    	break;
+
+				    case "lock":
+				    	$locked = (filter_var($value, FILTER_VALIDATE_BOOLEAN) === true);
+				    	$course->locked = ($locked) ? 1 : 0;
+				    	$course->save();
+						$model["status"] = "ok";
+				    	break;
+
+				    case "delete":
+				    	$folder = $course->RealPath;
+				    	$exists = is_dir($folder);
+				    	if ((int)$course->locked == 0 && $exists === TRUE) {
+					    	throw new Exception("Cannot delete an unlocked course");
+				    	}
+				    	if ($exists === TRUE) {
+					    	@closedir(opendir($folder)); // in case it's in use
+					    	// well, UNLINK and RMDIR are not working
+
+							// so "delete" the folder by moving it somewhere else, we dont care where
+							$dest = Config::get("PATH_IIS_TEMP") . uniqid();
+						    if (rename($folder, $dest)) {
+							    // shoulda worked
+						    } else {
+							  throw new Exception("Failed to remove/delete folder");
+						    }
+
+							//if (PHP_OS === 'Windows') {
+							//    exec(sprintf("rd /s /q %s", escapeshellarg($folder)));
+							//} else {
+							//    exec(sprintf("rm -rf %s", escapeshellarg($folder)));
+							//}
+
+					    	//if (!@unlink(realpath($folder))) {
+						    //	throw new Exception("Failed to delete folder (in use or permission problem; USER=" . get_current_user() . "). Please raise a Helpdesk ticket.");
+					    	//}
+				    	}
+				    	$course->delete();
+						$model["status"] = "ok";
+				    	break;
+
+				    case "clone":
+				    	$folder = $course->RealPath;
+				    	if (!is_dir($folder)) {
+					    	throw new Exception("Cannot clone a missing course");
+					    }
+				    	$newfolder = $folder . "_copy";
+				    	// make sure we don't clone into a previous clone - might mean foo_copy_copy_copy, but you can rename it later
+				    	while (is_dir($newfolder)) {
+					    	$newfolder = $newfolder . "_copy";
+				    	}
+					    // clone the folder on disk
+					    IO::recurse_copy($folder, $newfolder);
+
+					    // clone the record, updating fields as required
+				    	$clone = new CourseModel(0);
+				    	$clone->name = "Copy of " . $course->name;
+				    	$clone->folder = basename($newfolder);
+				    	$clone->touched = time();
+				    	$clone->engine = $course->engine;
+				    	$clone->layout = $course->layout;
+				    	$clone->stage = "new";
+				    	$clone->container = $course->container;
+				    	$config = json_decode($course->config);
+				    	$config->course->id = uniqid();
+				    	$config->course->name = "Copy of " . $config->course->name;
+				    	$clone->config = $config; // will auto-serialise on model save
+				    	$clone->locked = 0;
+				    	$clone->glossary = $course->glossary;
+				    	$clone->references = $course->references;
+				    	$clone->help = $course->help;
+				    	$clone->media = $course->media;
+						$model["id"] = $clone->save();
+				    	$model["status"] = "ok";
+				    	break;
+
+				    case "move":
+					    if (!Session::isAdmin()) {  // until sharing comes along regular users can't switch containers
+						    throw new Exception("Permission denied");
+					    }
+				    	$folder = $course->RealPath;
+				    	if (!is_dir($folder)) {
+					    	throw new Exception("Cannot move a missing course " . $folder);
 					    }
 
-						//if (PHP_OS === 'Windows') {
-						//    exec(sprintf("rd /s /q %s", escapeshellarg($folder)));
-						//} else {
-						//    exec(sprintf("rm -rf %s", escapeshellarg($folder)));
-						//}
+					    if (!is_numeric($value)) { // convert a named container into its id value
+				    		$value = (int) DatabaseFactory::get_record("container", array("name" => $value), "id");
+					    }
+					    $container = new ContainerModel($value);
+					    $container->mustExist(); // throws if not found
 
-				    	//if (!@unlink(realpath($folder))) {
-					    //	throw new Exception("Failed to delete folder (in use or permission problem; USER=" . get_current_user() . "). Please raise a Helpdesk ticket.");
-				    	//}
-			    	}
-			    	$course->delete();
-					$model["status"] = "ok";
-			    	break;
-			    	
-			    case "clone":
-			    	$folder = $course->RealPath;
-			    	if (!is_dir($folder)) {
-				    	throw new Exception("Cannot clone a missing course");
-				    }
-			    	$newfolder = $folder . "_copy";
-			    	// make sure we don't clone into a previous clone - might mean foo_copy_copy_copy, but you can rename it later
-			    	while (is_dir($newfolder)) {
-				    	$newfolder = $newfolder . "_copy";
-			    	}
-				    // clone the folder on disk
-				    IO::recurse_copy($folder, $newfolder);
-				    
-				    // clone the record, updating fields as required
-			    	$clone = new CourseModel(0);
-			    	$clone->name = "Copy of " . $course->name;
-			    	$clone->folder = basename($newfolder);
-			    	$clone->touched = time();
-			    	$clone->engine = $course->engine;
-			    	$clone->layout = $course->layout;
-			    	$clone->stage = "new";
-			    	$clone->container = $course->container;
-			    	$config = json_decode($course->config);
-			    	$config->course->id = uniqid();
-			    	$config->course->name = "Copy of " . $config->course->name;
-			    	$clone->config = $config; // will auto-serialise on model save
-			    	$clone->locked = 0;
-			    	$clone->glossary = $course->glossary;
-			    	$clone->references = $course->references;
-			    	$clone->help = $course->help;
-			    	$clone->media = $course->media;
-					$model["id"] = $clone->save();
-			    	$model["status"] = "ok";
-			    	break;
-			    	
-			    case "move":
-				    if (!Session::isAdmin()) {  // until sharing comes along regular users can't switch containers
-					    throw new Exception("Permission denied");
-				    }
-			    	$folder = $course->RealPath;
-			    	if (!is_dir($folder)) {
-				    	throw new Exception("Cannot move a missing course " . $folder);
-				    }
-				    
-				    if (!is_numeric($value)) { // convert a named container into its id value
-			    		$value = (int) DatabaseFactory::get_record("container", array("name" => $value), "id");
-				    }
-				    $container = new ContainerModel($value);
-				    $container->mustExist(); // throws if not found
-				    
-				    $newfolder = Config::get("PATH_CONTAINERS") . $container->name . '/' . basename($folder);
-				    if (is_dir($newfolder)) {
-					    throw new Exception("Will not overwrite folder with same name in destination");
-				    }
-				    // move folder between locations (rename moves dyk!)
-				    rename($folder,$newfolder);
-				    
-				    // update the database with the new container id
-				    $course->container = $value;
-				    $course->save();
-				    $model["status"] = "ok";
-			    	break;
+					    $newfolder = Config::get("PATH_CONTAINERS") . $container->name . '/' . basename($folder);
+					    if (is_dir($newfolder)) {
+						    throw new Exception("Will not overwrite folder with same name in destination");
+					    }
+					    // move folder between locations (rename moves dyk!)
+					    rename($folder,$newfolder);
 
-		    }
+					    // update the database with the new container id
+					    $course->container = $value;
+					    $course->save();
+					    $model["status"] = "ok";
+				    	break;
+
+			    }
+			}
 	    } catch (Exception $e) {
 		    $model["status"] = $e->getMessage();
 	    }
@@ -208,7 +236,7 @@ class IndexController extends Controller
 	    }
 		$this->View->renderJSON($course);
     }
-    
+
     public function create() {
 	    parent::RequiresAjax();
 

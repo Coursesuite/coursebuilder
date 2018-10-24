@@ -1,31 +1,31 @@
 {{#each container}}
 	<div class='header-row'>
-		<div class='name'>{{name}}</div>
+		<div class='name'><i class='material-icons'>folder</i>{{name}}</div>
 	</div>
 	{{#each course}}
-	<div class='course-row' data-id='{{id}}' data-meta='{{metadata}}'>
-		<div class='edit-icon'>{{#compare locked "!=" 1}}<a href='/app/edit/index/{{id}}' class='btn'><i class='fa fa-fw fa-pencil'></i></a>{{/compare}}</div>
+	<div class='course-row{{#if @last}} last{{/if}}' data-id='{{id}}' data-meta='{{metadata}}' data-locked='{{locked}}'>
+		<div class='edit-icon'><button data-action='edit'{{#compare locked "==" 1}} transparent{{/compare}}><i class='material-icons'>{{#compare locked "!=" 1}}edit{{else}}lock{{/compare}}</i></button></div>
 		<div class='name'>
-			{{#compare locked 1}}<b>{{name}}</b>{{else}}<a href='/app/edit/index/{{id}}'>{{name}}</a>{{/compare}}
+			<b>{{name}}</b>
 			<small>{{folder}}</small>
 		</div>
-		<div class='stage'><span class='label {{stageclass}}'>{{stagelabel}}</span></div>
+		<div class='stage'><span class='label {{stageclass}}' data-dblclick="stage">{{stagelabel}}</span></div>
 		<div class='date' title='{{updated}}'>{{humandate updated "ago"}}</div>
 		<div class='tools'>
 			{{#if missing}}
-<a href='#trash' class='btn btn-small btn-danger' title='Delete forever'><i class='fa fa-fw fa-trash'></i></a> (Missing)
+<button data-action='trash' title='Delete'><i class='material-icons'>delete</i></button> (Missing)
 			{{else}}
 			{{#compare locked 1}}
-<a href='#launch' class='btn btn-small' title='Play course'><i class='fa fa-fw fa-play'></i></a>
-<a href='#unlock' class='btn btn-small btn-inverse' title='Unlock actions'><i class='fa fa-fw fa-unlock-alt'></i></a>
-<a href='#delete' class='btn btn-small btn-danger' title='Delete forever'><i class='fa fa-fw fa-trash'></i></a>
+<button data-action='launch' title='View compiled course'><i class='material-icons'>play_arrow</i></button>
+<button data-action='unlock' title='Unlock'><i class='material-icons'>lock_open</i></button>
+<button data-action='trash' title='Delete'><i class='material-icons'>delete</i></button>
 			{{else}}
-<a href='#play' class='btn btn-small' title='Play course'><i class='fa fa-fw fa-play'></i></a>
-<a href='#clone' class='btn btn-small' title='Duplicate this course'><i class='fa fa-fw fa-clone'></i></a>
+<button data-action='play' title='Compile and View course'><i class='material-icons'>play_arrow</i></button>
+<button data-action='clone' title='Make a copy'><i class='material-icons'>filter_none</i></button>
 			{{#morethanone ../../../../. "container"}}
-<a href='#move' class='btn btn-small' title='Move this course to a different folder'><i class='fa fa-fw fa-folder-o'></i></a>
+<button data-action='move' title='Move to folder ...'><i class='material-icons'>folder_shared</i></button>
 			{{/morethanone}}
-<a href='#lock' class='btn btn-small' title='Lock actions'><i class='fa fa-fw fa-lock'></i></a>
+<button data-action='lock' title='Lock'><i class='material-icons'>lock</i></button>
 			{{/compare}}
 			{{/if}}
 		</div>

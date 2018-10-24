@@ -2,11 +2,11 @@
 class Controller
 {
     public $View;
-    
+
     // call parent::__construct($this,$params) on all pages
     public function __construct($instance, $params = null)
     {
-	    
+
 		$method = strtolower(str_replace("Controller","", get_class($instance)));
 		$action = is_null($params) ? $method : $params[0];
         Session::init();
@@ -20,7 +20,7 @@ class Controller
 	        Response::redirect("login/");
         }
     }
-    
+
     public function SetAspCookie() {
 		Response::cookie("aspname", Session::User()->name);
     }
@@ -42,7 +42,7 @@ class Controller
             exit(0);
         }
     }
-    
+
     // put this at the top of functions that are only supposed be accessed via ajax
     public function RequiresAjax() {
 	    $pass = (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest');

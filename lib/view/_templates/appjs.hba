@@ -1,4 +1,7 @@
-(function(){var c;var d=document.cookie.split("; ");for(c=0;c<d.length;c++){var a=d[c].split("=");if(0<a.length&&0==a[0].indexOf("ASPSESSIONID")){a=a[0];var b=new Date;b.setTime(b.getTime()-864E5);b="; expires="+b.toGMTString()+";path=/";document.cookie=a+"="+b}}})();
+{{!--
+	in aspland iis generates aspsessionid cookies like there's no tomorrow, so we have to continually pull them out again! in php there's no such bug.
+	(function(){var c;var d=document.cookie.split("; ");for(c=0;c<d.length;c++){var a=d[c].split("=");if(0<a.length&&0==a[0].indexOf("ASPSESSIONID")){a=a[0];var b=new Date;b.setTime(b.getTime()-864E5);b="; expires="+b.toGMTString()+";path=/";document.cookie=a+"="+b}}})();
+--}}
 
 window.CourseBuildr = {
 	"BaseUrl": "{{baseurl}}",
@@ -12,5 +15,7 @@ window.CourseBuildr = {
 	}{{#if media.actions}},
 	"Media": {
 		"Actions": { {{#each media.actions}}"{{name}}":{{{json_encode .}}},{{/each}}"null":null }
-	}{{/if}}
+	}{{/if}}{{#if course}},
+	"Course": {{{json_encode course}}}
+	{{/if}}
 }

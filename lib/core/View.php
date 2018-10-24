@@ -12,6 +12,7 @@ class View
 	protected $helpers = array();
 	protected $css = array();
 	protected $less = array();
+    protected $head = array();
 	protected $headjs = array("https://cdn.polyfill.io/v2/polyfill.min.js");
 	protected $inlinejs = array();
 	protected $js = array();
@@ -22,10 +23,16 @@ class View
 	public function renderTemplates() {
 		if (isset($this->tmpl)) {
 			foreach ($this->tmpl as $inst) {
-				if (file_exists(Config::get('PATH_VIEW') . $inst)) {
-					$id = str_replace(array('/','.'),'-',$inst);
+                $path = "";
+                if (Text::startsWith($inst, '/') && file_exists(Config::get("PATH_REAL_WEBROOT") . $inst)) {
+                    $path = Config::get("PATH_REAL_WEBROOT") . $inst;
+                } else if (file_exists(Config::get('PATH_VIEW') . $inst)) {
+                    $path = Config::get('PATH_VIEW') . $inst;
+                }
+                if (!empty($path)) {
+					$id = ltrim(str_replace(array('/','.'),'-',strtolower($inst)),'-');
 					echo "<script type='text/x-handlebars-template' id='$id'>" . PHP_EOL;
-					echo IO::loadFile(Config::get('PATH_VIEW') . $inst) . PHP_EOL;
+					echo IO::loadFile($path) . PHP_EOL;
 					echo "</script>" . PHP_EOL;
 				}
 			}
@@ -35,49 +42,109 @@ class View
 	// $this->View->requires(anything)
 	public function requires($name, $param = null)
 	{
-		if ($name === "uikit") {
-			$this->css[] = "https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.40/css/uikit.min.css";
-			$this->js[] = "https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.40/js/uikit.min.js";
-			$this->js[] = "https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.40/js/uikit-icons.min.js";
-			$this->css[] = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css";
-			$this->partials[] = "_templates/uikit/navigation.hbp";
+        if ($name === "js") {
+            $this->js[] = $param;
+
+        } else if ($name === "medium-editor") {
+            $this->css[] = "/node_modules/medium-editor/dist/css/medium-editor.min.css";
+            $this->css[] = "/node_modules/medium-editor-insert-plugin/dist/css/medium-editor-insert-plugin.min.css";
+            $this->css[] = "/node_modules/medium-editor/dist/css/themes/beagle.css";// id="medium-editor-theme
+            $this->css[] = "http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css";
+
+            $this->js[] = "/node_modules/medium-editor/dist/js/medium-editor.js";
+            $this->js[] = "/node_modules/medium-editor-insert-plugin/dist/js/medium-editor-insert-plugin.js";
+            $this->js[] = "/node_modules/medium-editor-autolist/dist/autolist.js";
+            $this->js[] = "/node_modules/jquery-sortable/source/js/jquery-sortable-min.js";
+
+            // Unfortunately, jQuery File Upload Plugin has a few more dependencies itself - refactor it so it doesnt
+            $this->js[] = "/node_modules/blueimp-file-upload/js/vendor/jquery.ui.widget.js";
+            $this->js[] = "/node_modules/blueimp-file-upload/js/jquery.iframe-transport.js";
+            $this->js[] = "/node_modules/blueimp-file-upload/js/jquery.fileupload.js";
+
+        } else if ($name === "minimal") {
+            $this->css[] = 'https://cdn.rawgit.com/csstools/sanitize.css/b3f4d2dd/sanitize.css';
+            $this->css[] = 'https://fonts.googleapis.com/css?family=Material+Icons';
+            $this->css[] = '/css/app/base.css';
+
+            $this->js[] = 'https://cdn.jsdelivr.net/npm/handlebars@4.0.12/dist/handlebars.min.js';
+            $this->js[] = 'https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js';
+            $this->js[] = 'https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js';
+            $this->js[] = '/js/handlebars.helpers.js';
+
+		} else if ($name === "uikit") {
+			$this->css[] = 'https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.16/css/uikit.min.css';
+			$this->js[] = 'https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.16/js/uikit.min.js';
+			$this->js[] = 'https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.16/js/uikit-icons.min.js';
+			$this->partials[] = '_templates/uikit/navigation.hbp';
 
 		} else if ($name === "base") {
-			$this->js[] = "https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js";
-			$this->js[] = "/js/core.js";
-			$this->js[] = "/js/bootstrap.min.js";
-			$this->js[] = "/js/jquery-ui-1.10.0.custom.min.js";
-			$this->js[] = "/js/chosen/chosen.jquery.min.js";
-			$this->js[] = "/js/jquery.xeyes-2.0.min.js";
-			$this->js[] = "/js/bootbox.js";
-			$this->js[] = "/js/bootstrap-slider.js";
-			$this->js[] = "/js/chrome_paste.js";
-			$this->js[] = "/js/jGrowl/jquery.jgrowl.js";
-			$this->js[] = "/js/tour/bootstrap-tour-standalone.min.js";
+            $this->js[] = "https://cdn.polyfill.io/v2/polyfill.min.js";
+            // pick one icon font or make one .. having all these icon fonts is overkill
+            // $this->css[] = "https://fonts.googleapis.com/css?family=Material+Icons";
+            // $this->css[] = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css";
+            $this->css[] = 'https://fonts.googleapis.com/css?family=Roboto';
+         //   $this->head[] = '<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.3.1/css/solid.css" integrity="sha384-pofSFWh/aTwxUvfNhg+LRpOXIFViguTD++4CNlmwgXOrQZj1EOJewBT+DmUVeyJN" crossorigin="anonymous">';
+          //  $this->head[] = '<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.3.1/css/fontawesome.css" integrity="sha384-Yz2UJoJEWBkb0TBzOd2kozX5/G4+z5WzWMMZz1Np2vwnFjF5FypnmBUBPH2gUa1F" crossorigin="anonymous">';
 
-		} else if (strpos($name, ".less") !== false && strpos($name, "://") === false) { // e.g. third-party/jstree/style.css
+
+            $this->head[] = '<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/solid.css" integrity="sha384-VGP9aw4WtGH/uPAOseYxZ+Vz/vaTb1ehm1bwx92Fm8dTrE+3boLfF1SpAtB1z7HW" crossorigin="anonymous">';
+            $this->head[] = '<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/fontawesome.css" integrity="sha384-1rquJLNOM3ijoueaaeS5m+McXPJCGdr5HcA03/VHXxcp2kX2sUrQDmFc3jR5i/C7" crossorigin="anonymous">';
+
+			$this->js[] = 'https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js';
+			$this->js[] = '/js/core.js';
+			$this->js[] = '/js/bootstrap.min.js';
+			$this->js[] = '/js/jquery-ui-1.10.0.custom.min.js';
+			$this->js[] = '/js/chosen/chosen.jquery.min.js';
+			$this->js[] = '/js/jquery.xeyes-2.0.min.js';
+			$this->js[] = '/js/bootbox.js';
+			$this->js[] = '/js/bootstrap-slider.js';
+			$this->js[] = '/js/chrome_paste.js';
+			$this->js[] = '/js/jGrowl/jquery.jgrowl.js';
+			$this->js[] = '/js/tour/bootstrap-tour-standalone.min.js';
+
+        } else if (Text::startsWith($name, "plugins/")) {
+            $iterator = new DirectoryIterator(Config::get("PATH_REAL_WEBROOT") . "/{$name}");
+            foreach ($iterator as $fileinfo) {
+                $extn = $fileinfo->getExtension();
+                if ($fileinfo->isFile() && in_array($extn, ['css','js','hbt'], true)) {
+                    if ($extn==='hbt') {
+                        $this->tmpl[] = "/{$name}/" . $fileinfo->getFilename();
+                    } else {
+                        $this->$extn[] = "/{$name}/" . $fileinfo->getFilename();
+                    }
+                }
+            }
+
+		} else if (strpos($name, ".less") !== false && strpos($name, "://") === false) {
 			$this->less[] = $name;
 			$this->inlinejs[] = "var less={env:'development'};";
-			$this->js[] = "https://cdnjs.cloudflare.com/ajax/libs/less.js/3.0.1/less.min.js";
+			$this->headjs[] = "https://cdnjs.cloudflare.com/ajax/libs/less.js/3.0.1/less.min.js";
 
-		} else if (strpos($name, ".css") !== false && strpos($name, "://") === false) { // e.g. third-party/jstree/style.css
-			$this->css[] = "/css/$name";
-		} else if (strpos($name, ".css") !== false && strpos($name, "://") !== false) { // e.g. third-party/jstree/style.css
-			$this->css[] = "$name";
-		} else if (strpos($name, ".js") !== false&& strpos($name, "://") === false) { // e.g. third-party/jstree/treeview.js
-			$this->js[] = "/js/$name";
-		} else if (strpos($name, ".js") !== false&& strpos($name, "://") !== false) { // e.g. third-party/jstree/treeview.js
-			$this->js[] = "$name";
+		} else if (strpos($name, ".css") !== false) {
+            if (strpos($name, "://") !== false || strpos($name, "/css/") === 0) {
+                $this->css[] = $name;
+            } else {
+                $this->css[] = "/css/$name";
+            }
+		} else if (strpos($name, ".js") !== false) {
+            if (strpos($name, "://") !== false || strpos($name,"/js/") === 0) {
+                $this->js[] = $name;
+            } else {
+    			$this->js[] = "/js/$name";
+            }
  		} else if (strpos($name, "::") !== false) { // e.g. Text::Paginator
 			$this->helpers[] = $name;
+
 		} else if (strpos($name, ".hbt") !== false) { // e.g. index/container.hbt
 			$this->tmpl[] = $name;
+
 		} else if ($name === "init") {
 			$this->initjs[] = $param;
+
 		} else if (file_exists(Config::get('PATH_VIEW') . $name . '.hbp')) { // e.g. login/forgot
 			$tok = strtok($name,'/'); // "forgot" => (contents of login/forgot.hbp)
 			$this->partials[strtok('/')] = IO::loadFile(Config::get('PATH_VIEW') . $name . '.hbp');
-		}
+        }
 	}
 
     public function __construct($page, $action)
@@ -227,6 +294,9 @@ class View
 			},
 			"thumbnail" => function ($path, $width) {
             	return Config::get("URL") . "media/thumb/" . Text::base64_urlencode($path) . "/$width";
+            },
+            "uniq" => function ($value) {
+                return "_" . md5($value);
             }
         );
 
@@ -264,7 +334,24 @@ class View
         }
 
         $path = strtok($filename, "/");
-        $this->js[] = "/js/views/$path.js";
+        // in order to avoid this
+        // $this->js[] = "/js/views/$path.js";
+        // load the scripts and styles from the view folder and inject them into the public folder for that extension
+        $autoloadExtensions = ['css','js'];
+        $iterator = new DirectoryIterator(Config::get("PATH_VIEW") . $path);
+        foreach ($iterator as $fileinfo) {
+            $extn = $fileinfo->getExtension();
+            if (!$fileinfo->isFile() || !in_array($extn, $autoloadExtensions, true)) continue;
+            $src = Config::get('PATH_VIEW') . $path . '/' . $fileinfo->getFilename();
+            $hash = md5_file($src);
+            // rather than storing in "/{$extn}/" use a public cache folder which we can periodically clean safely
+            $outpath = Config::get("PATH_PUBLIC_CACHE") . str_replace('.', "_{$path}_{$hash}.", $fileinfo->getFilename());
+            $dest = Config::get('PATH_REAL_WEBROOT') . $outpath;
+            if (file_exists($src) && !file_exists($dest)) {
+                @copy($src, $dest);
+            }
+            $this->$extn[] = $outpath;
+        }
 
 		// function check_file($path) {
     	// return ( file_exists($path) || file_exists("{$_SERVER['DOCUMENT_ROOT']}path") );
@@ -277,6 +364,7 @@ class View
         $data["page_description"] = Config::get("APPLICATION_DESCRIPTION");
         $data["sheets"] = $this->css;
         $data["scripts"] = $this->js;
+        $data["head"] = $this->head;
         $data["headjs"] = $this->headjs;
         $data["inlinejs"] = $this->inlinejs;
         $data["less"] = $this->less;
@@ -305,7 +393,7 @@ class View
             $phpStr = LightnCandy::compile($template, array(
                 "flags" => LightnCandy::FLAG_PARENT | LightnCandy::FLAG_ADVARNAME | LightnCandy::FLAG_HANDLEBARS | LightnCandy::FLAG_RENDER_DEBUG,
                 "helpers" => $this->helpers,
-                "debug" => false,
+                "debug" => true,
                 "partials" => $this->partials,
             ));
             file_put_contents($precompiled, implode('', array('<', '?php', ' ', $phpStr, ' ', '?', '>'))); // so php tags are not recognised
@@ -329,7 +417,7 @@ class View
         $renderer = include $precompiled; // so its in the lightncandy use namespace on this file
 
         if (!isset($phpStr) || strlen($phpStr) === 0) {
-			echo "error in compiler";
+			echo "error in compiler (usually an unclosed operator)";
 		} else {
 	        echo $renderer($assoc);
 	    }
@@ -347,6 +435,11 @@ class View
 
         return $buffer;
 
+    }
+
+    public function raw($content, $type = "text/javascript") {
+        header("Content-Type: {$type}");
+        echo $content, PHP_EOL;
     }
 
     public function write($output, $params = null)

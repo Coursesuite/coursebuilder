@@ -1,0 +1,5 @@
+{{> navbar}}
+
+<main>
+	<h2>Design App goes here</h2>
+</main>

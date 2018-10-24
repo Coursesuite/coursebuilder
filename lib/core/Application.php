@@ -1,19 +1,18 @@
 <?php
 
-class Application
-{
+class Application {
     private $controller;
     private $parameters = array();
     private $controller_name;
     private $action_name;
 
-    public function __construct()
-    {
+    public function __construct() {
 
         date_default_timezone_set( 'Australia/Sydney' );
 
         $this->splitUrl();
         $this->createControllerAndActionNames();
+        $this->checkCache();
 
         if (file_exists(Config::get("PATH_CONTROLLER") . $this->controller_name . '.php')) {
 
@@ -61,13 +60,12 @@ class Application
             $this->controller->error404();
         }
     }
-    public function override_action($action)
-    {
+
+    public function override_action($action) {
         $action_name = $action;
     }
 
-    private function splitUrl()
-    {
+    private function splitUrl() {
         if (Request::get('url')) {
             $url = trim(Request::real_get('url'), '/'); // real_get replaces space with +, since $_GET urldecodes then converts plus to space automatically, which invalidates the base64 string
             $url = filter_var($url, FILTER_SANITIZE_URL);
@@ -81,8 +79,7 @@ class Application
         }
     }
 
-    private function createControllerAndActionNames()
-    {
+    private function createControllerAndActionNames() {
         if (!$this->controller_name) {
             $this->controller_name = Config::get('DEFAULT_CONTROLLER');
         }
@@ -90,5 +87,17 @@ class Application
             $this->action_name = Config::get('DEFAULT_ACTION');
         }
         $this->controller_name = ucwords($this->controller_name) . 'Controller';
+    }
+
+    private function checkCache() {
+        if (!file_exists(Config::get("PATH_REAL_WEBROOT") . Config::get("PATH_PUBLIC_CACHE"))) {
+            mkdir(Config::get("PATH_REAL_WEBROOT") . Config::get("PATH_PUBLIC_CACHE"));
+        }
+        if (Config::get("DEBUG") === true ) { // clear the public cache every so often ...
+            $age = time() - 300; // 5 minute cache
+            foreach (glob(Config::get("PATH_REAL_WEBROOT") . Config::get("PATH_PUBLIC_CACHE") . '/*') as $file) {
+                if (is_file($file) && filemtime($file) < $age) unlink($file);
+            }
+        }
     }
 }

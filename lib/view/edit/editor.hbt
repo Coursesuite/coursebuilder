@@ -1,0 +1,38 @@
+	<div class='editor-wrapper'>
+		{{#if savable}}
+		<div class='optional-toolbar flexible'>
+			<div class='grids-toolbar flex'><ul class='nav nav-pills' id='page_grid'>
+				<li class='pull-left disabled'><a href='#'>Page Grid:</a></li>
+				{{#each grids}}
+					<li{{#compare value ../grid}} class='active'{{/compare}}><a href='#' data-grid='{{value}}'>{{{label}}}</a></li>
+				{{/each}}
+			</ul></div>
+			<div class="save-toolbar">
+				<button id='content-save' class='btn btn-primary'><i class='icon-save'></i> Save</button>
+			</div>
+		</div>
+		{{/if}}
+		<div class='toolbar-buttons'>
+			<div class='btn-group'>
+			<button data-command='//insert-media//' class='btn'><i class='icon-picture'></i> Add media...</button>
+			{{#each purpose}}{{#each group}}{{#each commands}}
+			{{#if icon}}{{#unless hidden}}<button data-command='{{command}}' class='btn' title='{{text}}'><i class='{{icon}}'></i></button>{{/unless}}{{/if}}
+			{{/each}}{{/each}}{{/each}}
+			</div>
+		</div>
+		<div class='editor-surface-wrapper flexible'>
+			<div class='flex' id='ta-dom'></div>
+			<div class='command-block'><select size="20">
+			{{#each purpose}}
+			{{#each group}}
+				<optgroup label='{{label}}' class='formatter-group'>
+					{{#each commands}}
+					<option value='{{command}}'{{#if easyedit}} data-easy-edit='true'{{/if}}{{#if pilledit}} data-pill-edit='true'{{/if}}{{#compare nestable false}} data-nestable='false'{{/compare}}>{{text}}</option>
+					{{/each}}
+				</optgroup>
+				<optgroup label='' class='spacer'></optgroup>
+			{{/each}}
+			{{/each}}
+		</select>
+		</div>
+	</div>

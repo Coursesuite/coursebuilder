@@ -1,0 +1,11 @@
+<h3>Add a new course</h3>
+{{#each templates}}
+<button selector data-selection='{{name}}' data-action='create-course'>
+	<img src='{{icon}}'>
+	<div>{{name}}</div>
+</button>
+{{/each}}
+<div class="drag-to-upload" onclick="document.getElementById('fileup').click()">
+	<input type="file" id="fileup" hidden>
+	<p>Drag here,<br>or click to upload</p>
+</div>

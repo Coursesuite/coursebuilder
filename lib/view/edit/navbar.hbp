@@ -1,0 +1,37 @@
+<header>
+    <div class="logo-narrow">
+        <a class="brand" href="/"><img src="/css/coursesuite-white.svg" width="30" height="30" title="another CourseSuite app"></a>
+        <div class="watchin"><div class="eyeball"><div class="iris"></div></div><div class="eyeball"><div class="iris"></div></div></div>
+    </div>
+    <div class="details" leftmargin>
+        <div class="course-name">{{course.name}}</div>
+        <div class="menu-items">
+            <a href='/app/edit/template/{{context}}/'{{#equals action "template"}} class='selected'{{/equals}}>Template</a>
+            <a href='/app/edit/index/{{context}}/'{{#equals action "index"}} class='selected'{{/equals}}>Content</a>
+            <a href='/app/edit/design/{{context}}/'{{#equals action "design"}} class='selected'{{/equals}}>Design</a>
+            <a href='/app/edit/sharing/{{context}}/'{{#equals action "sharing"}} class='selected'{{/equals}}>Sharing</a>
+            <a href='/app/edit/advanced/{{context}}/'{{#equals action "advanced"}} class='selected'{{/equals}}>Advanced settings</a>
+        </div>
+    </div>
+    <div class="actions">
+
+        <label class="dd" leftmargin>
+            <div class="dd-button">Actions</div>
+
+            <input type="checkbox" class="dd-input" id="test">
+
+            <ul class="dd-menu">
+            <li><a href='#' data-action='preview'><i class="material-icons">airplay</i> Preview</a></li>
+            <li><a href='#' data-action='publish'><i class="material-icons">cloud_upload</i> Publish</a></li>
+            <li><a href='#' data-action='download'><i class="material-icons">archive</i> Download</a></li>
+            <li class="divider"></li>
+            <li><a href='#' data-action='close'><i class="material-icons">close</i> Close</a></li>
+            <li class="divider"></li>
+            <li><a href='#' data-action='logout'><i class="material-icons">lock</i> Log Out</a></li>
+            </ul>
+        </label>
+
+        <button transparent data-action="documentation" title='Documentation'><i class="material-icons">help</i></button>
+
+    </div>
+</header>

@@ -1,0 +1,23 @@
+{{> navbar}}
+
+<main>
+	<h2>Pick the template that this course is based on</h2>
+
+	<span class="material-icons">view_compact</span>
+
+<span class="material-icons">table_chart</span>
+<span class="material-icons">vertical_split</span>
+<span class="material-icons">view_agenda</span>
+
+<span class="material-icons">view_array</span>
+<span class="material-icons">view_carousel</span>
+<span class="material-icons">view_column</span>
+<span class="material-icons">view_day</span>
+<span class="material-icons">view_list</span>
+
+<span class="material-icons">view_quilt</span>
+<span class="material-icons">view_module</span>
+
+<span class="material-icons">view_week</span>
+
+</main>

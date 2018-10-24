@@ -1,0 +1,5 @@
+{{> navbar}}
+
+<main>
+	<h2>Share this course with others</h2>
+</main>
