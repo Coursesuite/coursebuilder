@@ -16,6 +16,7 @@ window.CourseBuildr = {
 	"Media": {
 		"Actions": { {{#each media.actions}}"{{name}}":{{{json_encode .}}},{{/each}}"null":null }
 	}{{/if}}{{#if course}},
-	"Course": {{{json_encode course}}}
+	"Course": {{{json_encode course}}},
+	"Toolbar": {{{json_encode toolbarjson}}},
 	{{/if}}
 }

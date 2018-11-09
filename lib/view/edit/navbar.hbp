@@ -1,6 +1,5 @@
 <header>
     <div class="logo-narrow">
-        <a class="brand" href="/"><img src="/css/coursesuite-white.svg" width="30" height="30" title="another CourseSuite app"></a>
         <div class="watchin"><div class="eyeball"><div class="iris"></div></div><div class="eyeball"><div class="iris"></div></div></div>
     </div>
     <div class="details" leftmargin>

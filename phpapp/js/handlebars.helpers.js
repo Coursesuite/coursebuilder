@@ -1,3 +1,12 @@
+// so you have a template on the page with id = name, you want to compile then apply it
+// cache the compiled version
+Handlebars.getRuntimeTemplate = function (name, obj) {
+  if (!Handlebars.templates[name]) {
+    Handlebars.templates[name] = Handlebars.compile(document.getElementById(name).innerHTML);
+  }
+  return Handlebars.templates[name](obj);
+}
+
 // Extend Handlebars so there's a neat loader, since we will keep our layouts in the same folder
 // assume .txt extension to avoid possible mimetype serve issues with other extensions
 Handlebars.getTemplate = function(name) {
@@ -119,6 +128,15 @@ Handlebars.registerHelper('compare', function (lvalue, operator, rvalue, options
         return options.inverse(this);
     }
 });
+
+Handlebars.registerHelper("isin", function(ar, value, options) {
+	if (typeof ar !== 'array') ar = ar.split(",");
+    if (ar.indexOf(value)!==-1) {
+        return options.fn(this);
+    } else {
+        return options.inverse(this);
+    }
+})
 
 Handlebars.registerHelper('morethanone', function(node, property, options) {
 	if (node && property && node.hasOwnProperty(property) && node[property].length > 1) {

@@ -1,18 +1,46 @@
-<div id="pilleditModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="tabeditModal1" aria-hidden="true">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h3 id="tabeditModal1">Tabs / Accordions</h3>
-  </div>
-  <div class="modal-body">
-	<p>Each tab represents a page or item. Click them to to edit, or <a href="#add" id="pillAdd" class="btn btn-mini"><i class="icon-plus-sign"></i> add another item</a>.</p>
-	<ul class="nav nav-tabs" id="tabClickers">
+{{!-- the contents of the wrapper div are moved into the modal element before it is shown. --}}
+<div id="pill-edit-modal" aria-hidden="true">
+  <div class="pill-edit-modal">
+    <header>
+      <h3>{{header}}</h3>
+      <p>{{{intro}}}</p>
+    </header>
 
-	</ul>
-	<div class="tab-content" id="tabContent">
-	</div>
-  </div>
-  <div class="modal-footer">
-	<button class='btn btn-primary' data-dismiss='modal' aria-hidden='true'>Save</button>
-	<button class='btn' data-dismiss='modal' aria-hidden='true'>Cancel</button>
+    {{#isin "bullets,numbers" kind}}
+        <p>List type:
+          <label><input type='radio' value='bullets' name='modifier'{{#compare kind "bullets"}} checked{{/compare}}> Bullets</label>
+          <label><input type='radio' value='numbers' name='modifier'{{#compare kind "numbers"}} checked{{/compare}}> Numbers</label>
+        </p>
+    {{/isin}}
+
+    {{#compare kind "slidebox"}}
+        <p>Orientation:
+          <label><input type='radio' value='horizontal' name='modifier'{{#compare modifier "horizontal"}} checked{{/compare}}> Horizontal</label>
+          <label><input type='radio' value='vertical' name='modifier'{{#compare modifier "vertical"}} checked{{/compare}}> Vertical</label>
+        </p>
+    {{/compare}}
+
+    <div class="pill-edit-content">
+      <ul class="pill-edit-tabs">
+      {{#each tabs}}
+        <li sortable data-pageid="{{id}}"><span class="pill-edit-tab"><a href="#" data-action="select-tab" data-target="#pillEditTab{{@index}}">{{label}}</a><a href="#" data-action="remove-tab" data-target="pillEditTab{{@index}}">&times;</a></span></li>
+      {{/each}}
+        <li class="f1"><span class="pill-edit-gap">&nbsp;</span></li>
+        <li><span class="pill-edit-tab"><a href="#" data-action="add-tab">&plus;</a></span></li>
+      </ul>
+
+      {{#each tabs}}
+      <div class="pill-edit-bodies" id="pillEditTab{{@index}}" hidden>
+        {{#isin "bullets,numbers" ../kind}}{{else}}
+        <p>Label: <input type='text' value='{{label}}'></p>
+        {{/isin}}
+        <textarea>{{{content}}}</textarea>
+      </div>
+      {{/each}}
+    </div>
+    <footer>
+      <button data-modal-action='cancel' transparent>Cancel</button>
+    	<button data-modal-action='save' data-modal-kind="{{kind}}" data-modal-command="{{command}}">Save {{command}}</button>
+    </footer>
   </div>
 </div>

@@ -2,15 +2,28 @@
 
 	Context.Quizzard = (function (ctx) {
 		var This = ctx;
-		var _data = {};
+		var _data = {},
+			_tree = {};
 
 		return {
 			Init: _init
 		}
 
-		function _init(obj) {
-			_data = obj;
+		function _create() {
+		}
 
+		function _init(treeObj) {
+			_tree = treeObj;
+			_data = _tree.CurrentModel();
+
+			$("#editor").html(Handlebars.getCompiledTemplate("/plugins/Ninjitsu/editor", {}));
+			_create();
+
+			if (_data.editorId === "edit-area") {
+				_apply_model(); // score, template, etc - global editor stuff
+			}
+
+			console.log("quizzard init completed");
 		}
 
 	})(Context);

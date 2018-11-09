@@ -14,4 +14,5 @@ class Config
         }
         return self::$config[$key];
     }
+
 }

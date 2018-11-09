@@ -61,7 +61,7 @@ $(function () {
 	}
 
 	var shiftHeld = false;
-	
+
 	// bootstrap doesn't know which button closes a modal, so tag the div
 	$("div[role='dialog'] .modal-footer button").each(function (index, el) {
 		var $el = $(el);
@@ -81,7 +81,7 @@ $(function () {
     			e.preventDefault();
     		}
 		});
-	
+
 	var _current_xml;
 	$.get("/engine/action.asp?id=" + _courseid + "&action=ajax_loadfix_pagesxml", function (data) {
 		$.cachedScript("/engine/pages/edit/nav.xmltree.js").done(function() {
@@ -92,11 +92,11 @@ $(function () {
 	// interface building happens when you click a tab
 	$("#tabs").tabs({
 		activate: function(event, ui) {
-		
+
 			$("div[id^='tabs-']:not(#tabs-1)").empty();
-			
+
 			// CRITICAL! unbind everthing bound by "on" inside this tab, if any.
-			$("div[id^='tabs-']").each(function(){$(this).off();}); 
+			$("div[id^='tabs-']").each(function(){$(this).off();});
 
 			/*
 			 * Edit course settings (raw property editor)
@@ -128,7 +128,7 @@ $(function () {
 			/*
 			 * Content edit screen
 			 */
-				
+
 			} else if ( ui.newTab.index() == enTabs.Content) { // edit content
 
 				$.cachedScript("/engine/pages/edit/tab.content.js").done(function() {
@@ -138,7 +138,7 @@ $(function () {
 			/*
 			 * Quiz edit screen
 			 */
-				
+
 			} else if ( ui.newTab.index() == enTabs.Quiz) { // edit content
 
 				$.cachedScript("/engine/pages/edit/tab.quiz.js").done(function() {
@@ -150,7 +150,7 @@ $(function () {
 				$.cachedScript("/engine/pages/edit/tab.overrides.js").done(function() {
 					__init__overrides();
 				});
-				
+
 			}
 
 			/*
@@ -166,7 +166,7 @@ $(function () {
 	$(document).ajaxError(function(e, xhr, settings, exception) {
 		if (_debug) $.jGrowl('Error in: ' + settings.url + ' \n'+'error:\n' + xhr.responseText );
 	});
-	
+
 	// click on the tab indicated by the hash, if possible
 	if (location.hash.length && location.hash.indexOf("#tabs-") !==-1) {
 		$("#tabs").tabs( "option", "active", location.hash.replace("#tabs-",""));
@@ -232,7 +232,7 @@ function doEditCommand(obj,region) {
 	var justcommand = command.split(" ")[0].replace(/\{/,"");
 
 	// console.log("doeditcommand", obj,region);
-	
+
 	// unset selection from the control that told us what to do
 	obj.selectedIndex = 0;
 
@@ -241,24 +241,24 @@ function doEditCommand(obj,region) {
 		alert("You need to select some text first...");
 		return;
 	}
-	
+
 	// popWindow called with various parameters to tell ASP file how to draw itself
 	if (_easyedit) {
-	
+
 		show_dialogue_easyedit(command, region);
 
 	} else if (_pilledit) {
-	
+
 		show_dialogue_pilledit(command, region);
-		
+
 	} else if (command.indexOf("%ref%") != -1) {
-		
+
 		show_dialogue_references(region);
 
 	} else if (command.indexOf("%term%") != -1) {
-	
+
 		show_dialogue_glossary(region);
-		
+
 	} else if (command.indexOf("zoom") != -1) {
 
 		popWindow({
@@ -294,14 +294,14 @@ function doEditCommand(obj,region) {
 			command: "clickimage",
 			areaid: region
 		});
-		
+
 	} else if (command.indexOf("%images%") != -1) {
 
 		popWindow({
 			command: "rightimages",
 			areaid: region
 		});
-		
+
 	} else if (command.indexOf("%anchor%") != -1) {
 
 		popWindow({
@@ -438,10 +438,10 @@ function doEditCommand(obj,region) {
 			areaid: region,
 			selection: selection.text
 		});
-		
+
 	} else if (command.indexOf("%link%") != -1) {
-		
-		var r = window.prompt("Paste in the URL to link to", "http://www.google.com/"); 
+
+		var r = window.prompt("Paste in the URL to link to", "http://www.google.com/");
 		if (r != null) {
 			replace_selection(region, command.replace("%link%", r).replace("%selection%", selection.text));
 		}
@@ -451,7 +451,7 @@ function doEditCommand(obj,region) {
 				replace_selection(region, command.replace("%link%", r).replace("%selection%", selection.text));
 			}
 		}); */
-		
+
 	} else if (command.indexOf("%xml%") != -1) {
 
 		popWindow({
@@ -493,7 +493,7 @@ function doEditCommand(obj,region) {
 		replace_selection(region, command.replace("%selection%",selection.text));
 
 	} else if (command == "//convertBLOCK//") {
-	
+
 		$.post("/engine/action.asp?id=" + _courseid + "&action=ajax_convertblock", {
 			filename: _editing_file,
 			content: get_selection(region).text
@@ -552,16 +552,16 @@ function doEditCommand(obj,region) {
 
 	} else if (command == "//insert-media//") {
 		MediaOverlay.Show(_courseid, region, selection.text);
-		
+
 	} else {
 
 		// catch everything else and just dump the command value onto the selection / cursor
 		replace_selection(region, command);
-		
+
 	}
-	
+
 	retriggerHighlighter(region);
-	
+
 }
 
 // method (called by doEditCommand and from image selection popup) to re-bind the colouring after the content changes
@@ -634,7 +634,7 @@ function openWindow(command, selection, containerid, returnmode) {
 }
 
 // prompt the user if they need to save
-function setConfirmUnload(on) {   
+function setConfirmUnload(on) {
 	window.onbeforeunload = (on) ? unloadMessage : null;
 }
 
@@ -648,12 +648,12 @@ function unloadMessage() {
 function makeClean() {
 	$("#toXML").removeClass("ui-button-warning").addClass("ui-button-success").html("<i class='icon-save'></i> Nav saved");
 	setConfirmUnload(false);
-	
+
 	_revisions = 0; // reset number of revisions so that navtree revision check starts afresh
 	$("#revised").hide(); // because it's no longer a valid status
 
 	$(document).trigger("navtree.revisions");
-	
+
 }
 
 // set the dirty flag on window unload (prompts user to confirm no-save)
@@ -682,8 +682,8 @@ function handleSave() {
 		.replace(/<\/li\ \/>/g,"</page>")
 		.replace(/<\/page\ \/>/g,"</page>")
 		.replace(/\ id\=\"_/g," id=\"");
-		
-		
+
+
 	$.post("/engine/action.asp?id=" + _courseid + "&action=ajaxSavePagesXML", {
 		xml: html
 	}, function (data) {
@@ -718,7 +718,7 @@ function processPages(obj){
         t.children().each(processPages);
         htmlTree.push('</ul>');
     }else{
-       htmlTree.push('</li>'); 
+       htmlTree.push('</li>');
     }
 }
 
@@ -767,7 +767,7 @@ function replace_selection(the_id,replace_str) {
 			set_selection(the_id,start_pos,end_pos);
 	    	document.execCommand("insertText", false, replace_str);
 	    }
-	    
+
 	} else {
     	e.value = e.value.substr(0, start_pos) + replace_str + e.value.substr(selection.end, e.value.length);
 		set_selection(the_id,start_pos,end_pos);
@@ -819,7 +819,7 @@ function wrap_selection(the_id, left_str, right_str, sel_offset, sel_length) {
 
 if(typeof String.prototype.trim !== 'function') {
   String.prototype.trim = function() {
-    return this.replace(/^\s+|\s+$/g, ''); 
+    return this.replace(/^\s+|\s+$/g, '');
   }
 }
 
@@ -847,102 +847,110 @@ function checkIfWeNeedToExpandTheSelection(el) {
 	}
 }
 
-(function($) {
-
-    function pasteIntoInput(el, text) {
-        el.focus();
-        if (typeof el.selectionStart == "number") {
-            var val = el.value;
-            var selStart = el.selectionStart;
-            el.value = val.slice(0, selStart) + text + val.slice(el.selectionEnd);
-            el.selectionEnd = el.selectionStart = selStart + text.length;
-        } else if (typeof document.selection != "undefined") {
-            var textRange = document.selection.createRange();
-            textRange.text = text;
-            textRange.collapse(false);
-            textRange.select();
-        }
+function pasteIntoInput(el, text) {
+    el.focus();
+    if (typeof el.selectionStart == "number") {
+        var val = el.value;
+        var selStart = el.selectionStart;
+        el.value = val.slice(0, selStart) + text + val.slice(el.selectionEnd);
+        el.selectionEnd = el.selectionStart = selStart + text.length;
+    } else if (typeof document.selection != "undefined") {
+        var textRange = document.selection.createRange();
+        textRange.text = text;
+        textRange.collapse(false);
+        textRange.select();
     }
+}
 
-    function allowTabChar(el) {
-        $(el).keydown(function(e) {
-            if (e.which == 9) {
-                pasteIntoInput(this, "\t");
-                return false;
-            }
-        });
+// (function($) {
 
-        // For Opera, which only allows suppression of keypress events, not keydown
-        $(el).keypress(function(e) {
-            if (e.which == 9) {
-                return false;
-            }
-        });
-    }
 
-    $.fn.allowTabChar = function() {
-        if (this.jquery) {
-            this.each(function() {
-                if (this.nodeType == 1) {
-                    var nodeName = this.nodeName.toLowerCase();
-                    if (nodeName == "textarea" || (nodeName == "input" && this.type == "text")) {
-                        allowTabChar(this);
-                    }
-                }
-            })
-        }
-        return this;
-    }
-    
-    $.fn.attachEditor = function () {
-	    this.each(function () {
-		    if (this.nodeType == 1) {
-			    if (this.nodeName.toLowerCase() == "textarea") {
-			    	var $textarea = $(this), _loaded = false, _id = $textarea.uniqueId().attr("id");
-		    		if (_loaded === false) {
 
-			    		var where = this.parentNode,
-			    			tmpl = Handlebars.compile(document.querySelector("#editor-template").innerHTML),
-			    			data = toolbarjson;
-			    	//	console.log(where, _id);
-			    		data["savable"] = (_id === "edit-area");
-			    		if (!data.savable) {
-				    		data.purpose[1].group[1].commands[8]["hidden"] = true;
-				    		data.purpose[1].group[1].commands[9]["hidden"] = true;
-				    		data.purpose[2].group[0].commands[12]["hidden"] = true;
-			    		}
-	//		    		console.log("data",data);
+    // function allowTabChar(el) {
+    // 	console.info("allow tab char");
+    //     $(el).keydown(function(e) {
+    //         if (e.which == 9) {
+    //             pasteIntoInput(this, "\t");
+    //             return false;
+    //         }
+    //     });
 
-			    		var dom = document.createRange().createContextualFragment(tmpl(data)); // innerhtml -> dom node
-			    		dom.querySelector("#ta-dom").appendChild(this); // move node
-			    		where.appendChild(dom);
+    //     // For Opera, which only allows suppression of keypress events, not keydown
+    //     $(el).keypress(function(e) {
+    //         if (e.which == 9) {
+    //             return false;
+    //         }
+    //     });
+    // }
 
-			    		_loaded = true;
+    // $.fn.allowTabChar = function() {
+    // 	console.info("allow tab char fn");
+    //     if (this.jquery) {
+    //         this.each(function() {
+    //             if (this.nodeType == 1) {
+    //                 var nodeName = this.nodeName.toLowerCase();
+    //                 if (nodeName == "textarea" || (nodeName == "input" && this.type == "text")) {
+    //                     allowTabChar(this);
+    //                 }
+    //             }
+    //         })
+    //     }
+    //     return this;
+    // }
 
-				    	$textarea
-							.attr("wrap","soft")
-							.allowTabChar()
-				    		.on("select", function(event) {
-					    		checkIfWeNeedToExpandTheSelection(this);
-				    		})
-				    		.highlightTextarea();
-			    		
-			    		$(".command-block select", where).on("change", function() {
-							doEditCommand(this, _id);
-							this.selectedIndex = -1;
-			    		});
-			    		$(".toolbar-buttons button[data-command]", where).on("click", function(e) {
-				    		e.preventDefault();
-				    		$(".command-block select", where).val($(this).attr("data-command")).trigger("change");
-			    		});
+//     $.fn.attachEditor = function () {
+//     	console.info("attach editor fn");
+// 	    this.each(function () {
+// 		    if (this.nodeType == 1) {
+// 			    if (this.nodeName.toLowerCase() == "textarea") {
+// 			    	var $textarea = $(this), _loaded = false, _id = $textarea.uniqueId().attr("id");
+// console.info("loaded is false inside attach editor");
+// 		    		if (_loaded === false) {
 
-		    		}
-				}
-		    }
-	    });
-	    return this;
-    }
-})(jQuery);
+// 			    		var where = this.parentNode,
+// 			    			tmpl = Handlebars.compile(document.querySelector("#editor-template").innerHTML),
+// 			    			data = toolbarjson;
+// 			    		console.log(where, _id);
+// 			    		data["savable"] = (_id === "edit-area");
+// 			    		if (!data.savable) { // what are these? probably accordion, bullets, etc
+// 				    		data.purpose[1].group[1].commands[8]["hidden"] = true;
+// 				    		data.purpose[1].group[1].commands[9]["hidden"] = true;
+// 				    		data.purpose[2].group[0].commands[12]["hidden"] = true;
+// 			    		}
+
+// 			    		var dom = document.createRange().createContextualFragment(tmpl(data)); // innerhtml -> dom node
+// 			    		dom.querySelector("#ta-dom").appendChild(this); // move node
+// 			    		where.appendChild(dom);
+
+// 			    		_loaded = true;
+
+// 				    	$textarea
+// 							.attr("wrap","soft")
+// 							.allowTabChar()
+// 				    		.on("select", function(event) {
+// 					    		checkIfWeNeedToExpandTheSelection(this);
+// 				    		})
+// 				    		.highlightTextarea();
+
+// 			    		$(".command-block select", where).on("change", function() {
+// 			    			console.info("command block select change", this);
+// 							doEditCommand(this, _id);
+// 							this.selectedIndex = -1;
+// 			    		});
+// 			    		$("button[data-command]", where).on("click", function(e) {
+// 			    			console.info(".toolbar-buttons button[data-command]", this);
+// 				    		e.preventDefault();
+// 				    		$(".command-block select", where).val($(this).attr("data-command")).trigger("change");
+// 			    		});
+
+// 		    		}
+// 				}
+// 		    }
+// 	    });
+// 	    return this;
+//     }
+
+// })(jQuery);
 
 // return function called from /engine/pages/list/init.js to populate the selected image in the layout interface
 function setting_SelectImage(path, obj) {
@@ -974,7 +982,7 @@ function saveQuiz(fn) {
 				$obj = $(qObj),
 				data = {},
 				type = $obj.attr("data-question-type");
-				
+
 			data["type"] = type;
 			data["id"] = "q" + pIndex + "." + qIndex;
 			if ($(":input[data-attribute='randomize']",$obj).length) {
@@ -1023,7 +1031,7 @@ function saveQuiz(fn) {
 			data["review"] = $(":input[data-attribute='review']",$obj).val();
 			questions.push(data);
 		});
-		
+
 		// add the current questions to the pool
 		pools.push({
 			deliver: $(":input[data-id='questionPool." + pIndex + ".deliver']").val(),
@@ -1031,9 +1039,9 @@ function saveQuiz(fn) {
 			question: questions
 		});
 	});
-	
+
 	// console.log("inputs with data ids", $(":input[data-id]"));
-	
+
 	// create the test object container that contains the entire test
 	var oJson = {
 		"test": {
@@ -1059,9 +1067,9 @@ function saveQuiz(fn) {
 			questionPool: pools
 		}
 	}
-	
+
 	// console.log("generating xml to save", oJson);
-	
+
 	// Generate the XML using a Handlebars template (shortcut)
 	var xml = Handlebars.getCompiledTemplate("tabs/quiz/quizxml",oJson).split("\n").map($.trim).filter(function(line) { return line != "" }).join("\n");
 
@@ -1110,22 +1118,22 @@ function enable_drag_image_to_editor(container) {
 	});
 }
 
-	
+
 function show_dialogue_glossary(editor) {
 
 	function showTermEditor(event, ui) {
-	
+
 		var _editObj = $("#termEdit"),
 			_tagObj = $("#termTags");
 		_editObj.show();
 		_tagObj.hide();
-	
+
 		var li = $(event.srcElement).closest("li"),
 			tagLabel = ui.tagLabel,
 			inpTerm = $("input[name='term']", _editObj),
 			inpDefn = $("textarea", _editObj),
 			obj = find_in_json(__glossary_json.terms, "term", tagLabel)[0];
-	
+
 		if (typeof obj !== "undefined") {
 			inpTerm.val(obj.term);
 			inpDefn.val(obj.definition);
@@ -1133,7 +1141,7 @@ function show_dialogue_glossary(editor) {
 			inpTerm.val(tagLabel);
 			inpDefn.val("");
 		}
-	
+
 		$("input[type='button']", _editObj).unbind("click").click(function () {
 			li.removeClass("tagit-selected");
 			var current_text = inpTerm.val(),
@@ -1152,10 +1160,10 @@ function show_dialogue_glossary(editor) {
 				});
 				_tagObj.tagit("createTag", current_text, "", true, true);
 			}
-	
+
 			_editObj.hide();
 			_tagObj.show();
-	
+
 		});
 	}
 
@@ -1255,7 +1263,7 @@ function show_dialogue_glossary(editor) {
 			});
 	});
 }
-	
+
 function show_dialogue_references(editor) {
 
 	$("#dialogue-references").remove();
@@ -1330,8 +1338,8 @@ function show_dialogue_references(editor) {
 
 								$this.dialog("close");
 								$.jGrowl("The references have been saved.");
-								
-								
+
+
 							} else {
 								alert("Something stuffed up saving the references. Check the console.");
 								console.log("Error saving references", ret);
@@ -1349,9 +1357,9 @@ function show_dialogue_references(editor) {
 		})
 	});
 }
-	
+
 function show_dialogue_help() {
-	
+
 	$("#dialogue-help").remove();
 	$("<div />")
 		.attr({
@@ -1410,10 +1418,10 @@ function show_dialogue_easyedit(command, region) {
 				"title":"Insert a list of items"
 			})
 			.appendTo("body");
-		
+
 	$("<p>").text("Each line you enter below will be turned into a number or bullet").appendTo(dlg);
 	$("<textarea>").attr({"wrap":"off","rows":8,"class":"input-block-level"}).appendTo(dlg);
-		
+
 	dlg.dialog({
 		modal: true,
 		maxHeight: $(window).height() - 100,
@@ -1447,7 +1455,7 @@ function show_dialogue_easyedit(command, region) {
 }
 
 function show_dialogue_pilledit(command, region) {
-	
+
 	$("#pill-edit").remove();
 	var selection = get_selection(region),
 		dlg = $("<div />")
@@ -1469,7 +1477,7 @@ function show_dialogue_pilledit(command, region) {
 		]};
 		_global_tab_count = tmplJson.tabs.length;
 	}
-	
+
 	dlg
 		.html(Handlebars.getCompiledTemplate("tabs/content/pilledit", tmplJson))
 		.dialog({
@@ -1552,7 +1560,7 @@ function show_dialogue_pilledit(command, region) {
 				}
 			}
 		});
-	
+
 }
 
 // in pill-edit-modal, clicking add (or initalising) adds a tab, based on the filename of the current select object

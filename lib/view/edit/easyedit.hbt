@@ -1,5 +1,68 @@
-<div id="easyeditModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel4" aria-hidden="true">
-  <div class="modal-header">
+{{!-- the contents of the wrapper div are moved into the modal element before it is shown. --}}
+<div id="pill-edit-modal" aria-hidden="true">
+  <div class="pill-edit-modal">
+    <header>
+      <h3>Tabs / Accordions</h3>
+      <p>Each tab represents a page or item. Click to edit contents, drag to re-order, &times; twice to remove an item, &plus; to add item. When saved, tabs will be stored as hidden sub-pages of the current navigation selection.</p>
+    </header>
+    <div class="pill-edit-content">
+      <ul class="pill-edit-tabs">
+      {{#each tabs}}
+        <li sortable data-pageid="{{id}}"><span class="pill-edit-tab"><a href="#" data-action="select-tab" data-target="#pillEditTab{{@index}}">{{label}}</a><a href="#" data-action="remove-tab" data-target="pillEditTab{{@index}}">&times;</a></span></li>
+      {{/each}}
+        <li class="f1"><span class="pill-edit-gap">&nbsp;</span></li>
+        <li><span class="pill-edit-tab"><a href="#" data-action="add-tab">&plus;</a></span></li>
+      </ul>
+
+      {{#each tabs}}
+      <div class="pill-edit-bodies" id="pillEditTab{{@index}}" hidden>
+        <p>Label: <input type='text' value='{{label}}'></p>
+        <textarea>{{{content}}}</textarea>
+      </div>
+      {{/each}}
+    </div>
+    <footer>
+      <button data-modal-action='cancel' transparent>Cancel</button>
+      <button data-modal-action='save'>Save</button>
+    </footer>
+  </div>
+</div>
+
+<div id="easy-edit-modal" aria-hidden="true">
+  <div class="pill-edit-modal">
+    <header>
+      <h3>Quick Edit</h3>
+      <p>Choose</p>
+    </header>
+
+
+Sequence Editor
+
+[bullet] [numbers] [slidebox] []
+
+
+
+    <div class="pill-edit-content">
+      <ul class="pill-edit-tabs">
+      {{#each tabs}}
+        <li sortable data-pageid="{{id}}"><span class="pill-edit-tab"><a href="#" data-action="select-tab" data-target="#pillEditTab{{@index}}">{{label}}</a><a href="#" data-action="remove-tab" data-target="pillEditTab{{@index}}">&times;</a></span></li>
+      {{/each}}
+        <li class="f1"><span class="pill-edit-gap">&nbsp;</span></li>
+        <li><span class="pill-edit-tab"><a href="#" data-action="add-tab">&plus;</a></span></li>
+      </ul>
+
+      {{#each tabs}}
+      <div class="pill-edit-bodies" id="pillEditTab{{@index}}" hidden>
+        <p>Label: <input type='text' value='{{label}}'></p>
+        <textarea>{{{content}}}</textarea>
+      </div>
+      {{/each}}
+    </div>
+    <footer>
+      <button data-modal-action='cancel' transparent>Cancel</button>
+      <button data-modal-action='save'>Save</button>
+    </footer>
+
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h3 id="myModalLabel4">List</h3>
   </div>

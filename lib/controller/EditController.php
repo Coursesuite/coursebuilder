@@ -98,17 +98,28 @@ class EditController extends Controller
         $this->View->requires("/css/app/navbar.css");
 
         // $this->View->requires("edit/treeview.hbt");
+        // tree view
         $this->View->requires("https://cdn.jsdelivr.net/npm/jstree@3.3.5/dist/jstree.min.js");
         $this->View->requires("https://cdn.jsdelivr.net/npm/jstree@3.3.5/dist/themes/default/style.min.css");
-        $this->View->requires("/css/node_modules/material-icons-css/css/material-icons.min.css");
 
-        //$this->View->requires("edit/editor.hbt");
-        $this->View->requires("https://unpkg.com/split.js/split.min.js");
-        //$this->View->requires("edit/easyedit.hbt");
-        //$this->View->requires("edit/pilledit.hbt");
-
-        $this->View->requires("plugins/Ninjitsu");
+        // drag and drop file library
         $this->View->requires("https://cdn.jsdelivr.net/npm/filedrop@2.0.0/filedrop.min.js");
+
+        // for now we have a mix of material-icons and font-awesome-5
+        $this->View->requires("/css/node_modules/material-icons-css/css/material-icons.min.css");
+        $this->View->requires("https://use.fontawesome.com/releases/v5.4.1/css/all.css");
+
+        // a modal handler for drawing dialogues (stored in the runtime handlebars templates)
+        $this->View->requires("https://unpkg.com/vanilla-modal@1.6.5/dist/index.js");
+        $this->View->requires("https://unpkg.com/sortablejs@1.7.0/Sortable.min.js");
+        // $this->View->requires("edit/easyedit.hbt");
+        $this->View->requires("edit/pilledit.hbt");
+
+        // splitter panes
+        $this->View->requires("https://unpkg.com/split.js");
+
+        // plugins
+        $this->View->requires("plugins/Ninjitsu");
         // $this->View->requires("plugins/MediumEditor");
         // $this->View->requires("medium-editor");
         $this->View->requires("plugins/Quizzard");
@@ -147,7 +158,8 @@ class EditController extends Controller
             "context" => $context,
             "tier" => Session::CurrentTier(),
             "mycontainers" => Session::User()->containers,
-            "course" => (new CourseModel($context))->get_model()
+            "course" => (new CourseModel($context))->get_model(),
+            "toolbarjson" => IO::loadJSON(Config::get("PATH_REAL_WEBROOT") . "/plugins/Ninjitsu/toolbar.json")
         );
         $this->View->render("_templates/appjs", $model, null, null, false, "text/javascript");
     }
@@ -288,11 +300,14 @@ class EditController extends Controller
                 break;
 
             case "page.save":
+                // var_dump($_POST);
                 $row = Request::rowint('id');
                 $obj = new PageModel($row);
                 if ($obj->loaded()) {
-                    $obj->content = Request::post("content"); // might contain base64 elements
+                    $obj->set_model($_POST); // ugh
                     $obj->save();
+                //     $obj->content = Request::post("content"); // might contain base64 elements
+                //     $obj->save();
                 }
                 $result->status = "ok";
                 break;

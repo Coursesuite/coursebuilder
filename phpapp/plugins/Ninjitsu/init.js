@@ -2,79 +2,103 @@
 
 	Context.Ninjitsu = (function (ctx) {
 		var This = ctx;
+		var _tree = {};
 		var _data = {};
 
 		return {
-			Init: _init
+			Init: _init,
+			Save: _save
 		}
 
-		function _create(value, $tab_body) {
-			var page_editor = $("<textarea id='edit-area'></textarea>")
-	    		.text(value)
-				.appendTo($tab_body)
+		// set up the controls and bindings for the editor
+		function _create() {
+			var page_editor = $("<textarea></textarea>")
+				.attr("id", _data.editorId)
+	    		.text(_data.model.content)
+	    		.on("input", makeDirty)
+				.appendTo(document.getElementById(_data.attachTo))
 				.attachEditor();
 
+			_enable_drag_n_drop(_data.editorId);
+
+		}
+
+		// enable a drag-to-editor to do something
+		function _enable_drag_n_drop(container) {
 			window.fd.logging = false;
-			var dz = new FileDrop('edit-area',{input: false});
+			var dz = new FileDrop(container,{input: false});
 			dz.event('send', function (files) {
 				files.each(function(file) {
-					console.dir(file);
 					file.event('done', function(xhr) {
-						console.dir(xhr);
 					    if (file.type.indexOf("image/")!==-1) {
 					        replace_selection(container, "{image box-shadow|" + file.name + "}");
 					    } else {
-						   //  replace_selection(container, "{external " + file.name + "|link to file}")
 						    replace_selection(container, "{linkref hyperlink-text|" + file.name + "}");
 					    }
 					});
 					file.sendTo('/app/edit/action/' + window.CourseBuildr.Course.id + '/file.dnd/');
 				});
 			});
-
-		 // 	jQuery("#edit-area").filedrop({
-			//     fallback_id: 'manual_upload_off',	   // an identifier of a standard file input element, becomes the target of "click" events on the dropzone
-			//     url: '/app/edit/action/' + window.CourseBuildr.Course.id + "/file.dnd/",     // upload handler, handles each file separately, can also be a function taking the file and returning a url
-			//     paramname: 'file',            // POST parameter name used on serverside to reference file, can also be a function taking the filename and returning the paramname
-			//     withCredentials: false,          // make a cross-origin request with cookies
-			//     data: {
-			//     	"stop": true
-			//     },
-			//     error: function(err, file) {
-			//     	alert(err);
-			//     	console.log("enable_drag_image_to_editor",err,file);
-			//     },
-			//     allowedfiletypes: ['image/jpeg','image/png','image/gif','application/pdf','application/x-pdf'],   // filetypes allowed by Content-Type.  Empty array means no restrictions
-			//     allowedfileextensions: ['.jpg','.jpeg','.png','.gif','.pdf'], // file extensions allowed. Empty array means no restrictions
-			//     maxfiles: 1,
-			//     maxfilesize: 20,
-			//     uploadFinished: function(i, file, response, time) {
-			// 	    if (file.type.indexOf("image/")!==-1) {
-			// 	        replace_selection(container, "{image box-shadow|" + file.name + "}");
-			// 	    } else {
-			// 		   //  replace_selection(container, "{external " + file.name + "|link to file}")
-			// 		    replace_selection(container, "{linkref hyperlink-text|" + file.name + "}");
-			// 	    }
-			//     }
-			// });
 		}
 
-		function _init(obj) {
-			_data = obj;
-			$("#editor").html(Handlebars.getCompiledTemplate("/plugins/Ninjitsu/editor", {}));
-			_create(_data.model.content, $("#tab-body"));
-
-			$("#page_grid li:not(.disabled) a").on("click", function (event) {
-				event.preventDefault();
-				$("#page_grid li:not(.disabled)").removeClass("active");
-				$(this).parent().addClass("active");
-				$editing_item.attr("template", $(this).attr("data-grid"));
-				makeDirty(true);
+		// This takes the model which was set up during _init() and
+		// populates the controls on the page.
+		function _apply_model() {
+			[
+				{control:"page-visibility", value: _data.model.visibility},
+				{control:"page-grid", value: _data.model.template},
+				{control:"page-score", value: _data.model.contribute},
+				{control:"page-navigation", value: _data.model.nav},
+			].forEach(function (obj) {
+				var el = $("a[data-action='" + obj.control + "'][data-value='" + obj.value + "']");
+				el.find("span").text("check_box");
+				el.parent().siblings().find("a>span").text("check_box_outline_blank");
 			});
+			$("input[name='page-score-value']").val(_data.model.score);
+			$("input[name='page-percentage']").val(_data.model.percentage);
+			$("input[name='page-scorm-id']").val(_data.model.scormid);
 		}
 
+		// Save applies the controls of the page to the model
+		// then calls the Save action on the tree.
 		function _save() {
-			_model.content = "";
+			[
+				{control:"page-visibility", property: "visibility"},
+				{control:"page-grid", property: "template"},
+				{control:"page-score", property: "contribute"},
+				{control:"page-navigation", property: "nav"},
+			].forEach(function (obj) {
+				$el = $("a[data-action='" + obj.control + "']").filter(function() {
+					return $(this).find("span").text() === 'check_box';
+				});
+				_data.model[obj.property] = $el.attr("data-value");
+			});
+			_data.model.score = ~~$("input[name='page-score-value']").val();
+			_data.model.percentage = ~~$("input[name='page-percentage']").val();
+			_data.model.scormid = $("input[name='page-scorm-id']").val();
+
+			// ... and the content
+			_data.model.content = $("#" + _data.editorId).val();
+
+			_tree.Actions.Save(_data.model);
+		}
+
+		// take the TREE object which has attached to it the current selection model
+		// then initialise the correct editor for the type of model
+		function _init(treeObj) {
+			_tree = treeObj;
+			_data = _tree.CurrentModel();
+			$("#editor").html(Handlebars.getCompiledTemplate("/plugins/Ninjitsu/editor", {}));
+			_create();
+			if (_data.editorId === "edit-area") {
+				_apply_model(); // score, template, etc - global editor stuff, not on tab editor, help editor etc
+				$(document).on("splitter-resize", function () {
+					// resize means recalculating the wrapper width, since it's not dynamic in the plugin
+					var w = $(".editor-surface-wrapper","#tab-body").width() - $(".command-block","#tab-body").width();
+					$("div.highlightTextarea").css("width", w + 'px');
+					$("#"+_data.editorId).highlightTextarea();
+				});
+			}
 		}
 
 	})(Context);

@@ -1,0 +1,428 @@
+{
+	"purpose": [
+		{
+			"name": "Elements",
+			"group": [
+				{
+					"label": "Images, Video & Audio",
+					"commands": [
+						{
+							"text": "right-hand images",
+							"command": "{rightimages %images%}"
+						},
+						{
+							"text": "single image",
+							"command": "{image %image%}"
+						},
+						{
+							"text": "slideshow",
+							"command": "{slideshow %effect%|%pictures%}"
+						},
+						{
+							"text": "Video (inline)",
+							"command": "{inlinevideo %videosize%|%linkurl%}",
+							"icon": "fab fa-youtube"
+						},
+						{
+							"text": "Video (fullscreen), Play button",
+							"command": "{fullscreenvideo %linkurl%}"
+						},
+						{
+							"text": "Video (fullscreen), Image button",
+							"command": "{fullscreenvideoimage %image%|%linkurl%}"
+						},
+						{
+							"text": "Captioned image",
+							"command": "{caption black|%image%|%selection%}",
+							"helper": "select",
+							"values": [
+								"black",
+								"white",
+								"theme"
+							]
+						}
+					]
+				},
+				{
+					"label": "Background images",
+					"commands": [
+						{
+							"text": "page background",
+							"command": "{pagebg %image%}"
+						},
+						{
+							"text": "grid background",
+							"command": "{gridbg %image%}"
+						},
+						{
+							"text": "column background",
+							"command": "{columnbg %image%}"
+						}
+					]
+				},
+				{
+					"label": "Data loaders",
+					"commands": [
+						{
+							"text": "load and parse external file",
+							"command": "{parse %url%}"
+						},
+						{
+							"text": "load but do not parse external file",
+							"command": "{load %url%}"
+						},
+						{
+							"text": "iframe",
+							"command": "{iframe 500|%link%}",
+							"helper": "height"
+						}
+					]
+				},
+				{
+					"label": "Utilities",
+					"commands": [
+						{
+							"text": "any html tag",
+							"command": "{tag tag|%selection%}"
+						},
+						{
+							"text": "any html tag (with css class)",
+							"command": "{tag tag.className|%selection%}"
+						},
+						{
+							"text": "clearfix",
+							"command": "{clear both}"
+						},
+						{
+							"text": "line break (br)",
+							"command": "{br}"
+						},
+						{
+							"text": "line split (p)",
+							"command": "{/}"
+						},
+						{
+							"text": "classname (inline)",
+							"command": "{wrap classname|%selection%}"
+						},
+						{
+							"text": "classname (block)",
+							"command": "{block classname|%selection%}"
+						},
+						{
+							"text": "Strip all HTML from source code",
+							"command": "//stripHTML//"
+						},
+						{
+							"text": "Strip all except BODY from source code",
+							"command": "//stripHEAD//"
+						},
+						{
+							"text": "Try to convert html automatically",
+							"command": "//convertAUTO//"
+						},
+						{
+							"text": "Insert media",
+							"command": "//insert-media//"
+						},
+						{
+							"text": "use right column",
+							"command": "{right %selection%}"
+						},
+						{
+							"text": "Convert selection to parse include",
+							"command": "//convertBLOCK//",
+							"icon": "fas fa-file-alt"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Interactions",
+			"group": [
+				{
+					"label": "Overlays & Popups",
+					"commands": [
+						{
+							"text": "lightbox popup (button)",
+							"command": "{popup %selection%|%url%}",
+							"icon": "fas fa-external-link-alt"
+						},
+						{
+							"text": "lightbox popup (text)",
+							"command": "{popuptext %selection%|%url%}"
+						},
+						{
+							"text": "tip (button)",
+							"command": "{tipbutton %selection%|title box text|tip text in here}"
+						},
+						{
+							"text": "tip (text)",
+							"command": "{tiptext %selection%|tip text in here}"
+						},
+						{
+							"text": "glossary term",
+							"command": "{term %term%}"
+						},
+						{
+							"text": "reference number",
+							"command": "{ref %ref%}"
+						}
+					]
+				},
+				{
+					"label": "Interactions",
+					"commands": [
+						{
+							"text": "fastfact",
+							"command": "{fastfact Fast Fact|%selection%}"
+						},
+						{
+							"text": "flip cards",
+							"command": "{flip front-1|rear-1|front-N|rear-N}"
+						},
+						{
+							"text": "slidebox (vertical)",
+							"command": "{slidebox vertical|text, image or url for first page|text, image or url for subsequent pages}",
+							"pilledit": true,
+							"helper": "select",
+							"values": [
+								"horizontal",
+								"vertical"
+							]
+						},
+						{
+							"text": "slidebox (horizontal)",
+							"command": "{slidebox horizontal|text, image or url for first page|text, image or url for subsequent pages}",
+							"pilledit": true,
+							"helper": "select",
+							"values": [
+								"horizontal",
+								"vertical"
+							]
+						},
+						{
+							"text": "accordion",
+							"command": "{accordion title 1|url 1|title ..|url ..|title N|url N}",
+							"pilledit": true,
+							"icon": "material-icons material-icons-toc",
+							"nestable": false
+						},
+						{
+							"text": "tab bar",
+							"command": "{tabs title 1|url 1|title ..|url ..|title N|url N}",
+							"pilledit": true,
+							"icon": "material-icons material-icons-tab",
+							"nestable": false
+						},
+						{
+							"text": "zoom-image",
+							"command": "{zoomimage %thumbnail%|%image%}"
+						},
+						{
+							"text": "Split image",
+							"command": "{splitimage %left%|%right%}"
+						}
+					]
+				},
+				{
+					"label": "Pages",
+					"commands": [
+						{
+							"text": "completion page",
+							"command": "{completion You-have-completed...|You-have-not-yet-completed...}"
+						},
+						{
+							"text": "ifcomplete switch",
+							"command": "{ifcomplete complete-text|incomplete-text}"
+						}
+					]
+				},
+				{
+					"label": "Activities",
+					"commands": [
+						{
+							"text": "scorm checkbox selection",
+							"command": "{clickcheck label 1|label ..|label N}"
+						},
+						{
+							"text": "scorm true/false selection",
+							"command": "{clicktf true|false|label 1|label ..|label N}",
+							"helper": "select",
+							"values": [
+								"true",
+								"false"
+							]
+						},
+						{
+							"text": "scorm image selection",
+							"command": "{clickimage %images%}"
+						},
+						{
+							"text": "scorm match activity",
+							"command": "{match Question 1|Answer 1|Question 2|Answer 2|Question N|Answer N}"
+						},
+						{
+							"text": "scorm match-set activity",
+							"command": "{matchset Question 1|Answer 1|Question 2|Answer 2|Question N|Answer N}"
+						},
+						{
+							"text": "survey",
+							"command": "{survey no-options|question 1|question ..|question N}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Formatters",
+			"group": [
+				{
+					"label": "Formatting",
+					"commands": [
+						{
+							"text": "h1",
+							"command": "{tag h1|%selection%}"
+						},
+						{
+							"text": "h2",
+							"command": "{tag h2|%selection%}"
+						},
+						{
+							"text": "bold",
+							"command": "{bold %selection%}",
+							"icon": "fas fa-bold"
+						},
+						{
+							"text": "italic",
+							"command": "{italic %selection%}",
+							"icon": "fas fa-italic"
+						},
+						{
+							"text": "numbered list",
+							"command": "{numbers item 1|item ..|item N}",
+							"pilledit": true,
+							"helper": "radio",
+							"values": [
+								"bullets",
+								"numbers"
+							],
+							"nestable": false
+						},
+						{
+							"text": "bulleted list",
+							"command": "{bullets point 1|point ..|point N}",
+							"icon": "fas fa-list-ul",
+							"pilledit": true,
+							"helper": "radio",
+							"values": [
+								"bullets",
+								"numbers"
+							],
+							"nestable": false
+						},
+						{
+							"text": "centered (div)",
+							"command": "{centered %selection%}",
+							"icon": "fas fa-align-center"
+						},
+						{
+							"text": "centered (p)",
+							"command": "{centerp %selection%}"
+						},
+						{
+							"text": "link (go to page)",
+							"command": "{link %url%|%selection%}",
+							"icon": "fas fa-link"
+						},
+						{
+							"text": "link (reference)",
+							"command": "{linkref %url%|%selection%}"
+						},
+						{
+							"text": "link (open in new window)",
+							"command": "{external %link%|%selection%}"
+						},
+						{
+							"text": "block quote",
+							"command": "{quote %selection%}"
+						},
+						{
+							"text": "columns",
+							"command": "{columns column 1|column ..|column 5}",
+							"pilledit": true
+						},
+						{
+							"text": "float left",
+							"command": "{float left|%selection%}"
+						},
+						{
+							"text": "float right",
+							"command": "{float right|%selection%}"
+						},
+						{
+							"text": "Horizontal line",
+							"command": "{-}"
+						}
+					]
+				},
+				{
+					"label": "Formatter blocks",
+					"commands": [
+						{
+							"text": "Column splitter",
+							"command": "<|>"
+						},
+						{
+							"text": "Fold splitter",
+							"command": "<->"
+						},
+						{
+							"text": "Grid 3414",
+							"command": "<layout grid3414>"
+						},
+						{
+							"text": "Grid 3525",
+							"command": "<layout grid3525>"
+						},
+						{
+							"text": "Grid 1212 L",
+							"command": "<layout grid1212L>"
+						},
+						{
+							"text": "Grid 1212 R",
+							"command": "<layout grid1212R>"
+						}
+					]
+				}
+			]
+		}
+	],
+	"grids": [
+		{
+			"value": "",
+			"label": "<i class='fas fa-magic'><\/i> Auto"
+		},
+		{
+			"value": "grid3414",
+			"label": "<i class='fas fa-columns'><\/i> <u>&frac34;<\/u> : &frac14;"
+		},
+		{
+			"value": "grid3525",
+			"label": "<i class='fas fa-columns'><\/i> <u>&frac35;<\/u> : &frac25;"
+		},
+		{
+			"value": "grid1212l",
+			"label": "<i class='fas fa-columns'><\/i> <u>&frac12;<\/u> : &frac12;"
+		},
+		{
+			"value": "grid1212r",
+			"label": "<i class='fas fa-columns'><\/i> &frac12; : <u>&frac12;<\/u>"
+		},
+		{
+			"value": "grid0",
+			"label": "<i class='far fa-window-maximize'><\/i> None"
+		}
+	]
+}

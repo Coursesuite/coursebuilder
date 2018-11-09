@@ -10,17 +10,35 @@
 	</aside>
 	<article>
 		<div class="page-design">
-			<div class="ft">
-			<div class="fl">
+			<div class="ft page-global-toolbar">
+			{{!-- <div class="fl" id="toolbar-placeholder">
 				<button data-action='set-layout' data-layout='responsive'><span class='material-icons'>desktop_windows</button>
 				<button data-action='set-layout' data-layout='tablet'><span class='material-icons'>tablet_android</span></button>
 				<button data-action='set-layout' data-layout='phone'><span class='material-icons'>phone_android</span></button>
-			</div>
-			<div id="toolbar-placeholder" class="toolbar-placeholder"></div>
-			<div class="fr">
-				<button data-action='toggle-visibility'><span class="material-icons">visibility</span></button>
+			</div> --}}
+			<div class="fl f3">
 		        <label class="dd">
-		            <div class="dd-button"><span class="material-icons">local_shipping</span></div>
+		            <div class="dd-button"><span class="material-icons">visibility</span> Visibility</div>
+		            <input type="checkbox" class="dd-input">
+		            <ul class="dd-menu">
+		            <li><a href='#' data-action='page-visibility' data-value='1'><span class="material-icons">check_box</span> Shown in menu</a></li>
+		            <li><a href='#' data-action='page-visibility' data-value='0'><span class="material-icons">check_box_outline_blank</span> Hidden in menu</a></li>
+		            </ul>
+		        </label>
+		        <label class="dd">
+		            <div class="dd-button"><span class="material-icons">vertical_split</span> Layout</div>
+		            <input type="checkbox" class="dd-input">
+		            <ul class="dd-menu">
+		            <li><a href='#' data-action='page-grid' data-value=''><span class="material-icons">check_box</span> Auto</a></li>
+		            <li><a href='#' data-action='page-grid' data-value='grid3414'><span class="material-icons">check_box_outline_blank</span> <u>&frac34;</u> : &frac14;</u></a></li>
+		            <li><a href='#' data-action='page-grid' data-value='grid3525'><span class="material-icons">check_box_outline_blank</span> <u>&frac35;</u> : &frac25;</u></a></li>
+		            <li><a href='#' data-action='page-grid' data-value='grid1212l'><span class="material-icons">check_box_outline_blank</span> <u>&frac12;</u> : &frac12;</a></li>
+		            <li><a href='#' data-action='page-grid' data-value='grid1212r'><span class="material-icons">check_box_outline_blank</span> &frac12; : <u>&frac12;</u></a></li>
+		            <li><a href='#' data-action='page-grid' data-value='grid0'><span class="material-icons">check_box_outline_blank</span> No grid</a></li>
+		            </ul>
+		        </label>
+		        <label class="dd">
+		            <div class="dd-button"><span class="material-icons">local_shipping</span> Navigation</div>
 		            <input type="checkbox" class="dd-input">
 		            <ul class="dd-menu">
 		            <li><a href='#' data-action='page-navigation' data-value='n'><span class="material-icons">check_box</span> Standard navigation</a></li>
@@ -30,7 +48,7 @@
 		            </ul>
 		        </label>
 		        <label class="dd">
-		            <div class="dd-button"><span class="material-icons">star_half</span></div>
+		            <div class="dd-button"><span class="material-icons">star_half</span> Score</div>
 		            <input type="checkbox" class="dd-input">
 		            <ul class="dd-menu">
 		            <li><a href='#' data-action='page-score' data-value='n'><span class="material-icons">check_box</span> Not scored</a></li>
@@ -38,20 +56,23 @@
 		            <li><a href='#' data-action='page-score' data-value='c'><span class="material-icons">check_box_outline_blank</span> Completing page assigns score</a></li>
 		            <li><a href='#' data-action='page-score' data-value='p'><span class="material-icons">check_box_outline_blank</span> Passing page assigns score</a></li>
 		            <li class="divider"></li>
-		            <li><label>Score: <input type="number" min="0" step="1" name="page-score-value" value="0" size="3"></label></li>
-		            <li><label>Contributes: <input type="number" min="0" step="1" max="100" name="page-percentage" value="100" size="3">%</label></li>
+		            <li class='alt'><label>Score: <input type="number" min="0" step="1" name="page-score-value" value="0" size="3"></label></li>
+		            <li class='alt'><label>Contributes: <input type="number" min="0" step="1" max="100" name="page-percentage" value="100" size="3">%</label></li>
 		            </ul>
 		        </label>
 		        <label class="dd">
-		            <div class="dd-button"><span class="material-icons">settings_applications</span></div>
+		            <div class="dd-button"><span class="material-icons">settings_applications</span> Metadata</div>
 		            <input type="checkbox" class="dd-input">
 		            <ul class="dd-menu">
 		            <li><label>Scorm ID: <input type="text" maxlength="32" name="page-scorm-id" value="" size="12"></label></li>
 		            </ul>
 		        </label>
 			</div>
+			<div class="fr">
+				<button data-action='revisions'><i class='fas fa-history'></i> Revisions</button>
+				<button data-action='content-save'><i class='fas fa-save'></i> Save</button>
 			</div>
-			<div id="save-icon" class="material-icons"></div>
+			</div>
 			<div id="editor"></div>
 {{!--
 			<p><a href="https://github.com/orthes/medium-editor-insert-plugin">https://github.com/orthes/medium-editor-insert-plugin</a></p>

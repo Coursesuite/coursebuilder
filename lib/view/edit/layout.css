@@ -26,10 +26,18 @@ body > main {
 	width: 100%;
 	left: 0;
 }
+
+/*
+splitjs requires us to do our own layout, so we can either float and hope it doesn't wrap
 body>main>aside,body>main>.gutter,body>main>article{
   position: relative;
   float: left;
   height: 100%;
+}
+or flex/grid and hope it is supported
+*/
+body>main {
+  display:flex;flex-direction:row;
 }
 body>main>aside{
   background-color: var(--asideB);
@@ -65,6 +73,11 @@ body > main > article {
   cursor: pointer;
 }
 
+.dd-button>span,
+.dd-menu a>span {
+  vertical-align: middle;
+}
+
 .dd-button:after {
   content: '';
   position: absolute;
@@ -79,7 +92,7 @@ body > main > article {
 }
 
 .dd-button:hover {
-  background-color: #eeeeee;
+  background-color: aliceblue;
 }
 
 
@@ -116,7 +129,7 @@ body > main > article {
 }
 
 .dd-menu li:hover {
-  background-color: #f6f6f6;
+  background-color: aliceblue;
 }
 
 .dd-menu li a {
@@ -131,6 +144,9 @@ body > main > article {
   padding: 0;
   border-bottom: 1px solid currentColor;
 }
+.dd-menu li.alt {
+  background-color: #f8f8f8;
+}
 
 
 
@@ -139,24 +155,31 @@ body > main > article {
   max-width: calc(var(--asideW) - 48px);
 }
 
-#save-icon {
-  position: absolute;
-  top: 1em;
-  right: 1em;
+.template-navtree {
+  padding-top: 10px;
 }
+
+/* edit content page */
 
 .page-design {
   background-color: white;
   box-shadow: 0 0 25px rgba(0,0,0,.1);
   margin: 25px auto 0;
   padding: 25px;
-  max-width: 960px;
+  max-width: calc(100% - 100px);
   position: relative;
+  height: calc(100% - 25px);
+
+  display: flex;
+  flex-direction: column;
+}
+.page-design>#editor {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
-.template-navtree {
-  padding-top: 10px;
-}
+
 
 
 /* splitjs */
@@ -166,10 +189,12 @@ body > main > article {
     background-position: 50%;
 }
 .gutter.gutter-vertical {
-    background-image:  url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAFAQMAAABo7865AAAABlBMVEVHcEzMzMzyAv2sAAAAAXRSTlMAQObYZgAAABBJREFUeF5jOAMEEAIEEFwAn3kMwcB6I2AAAAAASUVORK5CYII=')
+    background-image:  url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAFAQMAAABo7865AAAABlBMVEVHcEzMzMzyAv2sAAAAAXRSTlMAQObYZgAAABBJREFUeF5jOAMEEAIEEFwAn3kMwcB6I2AAAAAASUVORK5CYII=');
+    cursor: ns-resize;
 }
 .gutter.gutter-horizontal {
-    background-image:  url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==')
+    background-image:  url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==');
+    cursor: ew-resize;
 }
 
 /* header menu items */
@@ -238,8 +263,28 @@ body.action-advanced form > .field-row input[type='number'] {
 }
 
 .ft button, .ft .dd-button, .ft .dd-menu {
-  border: 1px solid #eee;
+  border: 1px solid #ddd;
 }
+
+.page-global-toolbar {
+  background-color: darkgray;
+  padding: 5px;
+  border-radius: 4px 4px 0 0;
+}
+
+.page-global-toolbar button[data-action='revisions'] {
+  padding: .5em;
+}
+.page-global-toolbar button[data-action='content-save'] {
+  padding: .5em 1em;
+  background-color: deepskyblue;
+  color: white;
+  transition:  background-color .5s;
+}
+.page-global-toolbar button[data-action='content-save'].dirty {
+  background-color: orange;
+}
+
 
 /*
 this stuff is related to animating the toolbar position and requires javascript

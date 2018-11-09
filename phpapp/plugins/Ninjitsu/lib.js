@@ -1,33 +1,25 @@
+
 // determine what to do once a selection is made in the textarea editor's commands drop down
 function doEditCommand(obj,region) {
 	var $obj = $(obj),
 		command = $obj.val(),
-		_easyedit = ($obj.find(":selected").attr("data-easy-edit") == "true"),
-		_pilledit = ($obj.find(":selected").attr("data-pill-edit") == "true");
+		pillEdit = $obj.find(":selected").attr("data-pill-edit") == "true";
 	if (typeof region == 'undefined') region = "edit-area";
 	if (!command) return;
 	var selection = get_selection(region); // returns object {start, end, length, text}
 	var justcommand = command.split(" ")[0].replace(/\{/,"");
 
-	// console.log("doeditcommand", obj,region);
-
 	// unset selection from the control that told us what to do
-	obj.selectedIndex = 0;
+	obj.selectedIndex = -1;
 
 	// prompt user if the command requires text selected first
 	if ((command.indexOf("%selection%")!=-1) && (selection.length==0)) {
 		alert("You need to select some text first...");
 		return;
 	}
+	if (pillEdit) {
 
-	// popWindow called with various parameters to tell ASP file how to draw itself
-	if (_easyedit) {
-
-		show_dialogue_easyedit(command, region);
-
-	} else if (_pilledit) {
-
-		show_dialogue_pilledit(command, region);
+		show_dialogue_pilledit(justcommand, region);
 
 	} else if (command.indexOf("%ref%") != -1) {
 
@@ -224,12 +216,6 @@ function doEditCommand(obj,region) {
 			replace_selection(region, command.replace("%link%", r).replace("%selection%", selection.text));
 		}
 
-		/* bootbox.prompt("Paste in the URL to link to", function (r) {
-			if (r != null) {
-				replace_selection(region, command.replace("%link%", r).replace("%selection%", selection.text));
-			}
-		}); */
-
 	} else if (command.indexOf("%xml%") != -1) {
 
 		popWindow({
@@ -272,7 +258,7 @@ function doEditCommand(obj,region) {
 
 	} else if (command == "//convertBLOCK//") {
 
-		$.post("/engine/action.asp?id=" + _courseid + "&action=ajax_convertblock", {
+		$.post("/engine/action.asp?id=" + window.CourseBuildr.Course.id + "&action=ajax_convertblock", {
 			filename: _editing_file,
 			content: get_selection(region).text
 		}, function (filename) {
@@ -304,7 +290,7 @@ function doEditCommand(obj,region) {
 		val = val.replace("<a href=\"Content/popup","{popup popup");
 		val = val.replace("\" rev=\"overlay\" class=\"rp-button-dialogue\">\n","|");
 		// TODO: work out a few more of these
-		$("#" + region).val(val);
+		$("#" + region).val(val).trigger("input");
 
 	} else if (command == "//stripHTML//") {
 
@@ -319,17 +305,17 @@ function doEditCommand(obj,region) {
 			//if (val.substring(0,1)=="{" && val.substring(val.length-1)=="}") val = "~@~" + val + "~@~"; // lines containing only commands
 			if (val.length) out.push(val);
 		});
-		$("#" + region).val($.trim(out.join("\n\n").replace(/\n{3,}/g,"\n\n"))); // doublespace, but no more than that
+		$("#" + region).val($.trim(out.join("\n\n").replace(/\n{3,}/g,"\n\n"))).trigger("input"); // doublespace, but no more than that
 
 	} else if (command == "//stripHEAD//") {
 
 		var val = $("#" + region).val();
 		if (val.indexOf("</head>")!=-1) val = val.substring(val.indexOf("</head>") + 7).replace("</html>","");
 		if (val.indexOf("<body")!=-1) val = val.replace("</body>","").replace("<body>","");
-		$("#" + region).val($.trim(val));
+		$("#" + region).val($.trim(val)).trigger("input");
 
 	} else if (command == "//insert-media//") {
-		MediaOverlay.Show(_courseid, region, selection.text);
+		MediaOverlay.Show(region, selection.text);
 
 	} else {
 
@@ -347,19 +333,6 @@ function retriggerHighlighter(region) {
 	$("#" + region).highlightTextarea("highlight");
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 // popup window to allow user to select one or more things
 /*
 data = {
@@ -371,7 +344,7 @@ data = {
 	areaid: fofo
 } */
 function popWindow(data) {
-	data.id = _courseid;
+	data.id = window.CourseBuildr.Course.id;
 	var qs = $.param(data);
 	PopupCenter("/engine/pages/list/?" + qs, "list", 1024, 644);
 	// window.open("/engine/pages/list/?" + qs, "list", "scrolling=1,scrollbars=1,resizable=1,width=1024,height=644").focus();
@@ -397,108 +370,103 @@ function PopupCenter(url, title, w, h) {
 
 function openWindow(command, selection, containerid, returnmode) {
 	var data = {
-		"id": _courseid,
+		"id": window.CourseBuildr.Course.id,
 		"command": command,
 		"selection": escape(selection),
 		"containerid": escape(containerid),
 		"returnmode": escape(returnmode),
 		"areaid": escape(areaid)
 	};
-	// id=" + _courseid + "&command=" + command + "&selection=" + escape(selection) + "&containerid=" + escape(containerid) + "&returnmode=" + escape(returnmode) + "&areaid=" + escape(areaid)
+	// id=" + window.CourseBuildr.Course.id + "&command=" + command + "&selection=" + escape(selection) + "&containerid=" + escape(containerid) + "&returnmode=" + escape(returnmode) + "&areaid=" + escape(areaid)
 	var qs = $.param(data);
 	PopupCenter("/engine/pages/list/?" + qs, "list", 1220, 640);
 	//var w = window.open("/engine/pages/list/?" + qs,"list","scrolling=1,scrollbars=1,resizable=1,width=1220,height=640");
 	//w.focus();
 }
 
-// prompt the user if they need to save
-function setConfirmUnload(on) {
-	window.onbeforeunload = (on) ? unloadMessage : null;
-}
+// // prompt the user if they need to save
+ function setConfirmUnload(on) {
+ 	window.onbeforeunload = (on) ? unloadMessage : null;
+ }
 
-// message to show user as they navigate away
-function unloadMessage() {
-     return 'Reloading, or navigating away at this point might' +
-        ' mean you lose stuff...';
-}
+// // message to show user as they navigate away
+ function unloadMessage() {
+      return 'Reloading, or navigating away at this point might' +
+         ' mean you lose your changes ... ';
+ }
 
-// un-set the dirty flag on window unload (stops prompt to save on unload)
-function makeClean() {
-	$("#toXML").removeClass("ui-button-warning").addClass("ui-button-success").html("<i class='icon-save'></i> Nav saved");
-	setConfirmUnload(false);
-
-	_revisions = 0; // reset number of revisions so that navtree revision check starts afresh
-	$("#revised").hide(); // because it's no longer a valid status
-
-	$(document).trigger("navtree.revisions");
-
+// // un-set the dirty flag on window unload (stops prompt to save on unload)
+ function makeClean() {
+ 	$("button[data-action='content-save']").removeClass("dirty");
+ 	setConfirmUnload(false);
 }
 
 // set the dirty flag on window unload (prompts user to confirm no-save)
 function makeDirty() {
-	$("#toXML").removeClass("ui-button-success").addClass("ui-button-warning").html("<i class='icon-exclamation-sign'></i> Nav not saved!");
-	setConfirmUnload(true);
+ 	$("button[data-action='content-save']").addClass("dirty");
+// 	$("#toXML").removeClass("ui-button-success").addClass("ui-button-warning").html("<i class='far fa-exclamation-sign'></i> Nav not saved!");
+ 	setConfirmUnload(true);
 }
 
 // turns <ul><li>node<ul><li>sub-node</li></ul></ul> into <page>node<page>node</page></page>
 // then sends data to server for further processing & saving
-function handleSave() {
-	var copy = $("#xmlTree").clone();
-	$("a", copy).each(function(index,node) {
-		$(node).closest("li").attr("title", $(node).text());
-	});
-	$("a,ins", copy).remove();
-	$("ul,li", copy).removeAttr("class").removeAttr("style");
-	var html = $(copy).html()
-		.replace(/\&nbsp\;/g,"")
-		.replace(/\&amp\;/g,"&")
-		.replace(/<ul>/g,"")
-		.replace(/<\/ul>/g,"</page>")
-		.replace(/<li\s/g,"<page ")
-		.replace(/><\/li>/g," />")
-		.replace(/<\/li>/g,"</page>")
-		.replace(/<\/li\ \/>/g,"</page>")
-		.replace(/<\/page\ \/>/g,"</page>")
-		.replace(/\ id\=\"_/g," id=\"");
+// function handleSave() {
+// 	var copy = $("#xmlTree").clone();
+// 	$("a", copy).each(function(index,node) {
+// 		$(node).closest("li").attr("title", $(node).text());
+// 	});
+// 	$("a,ins", copy).remove();
+// 	$("ul,li", copy).removeAttr("class").removeAttr("style");
+// 	var html = $(copy).html()
+// 		.replace(/\&nbsp\;/g,"")
+// 		.replace(/\&amp\;/g,"&")
+// 		.replace(/<ul>/g,"")
+// 		.replace(/<\/ul>/g,"</page>")
+// 		.replace(/<li\s/g,"<page ")
+// 		.replace(/><\/li>/g," />")
+// 		.replace(/<\/li>/g,"</page>")
+// 		.replace(/<\/li\ \/>/g,"</page>")
+// 		.replace(/<\/page\ \/>/g,"</page>")
+// 		.replace(/\ id\=\"_/g," id=\"");
 
 
-	$.post("/engine/action.asp?id=" + _courseid + "&action=ajaxSavePagesXML", {
-		xml: html
-	}, function (data) {
-		$.jGrowl("Ok, Pages.xml has been saved");
-		// $(document).trigger("navtree.revisions");
-	});
+// 	$.post("/engine/action.asp?id=" + window.CourseBuildr.Course.id + "&action=ajaxSavePagesXML", {
+// 		xml: html
+// 	}, function (data) {
+// 		$.jGrowl("Ok, Pages.xml has been saved");
+// 		// $(document).trigger("navtree.revisions");
+// 	});
 
-	// unset dirty
-	makeClean();
-}
+// 	// unset dirty
+// 	makeClean();
+// }
 
-// runs through a <page> node in pages.xml and turns it into a <li> node that jsTree can then make a treeview out of
-function processPages(obj){
-	var t = $(this);
-	htmlTree.push("<li")
-	if (!t.attr("title")) {
-		htmlTree.push (" class='jstree-open'>");
-	} else {
-		htmlTree.push(" title='" + t.attr("title").safeForXml() + "'");
-		htmlTree.push(" fileName='" + t.attr("fileName").safeForXml() + "'");
-		htmlTree.push(" type='" + t.attr("type") + "'");
-		htmlTree.push(" id='_" + t.attr("id") + "'");
-		htmlTree.push(" contribute='" + t.attr("contribute") + "'");
-		htmlTree.push(" contributeScore='" + t.attr("contributeScore") + "'");
-		htmlTree.push(" contributePercentage='" + t.attr("contributePercentage") + "'");
-		htmlTree.push(" nav='" + t.attr("nav") + "'");
-		htmlTree.push(" template='" + t.attr("template") + "'>");
-	}
-	htmlTree.push("<a href='#'" + (_selected==t.attr("id") ? " class='jstree-hovered jstree-clicked'" : "") + ">" + ((t.attr("title")) ? t.attr("title") : "Course") + "</a>")
-    if( t.children().length>0 ){
-        htmlTree.push('<ul>');
-        t.children().each(processPages);
-        htmlTree.push('</ul>');
-    }else{
-       htmlTree.push('</li>');
-    }
-}
+// // runs through a <page> node in pages.xml and turns it into a <li> node that jsTree can then make a treeview out of
+// function processPages(obj){
+// 	var t = $(this);
+// 	htmlTree.push("<li")
+// 	if (!t.attr("title")) {
+// 		htmlTree.push (" class='jstree-open'>");
+// 	} else {
+// 		htmlTree.push(" title='" + t.attr("title").safeForXml() + "'");
+// 		htmlTree.push(" fileName='" + t.attr("fileName").safeForXml() + "'");
+// 		htmlTree.push(" type='" + t.attr("type") + "'");
+// 		htmlTree.push(" id='_" + t.attr("id") + "'");
+// 		htmlTree.push(" contribute='" + t.attr("contribute") + "'");
+// 		htmlTree.push(" contributeScore='" + t.attr("contributeScore") + "'");
+// 		htmlTree.push(" contributePercentage='" + t.attr("contributePercentage") + "'");
+// 		htmlTree.push(" nav='" + t.attr("nav") + "'");
+// 		htmlTree.push(" template='" + t.attr("template") + "'>");
+// 	}
+// 	htmlTree.push("<a href='#'" + (_selected==t.attr("id") ? " class='jstree-hovered jstree-clicked'" : "") + ">" + ((t.attr("title")) ? t.attr("title") : "Course") + "</a>")
+//     if( t.children().length>0 ){
+//         htmlTree.push('<ul>');
+//         t.children().each(processPages);
+//         htmlTree.push('</ul>');
+//     }else{
+//        htmlTree.push('</li>');
+//     }
+// }
 
 // helpers; dealing with selections in a textarea is different for each browser (of course).
 // http://stackoverflow.com/questions/401593/understanding-what-goes-on-with-textarea-selection-with-javascript
@@ -584,6 +552,7 @@ function set_selection(the_id,start_pos,end_pos) {
         tr.moveEnd('character',end_pos - start_pos);
         tr.select();
     }
+    makeDirty();
     return get_selection(the_id);
 }
 
@@ -601,9 +570,11 @@ if(typeof String.prototype.trim !== 'function') {
   }
 }
 
-String.prototype.endsWith = function(suffix) {
-    return this.indexOf(suffix, this.length - suffix.length) !== -1;
-};
+if(typeof String.prototype.endsWith !== 'function') {
+	String.prototype.endsWith = function(suffix) {
+    	return this.indexOf(suffix, this.length - suffix.length) !== -1;
+	};
+}
 
 // routine to detect selecting a keyword and expanding the selection to encompass the whole tag, which
 // might contain nested tags. please feel free to go cross-eyed.
@@ -656,10 +627,22 @@ function allowTabChar(el) {
     });
 }
 
+function find_in_json(obj, key, val) {
+    var objects = [];
+    for (var i in obj) {
+        if (!obj.hasOwnProperty(i)) continue;
+        if (typeof obj[i] == 'object') {
+            objects = objects.concat(find_in_json(obj[i], key, val));
+        } else if (i == key && obj[key] == val) {
+            objects.push(obj);
+        }
+    }
+    return objects;
+}
+
 $.fn.extend( {
 	uniqueId: ( function() {
 		var uuid = 0;
-
 		return function() {
 			return this.each( function() {
 				if ( !this.id ) {
@@ -677,6 +660,7 @@ $.fn.extend( {
 		} );
 	},
 
+	// tab normally changes focus, but we want it to draw a tab character
 	allowTabChar: function() {
 	    if (this.jquery) {
 	        this.each(function() {
@@ -691,31 +675,36 @@ $.fn.extend( {
 	    return this;
 	},
 
+	// put hilighting on the textarea, and then bind the toolbar buttons and interactions
 	attachEditor: function () {
 	    this.each(function () {
 		    if (this.nodeType == 1) {
 			    if (this.nodeName.toLowerCase() == "textarea") {
-			    	var $textarea = $(this), _loaded = false, _id = $textarea.uniqueId().attr("id");
+			    	var $textarea = $(this), _loaded = this.dataset.isEditor||false, _id = $textarea.uniqueId().attr("id");
 		    		if (_loaded === false) {
 
 			    		var where = this.parentNode,
-			    			n = document.querySelector("#plugins-ninjitsu-edit-template-hbt"),
-			    			tmpl = Handlebars.compile(n.innerHTML),
-			    			data = toolbarjson;
-			    	//	console.log(where, _id);
-			    		data["savable"] = (_id === "edit-area");
-			    		if (!data.savable) {
-				    		data.purpose[1].group[1].commands[8]["hidden"] = true;
-				    		data.purpose[1].group[1].commands[9]["hidden"] = true;
-				    		data.purpose[2].group[0].commands[12]["hidden"] = true;
-			    		}
-	//		    		console.log("data",data);
+			    			data = JSON.parse(JSON.stringify(window.CourseBuildr.Toolbar)); // nodes are byref and we would cause side-effects, so we have to deep clone
 
-			    		var dom = document.createRange().createContextualFragment(tmpl(data)); // innerhtml -> dom node
+			    		data["savable"] = (_id === "edit-area");
+
+			    		// hide things that don't play nice when nested
+			    		if (!data.savable) { // e.g. pill-edit
+			    			var nodes = find_in_json(data, "nestable", false);
+
+			    			// to do, find out the command mode of the editor
+			    			// and compare the nestable node values to the command to see if we are nesting this command
+			    			// also
+			    			// we can't include commands that themselves cause pilledit
+
+			    			[].forEach.call(nodes,function(obj){obj["hidden"]=true;});
+			    		}
+
+			    		var dom = document.createRange().createContextualFragment(Handlebars.getRuntimeTemplate("plugins-ninjitsu-edit-template-hbt", data)); // html -> dom nodes
 			    		dom.querySelector("#ta-dom").appendChild(this); // move node
 			    		where.appendChild(dom);
 
-			    		_loaded = true;
+			    		this.dataset.isEditor = true; // so we can't double-init
 
 				    	$textarea
 							.attr("wrap","soft")
@@ -725,11 +714,13 @@ $.fn.extend( {
 				    		})
 				    		.highlightTextarea();
 
+				    	// list of all possible commands in a select box (right)
 			    		$(".command-block select", where).on("change", function() {
 							doEditCommand(this, _id);
-							this.selectedIndex = -1;
 			    		});
-			    		$(".toolbar-buttons button[data-command]", where).on("click", function(e) {
+
+			    		// buttons on the toolbar actually trigger the select box
+			    		$(".editor-local-toolbar button[data-command]", where).on("click", function(e) {
 				    		e.preventDefault();
 				    		$(".command-block select", where).val($(this).attr("data-command")).trigger("change");
 			    		});
@@ -739,6 +730,66 @@ $.fn.extend( {
 		    }
 	    });
 	    return this;
+	},
+
+	// load a javascript file and cache it and execute it
+	cachedScript: function(url, options) {
+	    options = $.extend(options || {}, {
+	        dataType: "script",
+	        cache: true,
+	        url: url
+	    });
+	    return $.ajax(options);
+	},
+
+	// fit text into a container
+	fitText: function(kompressor, options) {
+	    var compressor = kompressor || 1
+	      , settings = $.extend({
+	        'minFontSize': Number.NEGATIVE_INFINITY,
+	        'maxFontSize': Number.POSITIVE_INFINITY
+	    }, options);
+	    return this.each(function() {
+	        var $this = $(this);
+	        var resizer = function() {
+	            $this.css('font-size', Math.max(Math.min($this.width() / (compressor * 10), parseFloat(settings.maxFontSize)), parseFloat(settings.minFontSize)));
+	        };
+	        resizer();
+	        $(window).on('resize', resizer);
+	    });
+	},
+
+	sortablejs: function (options) {
+        var retVal,
+                args = arguments;
+
+        this.each(function () {
+                var $el = $(this),
+                        sortable = $el.data('sortable');
+
+                if (!sortable && (options instanceof Object || !options)) {
+                        sortable = new Sortable(this, options);
+                        $el.data('sortable', sortable);
+                }
+
+                if (sortable) {
+                        if (options === 'widget') {
+                                return sortable;
+                        }
+                        else if (options === 'destroy') {
+                                sortable.destroy();
+                                $el.removeData('sortable');
+                        }
+                        else if (typeof sortable[options] === 'function') {
+                                retVal = sortable[options].apply(sortable, [].slice.call(args, 1));
+                        }
+                        else if (options in sortable.options) {
+                                retVal = sortable.option.apply(sortable, args);
+                        }
+                }
+        });
+
+        return (retVal === void 0) ? this : retVal;
 	}
 
 } );
@@ -758,519 +809,289 @@ function doubleQuotedString(s) {
 }
 
 
-function saveQuiz(fn) {
 
-	var pools = [];
-	$("[data-grouping='questionPool']", "#tabs-5").each(function(pIndex, el) {
-		var questions = [];
 
-		// each fieldset contains a question in this pool
-		$("fieldset",$(el)).each(function (qIndex, qObj) {
-			var choices = [],
-				choicesA = [],
-				choicesB = [],
-				feedback = [],
-				$obj = $(qObj),
-				data = {},
-				type = $obj.attr("data-question-type");
 
-			data["type"] = type;
-			data["id"] = "q" + pIndex + "." + qIndex;
-			if ($(":input[data-attribute='randomize']",$obj).length) {
-				data["randomize"] = $(":input[data-attribute='randomize']",$obj).is(":checked");
-			}
-			data["layout"] = $(":input[data-attribute='layout']",$obj).val();
-			if ($(":input[data-attribute='media']", $obj).length) {
-				data["media"] = $(":input[data-attribute='media']",$obj).val();
-			}
-			data["prompt"] = $(":input[data-attribute='prompt']",$obj).val();
-			if (type == "QuestionMatching") {
-				$("tbody tr", $obj).each(function(trIndex, tr) {
-					choicesA.push($(":input[data-attribute='choiceA']",tr).val());
-					choicesB.push($(":input[data-attribute='choiceB']",tr).val());
-				});
-				data["choicesA"] = choicesA;
-				data["choicesB"] = choicesB;
-			} else {
-				$("tbody tr", $obj).each(function(trIndex, tr) {
-					var opts = {};
-					opts["value"] = $(":input[data-attribute='choice']",tr).val(); // all question types have a choice
-					switch (type) {
-						case "QuestionRankInOrder": // adds nothing, but skip default
-						case "QuestionFillIn": // adds nothing, but skip default
-							break;
+// function enable_drag_image_to_editor(container) {
 
-						case "QuestionDragToList": // drag contains a list name
-							opts["list"] = $(":input[data-attribute='list']",tr).val();
-							break;
+//  	$("#" + container).filedrop({
+// 	    fallback_id: 'manual_upload_off',	   // an identifier of a standard file input element, becomes the target of "click" events on the dropzone
+// 	    url: '/engine/listUpload.asp?id=' + window.CourseBuildr.Course.id,     // upload handler, handles each file separately, can also be a function taking the file and returning a url
+// 	    paramname: 'userfile',            // POST parameter name used on serverside to reference file, can also be a function taking the filename and returning the paramname
+// 	    withCredentials: false,          // make a cross-origin request with cookies
+// 	    data: {
+// 	    	"stop": true
+// 	    },
+// 	    error: function(err, file) {
+// 	    	alert(err);
+// 	    	console.log("enable_drag_image_to_editor",err,file);
+// 	    },
+// 	    allowedfiletypes: ['image/jpeg','image/png','image/gif','application/pdf','application/x-pdf'],   // filetypes allowed by Content-Type.  Empty array means no restrictions
+// 	    allowedfileextensions: ['.jpg','.jpeg','.png','.gif','.pdf'], // file extensions allowed. Empty array means no restrictions
+// 	    maxfiles: 1,
+// 	    maxfilesize: 20,
+// 	    uploadFinished: function(i, file, response, time) {
+// 		    if (file.type.indexOf("image/")!==-1) {
+// 		        replace_selection(container, "{image box-shadow|" + file.name + "}");
+// 		    } else {
+// 			   //  replace_selection(container, "{external " + file.name + "|link to file}")
+// 			    replace_selection(container, "{linkref hyperlink-text|" + file.name + "}");
+// 		    }
+// 	    }
+// 	});
+// }
 
-						case "QuestionChoice":
-							feedback.push($(":input[data-attribute='feedback']",tr).val()); // single choice has feedback
-							// DON'T break, also appends default
+// function show_dialogue_easyedit(command, region) {
 
-						default: // determine if choice is correct using checkbox
-							opts["correct"] = $("input:checkbox",tr).is(":checked");
-							break;
-					}
-					choices.push(opts); // append THIS distractor
-				});
-				if (feedback.length) data["feedback"] = feedback;
-				data["choices"] = choices;
-			}
-			data["feedbackCorrect"] = $(":input[data-attribute='feedbackCorrect']",$obj).val();
-			data["feedbackIncorrect"] = $(":input[data-attribute='feedbackIncorrect']",$obj).val();
-			data["review"] = $(":input[data-attribute='review']",$obj).val();
-			questions.push(data);
-		});
+// 	var selection = get_selection(region);
 
-		// add the current questions to the pool
-		pools.push({
-			deliver: $(":input[data-id='questionPool." + pIndex + ".deliver']").val(),
-			order: $(":input[data-id='questionPool." + pIndex + ".order']:checked").val(),
-			question: questions
-		});
-	});
+// 	$("<p>").text("Each line you enter below will be turned into a number or bullet").appendTo(dlg);
+// 	$("<textarea>").attr({"wrap":"off","rows":8,"class":"input-block-level"}).appendTo(dlg);
 
-	// console.log("inputs with data ids", $(":input[data-id]"));
+// 	dlg.dialog({
+// 		modal: true,
+// 		maxHeight: $(window).height() - 100,
+// 		maxWidth: $(window).width() - 200,
+// 		width: $(window).width() / 2,
+// 		open: function() {
+// 			var $this = $(this);
+// 			$this.dialog('option', {
+// 				'maxHeight': $(window).height() - 100,
+// 				'maxWidth': $(window).width() - 200
+// 			});
+// 			$("textarea", this).val(selection.text);
+// 		},
+// 		buttons: {
+// 			"Save": function () {
+// 				var $this = $(this);
+// 				var out = [],
+// 					cmd = (command.indexOf("bullets")==-1)?"numbers":"bullets",
+// 					inp = $("textarea", dlg).val().replace(/<[^>]*>?/g, "").split("\n");
+// 				$.map(inp, function (val, index) {
+// 					if ($.trim(val) != "") out.push($.trim(val));
+// 				});
+// 				replace_selection(region, "{" + cmd + " " + out.join("|") + "}");
+// 				$(this).dialog("close");
+// 			},
+// 			Cancel: function () {
+// 				$(this).dialog("close");
+// 			}
+// 		}
+// 	});
+// }
 
-	// create the test object container that contains the entire test
-	var oJson = {
-		"test": {
-			id: "",
-			timeLimit: $(":input[data-id='test.timeLimit']").val(),
-			maxAttempts: $(":input[data-id='test.maxAttempts']").val(),
-			showStatus: $(":checkbox[data-id='show-status']").is(":checked"),
-			revealAnswers: $(":input[data-id='revealAnswers']").val(),
-			restartable: $(":input[data-id='restartable']").val(),
-			indexLayout: $(":input[data-id='indexLayout']").val(),
+/** Function that count occurrences of a substring in a string;
+ * @param {String} string               The string
+ * @param {String} subString            The sub string to search for
+ * @param {Boolean} [allowOverlapping]  Optional. (Default:false)
+ *
+ * @author Vitim.us https://gist.github.com/victornpb/7736865
+ * @see Unit Test https://jsfiddle.net/Victornpb/5axuh96u/
+ * @see http://stackoverflow.com/questions/4009756/how-to-count-string-occurrence-in-string/7924240#7924240
+ */
+function occurrences(string, subString, allowOverlapping) {
 
-			quizTitle: $(":input[data-id='quizTitle']").val(),
-			introduction: $(":input[data-id='introduction']").val(),
-			passedMessage: $(":input[data-id='passedMessage']").val(),
-			failedMessage: $(":input[data-id='failedMessage']").val(),
-			incompleteMessage: $(":input[data-id='incompleteMessage']").val(),
-			completedMessage: $(":input[data-id='completedMessage']").val(),
-			attemptsMessage: $(":input[data-id='attemptsMessage']").val(),
-			checkQuestionVisible: $(":input[data-id='checkQuestionVisible']").val(),
-			exitButtonVisible: $(":input[data-id='exitButtonVisible']").is(":checked"),
-			exitButtonLabel:  $(":input[data-id='exitButton']").val(),
-			maxAttemptsReachedMessage: $(":input[data-id='maxAttemptsReachedMessage']").val(),
-			questionPool: pools
-		}
+    string += "";
+    subString += "";
+    if (subString.length <= 0) return (string.length + 1);
+
+    var n = 0,
+        pos = 0,
+        step = allowOverlapping ? 1 : subString.length;
+
+    while (true) {
+        pos = string.indexOf(subString, pos);
+        if (pos >= 0) {
+            ++n;
+            pos += step;
+        } else break;
+    }
+    return n;
+}
+
+/*
+* you want {bullets {slideshow vertical|page1.html|page2.html}|{slideshow horizontal|{center {bold hello} it's centered}|{left {italic it's} italic on the left}}} to split on | only on the same depth
+* consume and store nestings of {...} until you are at the root using a key name that is unlikely to occur in the natural text
+* then split the root
+* then go back through and re-apply the stored values in reverse order
+* the return array will be split without nesting
+
+* todo: rewrite the runtime parsing engine to work on the same principal, rather than nesting the function
+*/
+
+function safeSplit(text) {
+
+	var source = text.slice(text.indexOf(" ")+1,-1); // {foobar cat|dog} => cat|dog becasue a string is also an array
+	if (source.indexOf("{")===-1) return source.split("|"); // bam!
+
+	var _keys = [],
+		current = 0x80, // ascii character 128; safe until around 159 (31 nested objects)
+		result = [];
+
+	for (var i = 0, len = source.split("{").length; i < len; i++) {
+		var l = source.lastIndexOf("{"),
+			r = source.indexOf("}",l)+1;
+		if (l===-1) continue;
+		var a = source.slice(0,l), b = source.slice(r), c = "%!" + current.toString(16) + "!%";
+		_keys.push([c, source.slice(l,r)]);
+		source = [a,c,b].join("");
+		current++;
 	}
 
-	// console.log("generating xml to save", oJson);
+	// what remains is the root array, so we can split on that
+	result = source.split("|");
 
-	// Generate the XML using a Handlebars template (shortcut)
-	var xml = Handlebars.getCompiledTemplate("tabs/quiz/quizxml",oJson).split("\n").map($.trim).filter(function(line) { return line != "" }).join("\n");
-
-	// console.log("quiz save", xml, oJson);
-
-	// tell the server to store the quiz data (we send both the xml and the json
-	// a future version may use JSON format for quiz data
-	$.post("/engine/action.asp?id=" + _courseid + "&action=ajax_saveQuizXML", {
-		xml: xml,
-		json: JSON.stringify(oJson),
-		filename: fn
-	}, function (ok) {
-		$.jGrowl("Quiz XML has been updated.")
-	});
-
-
-}
-
-
-function enable_drag_image_to_editor(container) {
-
- 	$("#" + container).filedrop({
-	    fallback_id: 'manual_upload_off',	   // an identifier of a standard file input element, becomes the target of "click" events on the dropzone
-	    url: '/engine/listUpload.asp?id=' + _courseid,     // upload handler, handles each file separately, can also be a function taking the file and returning a url
-	    paramname: 'userfile',            // POST parameter name used on serverside to reference file, can also be a function taking the filename and returning the paramname
-	    withCredentials: false,          // make a cross-origin request with cookies
-	    data: {
-	    	"stop": true
-	    },
-	    error: function(err, file) {
-	    	alert(err);
-	    	console.log("enable_drag_image_to_editor",err,file);
-	    },
-	    allowedfiletypes: ['image/jpeg','image/png','image/gif','application/pdf','application/x-pdf'],   // filetypes allowed by Content-Type.  Empty array means no restrictions
-	    allowedfileextensions: ['.jpg','.jpeg','.png','.gif','.pdf'], // file extensions allowed. Empty array means no restrictions
-	    maxfiles: 1,
-	    maxfilesize: 20,
-	    uploadFinished: function(i, file, response, time) {
-		    if (file.type.indexOf("image/")!==-1) {
-		        replace_selection(container, "{image box-shadow|" + file.name + "}");
-		    } else {
-			   //  replace_selection(container, "{external " + file.name + "|link to file}")
-			    replace_selection(container, "{linkref hyperlink-text|" + file.name + "}");
-		    }
-	    }
-	});
-}
-
-
-function show_dialogue_glossary(editor) {
-
-	function showTermEditor(event, ui) {
-
-		var _editObj = $("#termEdit"),
-			_tagObj = $("#termTags");
-		_editObj.show();
-		_tagObj.hide();
-
-		var li = $(event.srcElement).closest("li"),
-			tagLabel = ui.tagLabel,
-			inpTerm = $("input[name='term']", _editObj),
-			inpDefn = $("textarea", _editObj),
-			obj = find_in_json(__glossary_json.terms, "term", tagLabel)[0];
-
-		if (typeof obj !== "undefined") {
-			inpTerm.val(obj.term);
-			inpDefn.val(obj.definition);
-		} else {
-			inpTerm.val(tagLabel);
-			inpDefn.val("");
-		}
-
-		$("input[type='button']", _editObj).unbind("click").click(function () {
-			li.removeClass("tagit-selected");
-			var current_text = inpTerm.val(),
-				current_defn = inpDefn.val().replace(/\n/g,"\\n"),
-				found = false;
-			for (var key in __glossary_json.terms) {
-				if (__glossary_json.terms[key].term == current_text) {
-					__glossary_json.terms[key].definition = current_defn;
-					found = true;
-				}
-			}
-			if (!found) {
-				__glossary_json.terms.push({
-					"term": current_text,
-					"definition": current_defn
-				});
-				_tagObj.tagit("createTag", current_text, "", true, true);
-			}
-
-			_editObj.hide();
-			_tagObj.show();
-
+	// go back through - backwards
+	for (i = _keys.length-1; i > -1; i--) {
+		var r = result.map(function mapv(v) {
+			return v.replace(_keys[i][0],_keys[i][1]);
 		});
+		result = r;
 	}
 
-	$("#dialogue-glossary").remove();
-	$("<div />")
-		.attr({
-			"id":"dialogue-glossary",
-			"title":"Glossary"
-		})
-		.appendTo("body");
+	return result;
 
-	$.get("/engine/action.asp?id=" + _courseid + "&action=edit_ajax_load_glossary&q=" + Math.random(), function (data) {
-		if (typeof editor !== "undefined") {
-			data['returnmode'] = true;
+}
+
+function parseSelection(text, cmd) {
+	var ar = [{
+			label: "Item 0",
+			content: text || "First page content ... ",
+			id: "tab_0" // the Tree id of the page represented here, which might be in the selection
+		},{
+			label: "Item 1",
+			content: "Second page content ... ",
+			id: "tab_1" // the Tree id of the page represented here, which might be in the selection
+		}],
+		h = "Multiple item editor",
+		intro = "Each tab represents a single item in the list. Click tabs to edit contents, drag to re-order, &times; twice to remove an item, &plus; to add item.",
+		k = cmd,
+		modifier = "";
+
+	// expand-to-selection should have found the matching tag end
+	if (text.startsWith("{tabs ") && text.endsWith("}")) {
+		h = "Tabs",
+		intro = "Each tab represents a page with a label drawn as a tab. Click to edit contents, drag to re-order, &times; twice to remove an item, &plus; to add item. When saved, tabs will be stored as hidden sub-pages of the current navigation selection.",
+		ar = [], content = safeSplit(text);
+		for (var i=0; i<content.length; i+=2) {
+			ar.push({
+				label: content[i],
+				content: content[i+1],
+				id: "s" + content[i].replace(/[^a-zA-Z0-9]/g,"").slice(0,30).toLowerCase()
+			});
 		}
-		// sort the glossary
-		__glossary_json = data;
 
-		$("#dialogue-glossary")
-			.html(Handlebars.getCompiledTemplate("glossary",__glossary_json))
-			.dialog({
-				modal: true,
-				maxHeight: $(window).height() - 100,
-				maxWidth: $(window).width() - 200,
-				width: $(window).width() / 2,
-				open: function() {
-					$(this).dialog('option', {
-						'maxHeight': $(window).height() - 100,
-						'maxWidth': $(window).width() - 200
-					});
-					$("#termEdit", this).hide();
-					$("#termTags", this).tagit({
-						allowSpaces: true,
-						caseSentitive: false,
-						removeConfirmation: true,
-						onTagClicked: function(event,ui) {
-							var tgt = $(event.srcElement),
-								li = tgt.closest("li");
-							li.siblings().removeClass("tagit-selected");
-							if (li.hasClass("tagit-selected")) {
-								showTermEditor(event,ui);
-							} else {
-								li.addClass("tagit-selected");
-							}
-						},
-						afterTagAdded: function(event, ui) {
-							if (!ui.duringInitialization) {
-								var tgt = $(event.srcElement),
-									li = tgt.closest("li").addClass("tagit-selected");
-								li.siblings().removeClass("tagit-selected");
-								showTermEditor(event, ui);
-							}
-						},
-						afterTagRemoved: function (event, ui) {
-							for (var key in __glossary_json.terms) {
-								if (__glossary_json.terms[key].term == ui.tagLabel) {
-									__glossary_json.terms.removeValue("term", ui.tagLabel);
-								}
-							}
-						}
-					});
-				},
-				buttons: {
-					"Save": function () {
-						var $this = $(this);
-
-						// sort the terms alphabetically
-						__glossary_json.terms = __glossary_json.terms.sort( function(a,b) { return (a.term.toLowerCase()<b.term.toLowerCase()) ? -1 : (a.term.toLowerCase()>b.term.toLowerCase()) ? 1 : 0 } );
-						delete __glossary_json.returnmode;
-						__glossary_json.label = __settings.navigation.glossary.label;
-
-						$.post("/engine/action.asp?id=" + _courseid + "&action=edit_ajax_save_glossary", {
-							data: JSON.stringify(__glossary_json)
-						}, function (ret) {
-							if (ret == "ok") {
-
-								// apply the selection before the dialogue closes
-								if (typeof editor !== "undefined") {
-									if ($this.find(".tagit-selected").length) {
-										replace_selection(editor, "{term " + [$this.find(".tagit-selected").find(".tagit-label").text()].join("|") + "}")
-									}
-								}
-
-								$this.dialog("close");
-								$.jGrowl("Your glossary has been saved.");
-
-							} else {
-								alert("Something stuffed up saving the glossary. Check the console.");
-								console.log("Error saving glossary", ret);
-							}
-						});
-					},
-					Cancel: function () {
-						$(this).dialog("close");
-					}
-				}
+	} else if (text.startsWith("{accordion ") && text.endsWith("}")) {
+		h = "Accordions",
+		intro = "Each tab represents an expandable item beginning with a label. Click to edit contents, drag to re-order, &times; twice to remove an item, &plus; to add item. When saved, tabs will be stored as hidden sub-pages of the current navigation selection.",
+		ar = [], content = safeSplit(text);
+		for (var i=0; i<content.length; i+=2) {
+			ar.push({
+				label: content[i],
+				content: content[i+1],
+				id: "s" + content[i].replace(/[^a-zA-Z0-9]/g,"").slice(0,30).toLowerCase()
 			});
-	});
-}
-
-function show_dialogue_references(editor) {
-
-	$("#dialogue-references").remove();
-	$("<div />")
-		.attr({
-			"id":"dialogue-references",
-			"title":"Citiations / References"
-		})
-		.appendTo("body");
-
-	$.get("/engine/action.asp?id=" + _courseid + "&action=edit_ajax_load_references&q=" + Math.random(), function (data) {
-		if (typeof editor !== "undefined") {
-			data['returnmode'] = true;
 		}
-		$("#dialogue-references")
-			.html(Handlebars.getCompiledTemplate("reference",data))
-			.dialog({
-				modal: true,
-				maxHeight: $(window).height() - 100,
-				maxWidth: $(window).width() - 200,
-				width: $(window).width() / 2,
-				open: function() {
-					var $this = $(this);
-					$this.dialog('option', {
-						'maxHeight': $(window).height() - 100,
-						'maxWidth': $(window).width() - 200
-					});
-					$("<button><i class='icon-plus-circle'></i> Add item</button>").click(function () {
-						var tbl = $this.find("table").filter(":first"),
-							copy = tbl.clone();
-							copy.find(":text").val("");
-							copy.attr("data-id", getUID().toString());
-							copy.insertBefore(tbl);
 
-							$this.dialog('option', {
-								'maxHeight': $(window).height() - 100,
-								'maxWidth': $(window).width() - 200
-							});
-
-					}).button().appendTo(".ui-dialog-buttonpane");
-					$(this).on("click", "a[href=#remove]", function (event) {
-						event.preventDefault();
-						$(this).closest("table").remove();
-					});
-				},
-				buttons: {
-					"Save": function () {
-						var $this = $(this);
-						var out = {"references":[]},
-							inp = $("table", this);
-						inp.each(function(index, el) {
-							var $el = $(el),
-								_ref = $.trim($el.find(":text[name='reference']").val()),
-								_link = "", _desc = "";
-							if (_ref.indexOf("://")==-1) { _desc=_ref; _link="#"} else { _desc=""; _link=_ref; }
-							out.references.push({
-								"uniqueid": either($el.attr("data-id"),getUID().toString()),
-								"title": $.trim($el.find(":text[name='cite']").val()),
-								"description": _desc,
-								"hyperlink": _link
-							});
-						});
-						$.post("/engine/action.asp?id=" + _courseid + "&action=edit_ajax_save_references", {
-							data: JSON.stringify(out)
-						}, function (ret) {
-							if (ret == "ok") {
-
-								// apply the selection before the dialogue closes
-								if (typeof editor !== "undefined") {
-									replace_selection(editor, "{ref " + [$this.find(":checked").val()].join("|") + "}")
-								}
-
-								$this.dialog("close");
-								$.jGrowl("The references have been saved.");
-
-
-							} else {
-								alert("Something stuffed up saving the references. Check the console.");
-								console.log("Error saving references", ret);
-							}
-						});
-					},
-					Cancel: function () {
-						$(this).dialog("close");
-					}
-				}
+	} else if (text.startsWith("{slidebox ") && text.endsWith("}")) {
+		h = "Slide Box",
+		intro = "Each tab represents a page in the slidebox. Click to edit contents, drag to re-order, &times; twice to remove an item, &plus; to add item. Choose whether the slidebox will be vertically or horizontally oriented.",
+		ar = [], content = safeSplit(text);
+		modifier = content[0]; // e.g. "horizontal" or "vertical"
+		for (var i=1; i<content.length; i++) {
+			ar.push({
+				label: "Slide " + (i+1),
+				content: content[i],
+				id: "s" + content[i].replace(/[^a-zA-Z0-9]/g,"").slice(0,30).toLowerCase()
 			});
-		$(".sortable-elements", "#dialogue-references").sortable({
-			handle: ".icon-resize-vertical",
-			axis: "y"
-		})
-	});
+		}
+
+	} else if ((text.startsWith("{bullets ")||text.startsWith("{numbers ")) && text.endsWith("}")) {
+		h = "List of " + cmd, // needs translation maybe
+		intro = "Each tab represents an item in the list of " + cmd + ". Click to edit contents, drag to re-order, &times; twice to remove an item, &plus; to add item. Choose the type of list being created.",
+		ar = [], content = safeSplit(text);
+		for (var i=0; i<content.length; i++) {
+			ar.push({
+				label: "Item " + (i + 1),
+				content: content[i],
+				id: "s" + content[i].replace(/[^a-zA-Z0-9]/g,"").slice(0,30).toLowerCase()
+			});
+		}
+
+	}
+
+	return {
+		tabs: ar,
+		header: h,
+		intro: intro,
+		kind: k,
+		modifier: modifier
+	}
 }
 
-function show_dialogue_help() {
+function show_dialogue_pilledit(kind, region) {
+	// 1. remove any previous dialogues
+	// 2. figure out the data being passed by the selection
+	// 3. Compile a new runtime template based on the new data and append it on the document
+	// 4. Tell a dialogue control to show this content as a modal (https://github.com/benceg/vanilla-modal)
+	// 5. Initialise any plugin code, such as tabs or editors
 
-	$("#dialogue-help").remove();
-	$("<div />")
-		.attr({
-			"id":"dialogue-help",
-			"title":"Editing the help file"
-		})
-		.appendTo("body");
+	 var selection = get_selection(region),
+		tmplJson = parseSelection(selection && selection.text, kind);
 
-	$.get("/engine/action.asp?id=" + _courseid + "&action=edit_ajax_load_help&q=" + Math.random(), function (data) {
-		$("#dialogue-help")
-			.html(Handlebars.getCompiledTemplate("help",{content: data}))
-			.dialog({
-				modal: true,
-				maxHeight: $(window).height() - 100,
-				maxWidth: $(window).width() - 200,
-				width: $(window).width() - ($(window).width() / 4),
-				open: function() {
-					var $this = $(this);
-					$this.dialog('option', {
-						'maxHeight': $(window).height() - 100,
-						'maxWidth': $(window).width() - 200
-					});
-					$this.find("textarea").attachEditor();
-				},
-				buttons: {
-					"Save": function () {
-						var $this = $(this);
-						// console.log("help save", $("textarea", this).val());
-						$.post("/engine/action.asp?id=" + _courseid + "&action=edit_ajax_save_help", {
-							data: $("textarea", this).val()
-						}, function (ret) {
-							if (ret == "ok") {
-								$this.dialog("close");
-								$.jGrowl("The help file has been saved.");
-							} else {
-								alert("Something stuffed up saving the help file. Check the console.");
-								console.log("Error saving help", ret);
+	$("#pill-edit-modal").remove(); // any previous
+	var hh = $(Handlebars.getRuntimeTemplate("edit-pilledit-hbt", tmplJson)).appendTo(document.body);
+	var dlg = new VanillaModal.default({
+		closeKeys:[27],
+		clickOutside:false,
+		transitions:true,
+		onOpen:function(e) {
+			$(".pill-edit-tabs")
+				.on("click","[data-action]", function (e) {
+					e.preventDefault();
+					switch (e.target.dataset.action) {
+						case "select-tab":
+							$(e.target).closest("li").removeClass("confirm-delete").addClass("active").siblings().removeClass("active");
+							$(e.target.dataset.target).removeAttr("hidden").siblings("div").attr("hidden","");
+							$("textarea", e.target.dataset.target).attachEditor();
+						break;
+						case "remove-tab":
+							if(e.target.closest("li").classList.contains("confirm-delete")) {
+								$(e.target.dataset.target).remove();
+								$(e.target).closest("li").remove();
+								$(".pill-edit-tabs>li:first").click();
+							} else if ($(".pill-edit-tabs>li").length>3) {
+								console.dir($(".pill-edit-tabs>li").length);
+								e.target.closest("li").classList.add("confirm-delete");
 							}
-						});
-					},
-					Cancel: function () {
-						$(this).dialog("close");
+						break;
+						case "add-tab":
+							var lis = $(".pill-edit-tabs>li"),
+								idx = lis.length - 2;
+							var $li = $('<li sortable><span class="pill-edit-tab"><a href="#" data-action="select-tab" data-target="#pillEditTab'+idx+'">Item '+idx+'</a><a href="#" data-action="remove-tab" data-target="pillEditTab'+idx+'">&times;</a></span></li>');
+							var $div = $('<div class="pill-edit-bodies" id="pillEditTab'+idx+'" hidden></div>').html('<p>Label: <input type="text" value="Item '+idx+'"></p><textarea>Enter your content here</textarea>');
+							$li.insertBefore(lis.filter(":nth-last-child(2)"));
+							$div.insertAfter($(".pill-edit-bodies:last"));
+							$li.find("a[data-action='select-tab']:eq(0)").click();
+							$(".pill-edit-tabs").sortablejs("destroy").sortablejs();
+							// add a hidden node to the tree underneath the selected item
+						break;
 					}
-				}
-			});
-	});
-}
+				})
+				.sortablejs()
+				.find("a[data-action='select-tab']:eq(0)").click();
+				// console.dir(document.querySelectorAll(".pill-edit-tabs>li:not([unsortable])"));
 
-function show_dialogue_easyedit(command, region) {
-
-	$("#easy-edit").remove();
-	var selection = get_selection(region),
-		dlg = $("<div />")
-			.attr({
-				"id":"easy-edit",
-				"title":"Insert a list of items"
-			})
-			.appendTo("body");
-
-	$("<p>").text("Each line you enter below will be turned into a number or bullet").appendTo(dlg);
-	$("<textarea>").attr({"wrap":"off","rows":8,"class":"input-block-level"}).appendTo(dlg);
-
-	dlg.dialog({
-		modal: true,
-		maxHeight: $(window).height() - 100,
-		maxWidth: $(window).width() - 200,
-		width: $(window).width() / 2,
-		open: function() {
-			var $this = $(this);
-			$this.dialog('option', {
-				'maxHeight': $(window).height() - 100,
-				'maxWidth': $(window).width() - 200
-			});
-			$("textarea", this).val(selection.text);
 		},
-		buttons: {
-			"Save": function () {
-				var $this = $(this);
-				var out = [],
-					cmd = (command.indexOf("bullets")==-1)?"numbers":"bullets",
-					inp = $("textarea", dlg).val().replace(/<[^>]*>?/g, "").split("\n");
-				$.map(inp, function (val, index) {
-					if ($.trim(val) != "") out.push($.trim(val));
-				});
-				replace_selection(region, "{" + cmd + " " + out.join("|") + "}");
-				$(this).dialog("close");
-			},
-			Cancel: function () {
-				$(this).dialog("close");
-			}
+		onBeforeClose:function(e) {
+			// console.info("on before close", e);
 		}
 	});
-}
+	dlg.open("#pill-edit-modal");
 
-function show_dialogue_pilledit(command, region) {
-
-	$("#pill-edit").remove();
-	var selection = get_selection(region),
-		dlg = $("<div />")
-			.attr({
-				"id":"pill-edit",
-				"title":"Author multi-page item"
-			})
-			.appendTo("body"),
-		tmplJson = {"tabs":[]};
-
-	if (selection.text) {
-		// TODO: break up the selected data if its a tab, accordion or columns, and feed this back into the template as json
-		tmplJson = {"tabs":[
-			{
-				"label": "Item 0",
-				"content": selection.text,
-				"filename": ("parse" + $("a.jstree-clicked","#xmlTree").closest("li").attr("fileName").split(".")[0].replace(/[^a-zA-Z0-9_]/g,"") + "_0").replace(" ","_")
-			}
-		]};
-		_global_tab_count = tmplJson.tabs.length;
-	}
-
+/*
 	dlg
-		.html(Handlebars.getCompiledTemplate("tabs/content/pilledit", tmplJson))
+		.html(hh)
 		.dialog({
 			modal: true,
 			maxHeight: $(window).height() - 200,
@@ -1285,7 +1106,7 @@ function show_dialogue_pilledit(command, region) {
 				});
 				var tabs = $("#tabbed-editor")
 					.tabs()
-					.on( "click", "i.icon-remove", function(e) {
+					.on( "click", "i.far fa-remove", function(e) {
 						e.preventDefault();
 						e.stopPropagation();
 						if ($(this).closest("ul").find("li").length > 1) {
@@ -1333,7 +1154,7 @@ function show_dialogue_pilledit(command, region) {
 							out.push(filename);
 						}
 					});
-					$.post("/engine/action.asp?id=" + _courseid + "&action=edit_post_tabeditmodal_saveall", blob.join("&"), function(data) {
+					$.post("/engine/action.asp?id=" + window.CourseBuildr.Course.id + "&action=edit_post_tabeditmodal_saveall", blob.join("&"), function(data) {
 						if (data != "ok") {
 							alert("Uh oh. This did NOT save. Check the console for the error details.");
 							console.log(data);
@@ -1351,33 +1172,33 @@ function show_dialogue_pilledit(command, region) {
 				}
 			}
 		});
-
+*/
 }
 
 // in pill-edit-modal, clicking add (or initalising) adds a tab, based on the filename of the current select object
-function addPill() {
-	var tabs = $("#tabbed-editor"),
-		numPills = _global_tab_count++,
-		tabFileName = ("parse" + $("a.jstree-clicked","#xmlTree").closest("li").attr("fileName").split(".")[0].replace(/[^a-zA-Z0-9_]/g,"") + "_" + numPills.toString()).replace(" ","_"),
-		_ta = $("<textarea>")
-					.addClass("input-block-level")
-					.css("min-height", "400px")
-					.attr({"rows": 15, "placeholder":"Here is where the markup for item " + numPills.toString() + " goes. This will get saved in a file called '" + tabFileName + ".txt' and appended as a child under the selected page in the treeview."});
+// function addPill() {
+// 	var tabs = $("#tabbed-editor"),
+// 		numPills = _global_tab_count++,
+// 		tabFileName = ("parse" + $("a.jstree-clicked","#xmlTree").closest("li").attr("fileName").split(".")[0].replace(/[^a-zA-Z0-9_]/g,"") + "_" + numPills.toString()).replace(" ","_"),
+// 		_ta = $("<textarea>")
+// 					.addClass("input-block-level")
+// 					.css("min-height", "400px")
+// 					.attr({"rows": 15, "placeholder":"Here is where the markup for item " + numPills.toString() + " goes. This will get saved in a file called '" + tabFileName + ".txt' and appended as a child under the selected page in the treeview."});
 
-	$("<li />")
-		.append($("<a>").attr("href","#" + tabFileName).text("Item " + numPills).append("<i class='icon-remove'></i>"))
-		.appendTo($("ul",tabs));
-	$("<div />")
-		.hide()
-		.attr("id", tabFileName)
-		.append($("<input />").addClass("input-block-level").attr({"type": "text","placeholder": "Give your new item a title here..."}))
-		.append(_ta)
-		.appendTo(tabs);
-	tabs.tabs("refresh");
-	tabs.tabs( "option", "active", numPills );
+// 	$("<li />")
+// 		.append($("<a>").attr("href","#" + tabFileName).text("Item " + numPills).append("<i class='far fa-remove'></i>"))
+// 		.appendTo($("ul",tabs));
+// 	$("<div />")
+// 		.hide()
+// 		.attr("id", tabFileName)
+// 		.append($("<input />").addClass("input-block-level").attr({"type": "text","placeholder": "Give your new item a title here..."}))
+// 		.append(_ta)
+// 		.appendTo(tabs);
+// 	tabs.tabs("refresh");
+// 	tabs.tabs( "option", "active", numPills );
 
-	_ta.attachEditor(); // must be done after the textarea exists in DOM
-}
+// 	_ta.attachEditor(); // must be done after the textarea exists in DOM
+// }
 
 function updateLayoutHeaderBg(config) {
 	var el = $("table.layout-edit.header-element");
@@ -1424,7 +1245,7 @@ function setJsonValue(obj, path, value) {
 
 // $(document).unbind("content.revisions").bind("content.revisions", function () {
 // 	$.get("/engine/action.asp", {
-// 		"id" : _courseid,
+// 		"id" : window.CourseBuildr.Course.id,
 // 		"action" : "history_get",
 // 		"filename" : _editing_file
 // 		},
@@ -1477,7 +1298,7 @@ function setJsonValue(obj, path, value) {
 
 // _tab.on("click", "#content-save", function (e) {
 // 	e.preventDefault();
-// 	$.post("/engine/action.asp?id=" + _courseid + "&action=ajaxSaveFile", {
+// 	$.post("/engine/action.asp?id=" + window.CourseBuildr.Course.id + "&action=ajaxSaveFile", {
 // 		filename: _editing_file,
 // 		content: $("#edit-area").val()
 // 	}, function (data) {
@@ -1502,160 +1323,158 @@ function hex2rgba(hx,a) {
 }
 
 
-var toolbarjson = {
-	"purpose": [
-		{
-			"name": "Elements",
-			"group": [
-				{
-					"label":"Images, Video & Audio",
-					"commands": [
-						{"text":"right-hand images" , "command":"{rightimages %images%}"},
-						{"text":"single image" , "command":"{image %image%}"},
-						{"text":"slideshow" , "command":"{slideshow %effect%|%pictures%}"},
-						{"text":"Video (inline)", "command":"{inlinevideo %videosize%|%linkurl%}", "icon":"icon-youtube"},
-						{"text":"Video (fullscreen), Play button", "command":"{fullscreenvideo %linkurl%}"},
-						{"text":"Video (fullscreen), Image button", "command": "{fullscreenvideoimage %image%|%linkurl%}"},
-						// {"text":"stretch right image", "command": "{backstretch %image%}"},
-						{"text":"Captioned image", "command": "{caption black|%image%|%selection%}", "helper":"selector", "values":["black","white","theme"]}
-					]
-				},
-				{
-					"label":"Background images",
-					"commands": [
-						{"text":"page background", "command":"{pagebg %image%}"},
-						{"text":"grid background", "command":"{gridbg %image%}"},
-						{"text":"column background", "command":"{columnbg %image%}"}
-					]
-				},
-				{
-					"label": "Data loaders",
-					"commands": [
-						//{"text":"load a quiz" , "command":"{quiz 500|%xml%}", "helper":"height", "nestable": false},
-						{"text":"load and parse external file" , "command":"{parse %url%}"},
-						{"text":"load but do not parse external file" , "command":"{load %url%}"},
-						{"text":"iframe", "command": "{iframe 500|%link%}", "helper":"height"},
-						{"text":"slidebox (vertical)", "command": "{slidebox vertical|text, image or url for first page|text, image or url for subsequent pages}", "helpers": ["select"], "values": ["horizontal","vertical"]},
-						{"text":"slidebox (horizontal)", "command": "{slidebox horizontal|text, image or url for first page|text, image or url for subsequent pages}", "helpers": ["select"], "values": ["horizontal","vertical"]}
-					]
-				},
-				{
-					"label": "Utilities",
-					"commands": [
-						{"text":"any html tag" , "command":"{tag tag|%selection%}"},
-						{"text":"any html tag (with css class)" , "command":"{tag tag.className|%selection%}"},
-						{"text":"clearfix" , "command":"{clear both}"},
-						{"text":"line break (br)" , "command":"{br}"},
-						{"text":"line split (p)" , "command":"{/}"},
-						{"text":"classname (inline)" , "command":"{wrap classname|%selection%}"},
-						{"text":"classname (block)" , "command":"{block classname|%selection%}"},
-						{"text":"Strip all HTML from source code", "command":"//stripHTML//", "icon":"icon-bolt"},
-						{"text":"Strip all except BODY from source code", "command":"//stripHEAD//", "icon":"icon-bookmark-empty"},
-						{"text":"Try to convert stuff automatically", "command":"//convertAUTO//", "icon":"icon-bookmark"},
-						{"text":"Insert media", "command":"//insert-media//"},
-						{"text":"use right column", "command":"{right %selection%}"},
-						{"text":"Convert selection to parse include", "command":"//convertBLOCK//", "icon":"icon-file-text"}
-					]
-				}
-			]
-		},
-		{
-			"name": "Interactions",
-			"group": [
-				{
-					"label": "Overlays & Popups",
-					"commands": [
-						//{"text":"balloon popup" , "command":"{balloon %selection%|tip-text}", "icon":"icon-comment-alt"},
-						{"text":"lightbox popup (button)" , "command":"{popup %selection%|%url%}", "icon":"icon-external-link"},
-						{"text":"lightbox popup (text)" , "command":"{popuptext %selection%|%url%}"},
-						{"text":"tip (button)" , "command":"{tipbutton %selection%|title box text|tip text in here}"},
-						{"text":"tip (text)" , "command":"{tiptext %selection%|tip text in here}"},
-						{"text":"glossary term" , "command":"{term %term%}"},
-						{"text":"reference number" , "command":"{ref %ref%}"}
-					]
-				},
-				{
-					"label": "Interactions",
-					"commands": [
-						{"text":"fastfact" , "command":"{fastfact Fast Fact|%selection%}"},
-						{"text":"flip cards" , "command":"{flip front-1|rear-1|front-N|rear-N}"},
-						{"text":"scorm checkbox selection" , "command":"{clickcheck label 1|label ..|label N}"},
-						{"text":"scorm true/false selection" , "command":"{clicktf true|false|label 1|label ..|label N}", "helpers":["select"],"values":["true","false"]},
-						{"text":"scorm image selection" , "command":"{clickimage %images%}"},
-						{"text":"scorm match activity" , "command":"{match Question 1|Answer 1|Question 2|Answer 2|Question N|Answer N}"},
-						{"text":"scorm match-set activity" , "command":"{matchset Question 1|Answer 1|Question 2|Answer 2|Question N|Answer N}"},
-						{"text":"survey" , "command":"{survey no-options|question 1|question ..|question N}"},
-						{"text":"accordion", "command":"{accordion title 1|url 1|title ..|url ..|title N|url N}", "pilledit": true, "helpers": ["pilledit"], "icon": "icon-reorder", "nestable": false},
-						{"text":"tab bar" , "command":"{tabs title 1|url 1|title ..|url ..|title N|url N}", "pilledit": true, "helpers": ["pilledit"], "icon": "icon-folder-close-alt", "nestable": false},
-						{"text":"zoom-image" , "command":"{zoomimage %thumbnail%|%image%}"},
-						{"text":"Split image", "command": "{splitimage %left%|%right%}"}
-					]
-				},
-				{
-					"label": "Pages",
-					"commands": [
-						{"text":"completion page" , "command":"{completion You-have-completed...|You-have-not-yet-completed...}"},
-						{"text":"ifcomplete switch" , "command":"{ifcomplete complete-text|incomplete-text}"}
-					]
-				}
-			]
-		},
-		{
-			"name": "Formatters",
-			"group": [
-				{
-					"label": "Formatting",
-					"commands": [
-						{"text":"h1" , "command":"{tag h1|%selection%}"},
-						{"text":"h2" , "command":"{tag h2|%selection%}"},
-						{"text":"bold" , "command":"{bold %selection%}", "icon":"icon-bold"},
-						{"text":"italic" , "command":"{italic %selection%}", "icon":"icon-italic"},
-						{"text":"numbered list" , "command":"{numbers item 1|item ..|item N}", "icon":"icon-list-ol", "easyedit": true, "helpers": ["textlist"]},
-						{"text":"bulleted list" , "command":"{bullets point 1|point ..|point N}", "icon":"icon-list-ul", "easyedit": true, "helpers": ["textlist"]},
-						{"text":"centered (div)" , "command":"{centered %selection%}", "icon":"icon-align-center"},
-						{"text":"centered (p)" , "command":"{centerp %selection%}"},
-						{"text":"link (go to page)" , "command":"{link %url%|%selection%}", "icon":"icon-link"},
-						{"text":"link (reference)" , "command":"{linkref %url%|%selection%}"},
-						{"text":"link (open in new window)" , "command":"{external %link%|%selection%}"},
-						{"text":"block quote" , "command":"{quote %selection%}"},
-						{"text":"columns", "command":"{columns column 1|column ..|column 5}", "pilledit": true, "helpers": ["pilledit"]},
-						{"text":"float left", "command":"{float left|%selection%}"},
-						{"text":"float right", "command":"{float right|%selection%}"},
-						// {"text":"Line break", "command":"{/}"},
-						// {"text":"Blank single line", "command":"{/blank-line/}"},
-						{"text":"Horizontal line", "command":"{-}"}
-					]
-				},
-				{
-					"label": "Formatter blocks",
-					"commands": [
-						{"text":"Column splitter", "command":"<|>"},
-						{"text":"Fold splitter", "command":"<->"},
-						{"text":"Grid 3414", "command":"<layout grid3414>"},
-						{"text":"Grid 3525", "command":"<layout grid3525>"},
-						{"text":"Grid 1212 L", "command":"<layout grid1212L>"},
-						{"text":"Grid 1212 R", "command":"<layout grid1212R>"}
-					]
-				}
-			]
-		}
-	],
-	"grid": $("a.jstree-clicked","#xmlTree").closest("li").attr("template"),
-	"grids": [
-		{"value":"", "label": "<i class='icon-th-large'></i> Auto"},
-		{"value":"grid3414", "label": "<i class='icon-columns'></i> <u>&frac34;</u> : &frac14;"},
-		{"value":"grid3525", "label": "<i class='icon-columns'></i> <u>&frac35;</u> : &frac25;"},
-		{"value":"grid1212l", "label": "<i class='icon-columns'></i> <u>&frac12;</u> : &frac12;"},
-		{"value":"grid1212r", "label": "<i class='icon-columns'></i> &frac12; : <u>&frac12;</u>"},
-		{"value":"grid0", "label": "<i class='icon-check-empty'></i> None"}
-	]
-};
+// var toolbarjson = {
+// 	"purpose": [
+// 		{
+// 			name: "Elements",
+// 			group: [
+// 				{
+// 					label:"Images, Video & Audio",
+// 					commands: [
+// 						{text:"right-hand images" , command:"{rightimages %images%}"},
+// 						{text:"single image" , command:"{image %image%}"},
+// 						{text:"slideshow" , command:"{slideshow %effect%|%pictures%}"},
+// 						{text:"Video (inline)", command:"{inlinevideo %videosize%|%linkurl%}", icon:"fab fa-youtube"},
+// 						{text:"Video (fullscreen), Play button", command:"{fullscreenvideo %linkurl%}"},
+// 						{text:"Video (fullscreen), Image button", command: "{fullscreenvideoimage %image%|%linkurl%}"},
+// 						// {text:"stretch right image", command: "{backstretch %image%}"},
+// 						{text:"Captioned image", command: "{caption black|%image%|%selection%}", helper: "select", values:["black","white","theme"]}
+// 					]
+// 				},
+// 				{
+// 					label:"Background images",
+// 					commands: [
+// 						{text:"page background", command:"{pagebg %image%}"},
+// 						{text:"grid background", command:"{gridbg %image%}"},
+// 						{text:"column background", command:"{columnbg %image%}"}
+// 					]
+// 				},
+// 				{
+// 					label: "Data loaders",
+// 					commands: [
+// 						{text:"load and parse external file" , command:"{parse %url%}"},
+// 						{text:"load but do not parse external file" , command:"{load %url%}"},
+// 						{text:"iframe", command: "{iframe 500|%link%}", helper:"height"},
+// 						{text:"slidebox (vertical)", command: "{slidebox vertical|text, image or url for first page|text, image or url for subsequent pages}", pilledit: true, helper: "select", values: ["horizontal","vertical"]},
+// 						{text:"slidebox (horizontal)", command: "{slidebox horizontal|text, image or url for first page|text, image or url for subsequent pages}", pilledit: true, helper: "select", values: ["horizontal","vertical"]}
+// 					]
+// 				},
+// 				{
+// 					label: "Utilities",
+// 					commands: [
+// 						{text:"any html tag" , command:"{tag tag|%selection%}"},
+// 						{text:"any html tag (with css class)" , command:"{tag tag.className|%selection%}"},
+// 						{text:"clearfix" , command:"{clear both}"},
+// 						{text:"line break (br)" , command:"{br}"},
+// 						{text:"line split (p)" , command:"{/}"},
+// 						{text:"classname (inline)" , command:"{wrap classname|%selection%}"},
+// 						{text:"classname (block)" , command:"{block classname|%selection%}"},
+// 						{text:"Strip all HTML from source code", command:"//stripHTML//"},
+// 						{text:"Strip all except BODY from source code", command:"//stripHEAD//"},
+// 						{text:"Try to convert html automatically", command:"//convertAUTO//"},
+// 						{text:"Insert media", command:"//insert-media//"},
+// 						{text:"use right column", command:"{right %selection%}"},
+// 						{text:"Convert selection to parse include", command:"//convertBLOCK//", icon:"fas fa-file-alt"}
+// 					]
+// 				}
+// 			]
+// 		},
+// 		{
+// 			name: "Interactions",
+// 			group: [
+// 				{
+// 					label: "Overlays & Popups",
+// 					commands: [
+// 						//{"text":"balloon popup" , "command":"{balloon %selection%|tip-text}", "icon":"far fa-comment-alt"},
+// 						{text:"lightbox popup (button)" , command:"{popup %selection%|%url%}", icon:"fas fa-external-link-alt"},
+// 						{text:"lightbox popup (text)" , command:"{popuptext %selection%|%url%}"},
+// 						{text:"tip (button)" , command:"{tipbutton %selection%|title box text|tip text in here}"},
+// 						{text:"tip (text)" , command:"{tiptext %selection%|tip text in here}"},
+// 						{text:"glossary term" , command:"{term %term%}"},
+// 						{text:"reference number" , command:"{ref %ref%}"}
+// 					]
+// 				},
+// 				{
+// 					label: "Interactions",
+// 					commands: [
+// 						{text:"fastfact" , command:"{fastfact Fast Fact|%selection%}"},
+// 						{text:"flip cards" , command:"{flip front-1|rear-1|front-N|rear-N}"},
+// 						{text:"scorm checkbox selection" , command:"{clickcheck label 1|label ..|label N}"},
+// 						{text:"scorm true/false selection" , command:"{clicktf true|false|label 1|label ..|label N}", helper:"select",values: ["true","false"]},
+// 						{text:"scorm image selection" , command:"{clickimage %images%}"},
+// 						{text:"scorm match activity" , command:"{match Question 1|Answer 1|Question 2|Answer 2|Question N|Answer N}"},
+// 						{text:"scorm match-set activity" , command:"{matchset Question 1|Answer 1|Question 2|Answer 2|Question N|Answer N}"},
+// 						{text:"survey" , command:"{survey no-options|question 1|question ..|question N}"},
+// 						{text:"accordion", command:"{accordion title 1|url 1|title ..|url ..|title N|url N}", pilledit: true, icon: "material-icons material-icons-toc", nestable: false},
+// 						{text:"tab bar" , command:"{tabs title 1|url 1|title ..|url ..|title N|url N}", pilledit: true, icon: "material-icons material-icons-tab", nestable: false},
+// 						{text:"zoom-image" , command:"{zoomimage %thumbnail%|%image%}"},
+// 						{text:"Split image", command: "{splitimage %left%|%right%}"}
+// 					]
+// 				},
+// 				{
+// 					label: "Pages",
+// 					commands: [
+// 						{text:"completion page" , command:"{completion You-have-completed...|You-have-not-yet-completed...}"},
+// 						{text:"ifcomplete switch" , command:"{ifcomplete complete-text|incomplete-text}"}
+// 					]
+// 				}
+// 			]
+// 		},
+// 		{
+// 			name: "Formatters",
+// 			group: [
+// 				{
+// 					label: "Formatting",
+// 					commands: [
+// 						{text:"h1" , command:"{tag h1|%selection%}"},
+// 						{text:"h2" , command:"{tag h2|%selection%}"},
+// 						{text:"bold" , command:"{bold %selection%}", icon:"fas fa-bold"},
+// 						{text:"italic" , command:"{italic %selection%}", icon:"fas fa-italic"},
+// 						{text:"numbered list" , command:"{numbers item 1|item ..|item N}", pilledit: true, helper: "radio", values: ["bullets","numbers"]},
+// 						{text:"bulleted list" , command:"{bullets point 1|point ..|point N}", icon:"fas fa-list-ul", pilledit: true, helper: "radio", values: ["bullets","numbers"]},
+// 						{text:"centered (div)" , command:"{centered %selection%}", icon:"fas fa-align-center"},
+// 						{text:"centered (p)" , command:"{centerp %selection%}"},
+// 						{text:"link (go to page)" , command:"{link %url%|%selection%}", icon:"fas fa-link"},
+// 						{text:"link (reference)" , command:"{linkref %url%|%selection%}"},
+// 						{text:"link (open in new window)" , command:"{external %link%|%selection%}"},
+// 						{text:"block quote" , command:"{quote %selection%}"},
+// 						{text:"columns", command:"{columns column 1|column ..|column 5}", pilledit: true},
+// 						{text:"float left", command:"{float left|%selection%}"},
+// 						{text:"float right", command:"{float right|%selection%}"},
+// 						// {text:"Line break", command:"{/}"},
+// 						// {text:"Blank single line", command:"{/blank-line/}"},
+// 						{text:"Horizontal line", command:"{-}"}
+// 					]
+// 				},
+// 				{
+// 					label: "Formatter blocks",
+// 					commands: [
+// 						{text:"Column splitter", command:"<|>"},
+// 						{text:"Fold splitter", command:"<->"},
+// 						{text:"Grid 3414", command:"<layout grid3414>"},
+// 						{text:"Grid 3525", command:"<layout grid3525>"},
+// 						{text:"Grid 1212 L", command:"<layout grid1212L>"},
+// 						{text:"Grid 1212 R", command:"<layout grid1212R>"}
+// 					]
+// 				}
+// 			]
+// 		}
+// 	],
+// 	"grids": [
+// 		{value:"", label: "<i class='fas fa-magic'></i> Auto"},
+// 		{value:"grid3414", label: "<i class='fas fa-columns'></i> <u>&frac34;</u> : &frac14;"},
+// 		{value:"grid3525", label: "<i class='fas fa-columns'></i> <u>&frac35;</u> : &frac25;"},
+// 		{value:"grid1212l", label: "<i class='fas fa-columns'></i> <u>&frac12;</u> : &frac12;"},
+// 		{value:"grid1212r", label: "<i class='fas fa-columns'></i> &frac12; : <u>&frac12;</u>"},
+// 		{value:"grid0", label: "<i class='far fa-window-maximize'></i> None"}
+// 	]
+// };
 
 var MediaOverlay = (function(window,document,$,undefined) {
 
 	var active_region = null;
 
-	var _show = function(course_id, region_name, current_selection) {
+	var _show = function(region_name, current_selection) {
 		window.scrollTo(0,0);
 		var encoded_value = "";
 		if (current_selection.length) {
@@ -1669,7 +1488,7 @@ var MediaOverlay = (function(window,document,$,undefined) {
 		div.setAttribute("id","media-overlay");
 		var iframe = document.createElement("iframe");
 		iframe.style = "position:fixed;top:50px;left:50px;width:calc(100vw - 100px);height:calc(100vh - 100px);border:none;background-color:#fff;box-shadow:0 0 25px rgba(0,0,0,.5);";
-		iframe.setAttribute("src", "/app/media/index/" + course_id + "/insert/" + region_name + "/" + encoded_value);
+		iframe.setAttribute("src", "/app/media/index/" + window.CourseBuildr.Course.id+ "/insert/" + region_name + "/" + encoded_value);
 		div.appendChild(iframe);
 		document.querySelector("body").appendChild(div);
 		document.querySelector("body").className += " noscroll";

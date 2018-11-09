@@ -1,0 +1,97 @@
+/*
+the structure we want
+#tab-body {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	.editor-wrapper {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		.editor-local-toolbar {
+
+		}
+		.editor-surface-wrapper {
+			flex: 1;
+			display: flex;
+			flex-direction: row;
+			#ta-dom {
+				flex: 1;
+				.highlightTextarea {
+					.container {
+
+					}
+					#edit-area {
+
+					}
+				}
+			}
+			.command-block {
+				display: flex;
+				flex-direction: column;
+				select {
+					flex: 1;
+				}
+			}
+		}
+	}
+}
+*/
+
+#tab-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.editor-wrapper  input,
+.editor-wrapper  select,
+.editor-wrapper textarea {
+  border: none;
+  background-color: transparent;
+}
+.editor-wrapper textarea {
+	width: 100%;
+	height: 100%;
+}
+.editor-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.editor-wrapper .editor-local-toolbar {
+  background-color: lightgray;
+  padding: 5px;
+}
+.editor-wrapper .editor-surface-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+}
+.editor-wrapper .editor-surface-wrapper #ta-dom {
+  flex: 1;
+  margin-right: 5px;
+}
+.editor-wrapper .editor-surface-wrapper #ta-dom .highlightTextarea {
+  height: 100%;
+}
+.editor-wrapper .editor-surface-wrapper #ta-dom .highlightTextarea .container {
+  height: 100%;
+}
+.editor-wrapper .editor-surface-wrapper #ta-dom .highlightTextarea #edit-area {
+  height: 100%;
+  width: 100%;
+}
+.editor-wrapper .editor-surface-wrapper .command-block {
+  display: flex;
+  flex-direction: column;
+  background-color: cornsilk;
+}
+.editor-wrapper .editor-surface-wrapper .command-block select {
+  flex: 1;
+  outline: none;
+}
+.p-small {
+	font-size: 0.8em;
+	color: gray;
+	font-style: italic;
+}

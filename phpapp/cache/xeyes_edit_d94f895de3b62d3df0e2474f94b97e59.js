@@ -33,7 +33,11 @@
 		if (document.getElementById("xeyes")) return;
 		var rules = '.watchin {' +
 				'	display: inline-block;' +
-				'	padding-top: .3em;' +
+				'	padding-top: 16px;' +
+				'	background:url(/img/derpface.svg) no-repeat top center;' +
+				'	background-size: 100%;' +
+				'	width: 48px;' +
+				'	height: 60px;' +
 				'}' +
 				'.watchin .eyeball {' +
 				'	width: ' + options.width + 'px;' +

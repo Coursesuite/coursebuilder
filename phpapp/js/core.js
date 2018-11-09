@@ -233,6 +233,13 @@ Handlebars.needsPartial = function(name) {
 	Handlebars.registerPartial(label, Handlebars.incPartials[name]);
 };
 
+Handlebars.getRuntimeTemplate = function (name, obj) {
+  if (!Handlebars.templates[name]) {
+    Handlebars.templates[name] = Handlebars.compile(document.getElementById(name));
+  }
+  return Handlebars.templates[name](obj);
+}
+
 Handlebars.getCompiledTemplate = function (name, json) {
 	var template = Handlebars.getTemplate(name);
 	// console.log("compiling template", name, json, template(json));

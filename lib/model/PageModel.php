@@ -19,6 +19,12 @@ class PageModel extends Model {
         return ($assoc) ? (array) $this->_data : $this->_data;
     }
 
+
+    public function set_model($model)
+    {
+        $this->_data = $model;
+    }
+
     public function __construct($row_id = 0)
     {
         parent::__construct();
@@ -103,6 +109,8 @@ class PageModel extends Model {
 		foreach ($root->page as $page) {
 			$order++;
 			$props = $page->attributes();
+            $children = $page->children();
+            $filename = (string)$props['fileName'];
 			$content = "";
 			if (file_exists($contentPath . (string)$props['fileName'])) {
 				$content = file_get_contents($contentPath . (string)$props['fileName']);
@@ -111,7 +119,7 @@ class PageModel extends Model {
 				"id"=>0,
 				"course"=>$course,
 				"title"=>(string)$props['title'],
-				"filename"=>(string)$props['fileName'],
+				"filename"=>$filename,
 				"type"=>(string)$props['type'],
 				"scormid"=>(string)$props['id'],
 				"contribute"=>(string)$props['contribute'],
@@ -121,13 +129,14 @@ class PageModel extends Model {
 				"template"=>(string)$props['template'],
 				"content"=>$content,
 				"sequence"=>$order,
+                "visibility"=> Text::startsWith($filename,"parse") || Text::startsWith($filename,"popup") || Text::startsWith($filename, "include") ? 0 : 1,
 				"html"=>"",
 				"deleted"=>0,
 				"parent"=>$parent
 			];
 			$id = Model::Update("page", "id", $model);
-			if (isset($page->page)) {
-				self::convertPages($page->page, $contentPath, $id, $course);
+			if (isset($children)) {
+				self::convertPages($children, $contentPath, $id, $course);
 			}
 		}
     }

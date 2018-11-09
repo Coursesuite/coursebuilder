@@ -21,6 +21,11 @@
 	--labelInverse: #000;
 	--labelSuccess: #090;
 }
+
+[aria-hidden="true"] {
+	display: none;
+}
+
 body {
 	background-color: #eee;
 	position: relative;
@@ -105,8 +110,28 @@ i.material-icons + i.material-icons {
 .ft {
 	display: flex;
 }
-.ft > * {
-	flex: 1;
-}
+.ft > * { flex: 1; }
+.ft > .f2 { flex: 2; }
+.ft > .f3 { flex: 3; }
 .fl { text-align: left; }
+.fm { text-align: center; }
 .fr { text-align: right; }
+
+.table-like {
+	display: table;
+	width: 100%;
+}
+.table-like>* {
+	display: table-cell;
+}
+.w10{width:10%}
+.w20{width:20%}
+.w30{width:30%}
+.w40{width:40%}
+.w50{width:50%}
+.w60{width:60%}
+.w70{width:70%}
+.w80{width:80%}
+.w90{width:90%}
+.w25{width:25%}
+.w75{width:75%}
