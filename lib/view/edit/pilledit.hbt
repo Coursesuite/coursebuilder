@@ -40,7 +40,7 @@
     </div>
     <footer>
       <button data-modal-action='cancel' transparent>Cancel</button>
-    	<button data-modal-action='save' data-modal-kind="{{kind}}" data-modal-command="{{command}}">Save {{command}}</button>
+    	<button data-modal-action='save' data-modal-kind="{{kind}}">Save {{kind}}</button>
     </footer>
   </div>
 </div>

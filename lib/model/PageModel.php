@@ -155,4 +155,10 @@ class PageModel extends Model {
 
     }
 
+    // given a course and a filename, load the page model (typically used in loading content into pill-edit mode)
+    public static function loadByFilename($course, $filename) {
+        $rowid = DatabaseFactory::get_record(self::TABLE_NAME, ['course'=>$course,'filename'=>$filename],'id',1);
+        return new PageModel($rowid);
+    }
+
 }

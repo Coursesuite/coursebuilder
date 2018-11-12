@@ -312,7 +312,53 @@ class EditController extends Controller
                 $result->status = "ok";
                 break;
 
+            case "page.savepartial":
+                $row = Request::rowint('id');
+                $filename = Request::post('filename');
+                $content = Request::post('content',true);
+                $parent = new PageModel($row);
+                if ($parent->loaded()) {
+                    $parent = new PageModel($row);
+                    $child = new PageModel(0);
+                    $child->course = $parent->course;
+                    $child->parent = $parent->id;
+                    $child->sequence = 999; // todo
+                    $child->title = Request::post('text',true);
+                    $child->filename = $filename;
+                    $child->type = "Information";
+                    $child->scormid = time();
+                    $child->contribute = 'n';
+                    $child->score = 100;
+                    $child->percentage = 100;
+                    $child->nav = 'n';
+                    $child->visibility = 0;
+                    $child->template = '';
+                    $child->content = $content;
+                    $child->html = '';
+                    $child->deleted = 0;
+                    $child->modified = date('Y-m-d H:i:s');
+                    $child->save();
+
+                    $child->path = $parent->path . $child->id . '/';
+                    $child->save();
+
+                    $result->status = "ok";
+                }
+                break;
+
             case "file.dnd":
+                break;
+
+            case "page.contentbyfilename":
+                $filename = Request::post("filename");
+                $obj = PageModel::loadByFilename($course_id, $filename);
+                if ($obj->loaded()) {
+                    $result->content = $obj->content;
+                    $result->id = $obj->id;
+                    $result->status = "ok";
+                } else {
+                    $result->error = "A page with that filename was not found in this course.";
+                }
                 break;
 
             default:

@@ -712,7 +712,8 @@ $.fn.extend( {
 				    		.on("select", function(event) {
 					    		checkIfWeNeedToExpandTheSelection(this);
 				    		})
-				    		.highlightTextarea();
+				    		.highlightTextarea()
+				    		.autoLoad();
 
 				    	// list of all possible commands in a select box (right)
 			    		$(".command-block select", where).on("change", function() {
@@ -790,6 +791,44 @@ $.fn.extend( {
         });
 
         return (retVal === void 0) ? this : retVal;
+	},
+
+	autoLoad: function() {
+	    if (this.jquery) {
+	        this.each(function() {
+	            if (this.nodeType == 1) {
+	                var nodeName = this.nodeName.toLowerCase();
+	                if (nodeName === "textarea") {
+	                	if ("loadedFilename" in this.dataset) return; // load file -> sets data-loaded-filename="filename.html"
+	                	if (this.value.indexOf(" ")!==-1) return; // probably language
+	                	if (this.value.indexOf("\n")!==-1 || this.value.indexOf("{")!==-1 || this.value.indexOf("<")!==-1) return; // markup of some kind
+	                	if (this.value.indexOf(".")===-1) return; // can't be a filename
+						if (this.value.indexOf(".html")!==-1 || this.value.indexOf(".md")!==-1 || this.value.indexOf(".txt")!==-1) {
+							var el = this,
+								name = el.value;
+							el.value = "Loading content ... please wait";
+							$.post('/app/edit/action/' + window.CourseBuildr.Course.id + '/page.contentbyfilename/', {
+								filename: name
+							}, function (obj) {
+								if (obj.status !== "ok") {
+									console.warn(obj);
+									if (obj.error) alert(obj.error);
+									el.value = name; // reset value
+									return;
+								} else {
+									el.dataset.loadedFilename = name; // cache filename for future saves
+									el.dataset.pageId = obj.id;
+									el.value = obj.content;
+
+									retriggerHighlighter(el.id);
+								}
+							})
+						}
+	                }
+	            }
+	        })
+	    }
+	    return this;
 	}
 
 } );
@@ -953,6 +992,9 @@ function safeSplit(text) {
 
 }
 
+
+// in the editor double clicking a keyword expands the selection
+// clicking a toolbar function then parses the selection back into the correct array
 function parseSelection(text, cmd) {
 	var ar = [{
 			label: "Item 0",
@@ -1061,7 +1103,6 @@ function show_dialogue_pilledit(kind, region) {
 								$(e.target).closest("li").remove();
 								$(".pill-edit-tabs>li:first").click();
 							} else if ($(".pill-edit-tabs>li").length>3) {
-								console.dir($(".pill-edit-tabs>li").length);
 								e.target.closest("li").classList.add("confirm-delete");
 							}
 						break;
@@ -1076,6 +1117,70 @@ function show_dialogue_pilledit(kind, region) {
 							$(".pill-edit-tabs").sortablejs("destroy").sortablejs();
 							// add a hidden node to the tree underneath the selected item
 						break;
+					}
+				})
+				.on("click","[data-modal-action]", function (e) {
+					e.preventDefault();
+					switch (e.target.dataset.modalAction) {
+						case "save":
+							var modifier = $(".pill-edit-modal input[name='modifier']"),
+								kind = e.target.dataset.modalKind,
+								command = [],
+								result = "{" + kind + " ";
+							if (modifier.length) command.push(modifier.val());
+
+							// each draggable tab, in on-screen order
+							$(".pill-edit-tabs>li[sortable]").each(function(el) {
+								var ta = $(el).find("textarea"),
+									inp = $(el).find("input");
+
+								// the the textarea content was loaded from a filename then persist the content back to that filename
+								// but ensure that the resulting command value then reflects the filename in situ
+								if ("loadedFilename" in ta.dataset) {
+									$.post('/app/edit/action/' + window.CourseBuildr.Course.id + '/page.save/', {
+										id: ta.dataset.pageId,
+										content: ta.value
+									}, function (obj) {
+										if (obj.status !== "ok") {
+											console.warn(obj);
+											if (obj.error) alert(obj.error);
+											el.value = name; // reset value
+											return;
+										} else {
+											ta.value = ta.dataset.loadedFilename;
+										}
+									});
+								}
+
+								// need to create pages where we haven't already loaded from them, if the kind permits loading
+								switch (kind) {
+									case "tabs": case "accordion":
+										var filn = 'parse' + Date.now() + '.html';
+									// take the content and push it to the server as an include under the selected tree node
+									// then take the resulting filename and put it in the textarea
+									// trigger the tree node to reload so the new child nodes appear
+										command.push(inp.value); // name|value|name|value
+										command.push(ta.value);
+										break;
+
+									case "bullets": case "numbers":
+										command.push(ta.value); // value|value|value
+										break;
+
+									default:
+										command.push(ta.value); // value|value|value
+
+								}
+
+								result += command.join("|") + "}";
+								replace_selection(region,result);
+								dlg.destroy(); // or close
+
+							});
+							break;
+						case "cancel":
+							dlg.destroy(); // or close
+							break;
 					}
 				})
 				.sortablejs()
