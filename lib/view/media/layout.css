@@ -1,0 +1,419 @@
+:root {
+	--linkHover:  #00a0d2;
+	--link:  #0073aa;
+}
+
+.page-media button {
+	display: inline-block;
+    text-decoration: none;
+    font-size: 13px;
+    line-height: 26px;
+    height: 28px;
+    margin: 0;
+    padding: 0 10px 1px;
+    cursor: pointer;
+    border-width: 1px;
+    border-style: solid;
+    -webkit-appearance: none;
+    border-radius: 3px;
+    white-space: nowrap;
+    box-sizing: border-box;
+
+    color: #555;
+    border-color: #ccc;
+    background: #f7f7f7;
+    box-shadow: 0 1px 0 #ccc;
+    vertical-align: top;
+
+    outline: none;
+}
+.page-media button.active {
+	background: #0085ba;
+    border-color: #0073aa #006799 #006799;
+    box-shadow: 0 1px 0 #006799;
+    color: #fff;
+    text-decoration: none;
+    text-shadow: 0 -1px 1px #006799, 1px 0 1px #006799, 0 1px 1px #006799, -1px 0 1px #006799;
+}
+
+.page-media input[type=search] {
+    -webkit-appearance: textfield;
+}
+.page-media input[type=text], .page-media input[type=password], .page-media input[type=number], .page-media input[type=search], .page-media input[type=email], .page-media input[type=url], .page-media select, .page-media textarea {
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+    font-size: 12px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #ddd;
+}
+
+.material-icons.small {
+	font-size: 16px;
+}
+
+.close-button {
+	position: absolute;
+    top: 0;
+    right: 0;
+    width: 50px !important;
+    height: 50px !important;
+    margin: 0 !important;
+    padding: 0;
+    border: 1px solid transparent !important;
+    background: none  !important;
+    color: #666 !important;
+    z-index: 1000;
+    cursor: pointer;
+    outline: 0;
+    transition: color .1s ease-in-out,background .1s ease-in-out;
+	box-shadow: none !important;
+}
+.close-button:hover {
+	color: var(--linkHover);
+	background-color: #f8f8f8;
+}
+
+
+
+
+
+
+body {
+	overflow: hidden;
+	height: 100vh;
+	position: relative;
+
+	background-color: #fcfcfc;
+
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+    font-size: 12px;
+	 -webkit-font-smoothing: subpixel-antialiased;
+}
+
+
+
+
+header {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 50px;
+    z-index: 200;
+}
+
+header h1 {
+    padding: 0 16px;
+    font-size: 22px;
+    line-height: 50px;
+    margin: 0;
+    font-weight: normal;
+}
+
+
+
+
+
+body > nav {
+	top: 50px;
+	left: 0;
+	right: 0;
+	height: 36px;
+	position: absolute;
+    z-index: 200;
+    padding-left: 10px;
+}
+body > nav > a {
+    position: relative;
+    float: left;
+    padding: 8px 10px 9px;
+    margin: 0;
+    height: 18px;
+
+    line-height: 18px;
+    font-size: 14px;
+    text-decoration: none;
+	border-bottom: none;
+    color: var(--link);
+
+    box-sizing: content-box;
+}
+body > nav > a:hover {
+	color: var(--linkHover);
+}
+body > nav > a.active {
+	margin: -1px -1px 0;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-bottom: none;
+    color: #32373c
+}
+
+
+
+
+
+
+main {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 84px;
+    bottom: 61px;
+    width: auto;
+    margin: 0;
+    overflow: auto;
+    background: #fff;
+    border-top: 1px solid #ddd;
+}
+main > nav {
+	position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    height: 60px;
+    padding: 0 16px;
+    border: 0 solid #ddd;
+    overflow: hidden;
+    right: 300px;
+    height: 50px;
+}
+main > nav > div {
+	padding: 10px 0
+}
+main > nav .buttons {
+	float: left;
+	height: 100%;
+	max-width: 45%;
+	padding: 10px 0
+}
+main > nav .view {
+	float: right;
+	height: 100%;
+	max-width: 54%;
+}
+main > nav .view input {
+	padding: 7px 10px;
+}
+main > nav .view .material-icons {
+	font-size: 16px;
+	line-height: 25px;
+}
+
+main > article {
+    position: absolute;
+    top: 50px;
+    left: 0;
+    right: 278px;
+    bottom: 0;
+    overflow: auto;
+    outline: 0;
+    padding: 2px 8px 8px;
+}
+main > aside {
+	position: absolute;
+	bottom: 0;
+	width: 276px;
+	padding: 0 16px 24px;
+	z-index: 75;
+	border-left: 1px solid #ddd;
+	overflow: auto;
+	top: 0;
+	background: #f3f3f3;
+	right: 0;
+}
+main > aside h2, main > aside h3 {
+	height: auto;
+    position: relative;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 12px;
+    color: #666;
+    margin: 24px 0 8px;
+}
+
+main > aside h2 label {
+	float: right;
+	height: 100%;
+}
+
+main > aside > section {
+    overflow: hidden;
+    min-height: 60px;
+    margin-bottom: 16px;
+    line-height: 18px;
+    color: #666;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 11px;
+}
+
+
+
+
+
+
+footer {
+    left: 0;
+    right: 0;
+	bottom: 0;
+    height: 60px;
+    position: absolute;
+    border: 0 solid #ddd;
+    border-top: 1px solid #ddd;
+    padding: 0 16px;
+    z-index: 100;
+    overflow: initial;
+}
+footer > .left {
+	float: left;
+	height: 100%;
+	max-width: 79%;
+	margin-left: 10px;
+	margin-top: 15px;
+}
+footer > .right {
+	float: right;
+	height: 100%;
+	max-width: 20%;
+}
+footer > .right button {
+	margin-left: 10px;
+	margin-top: 15px;
+    height: 30px;
+    line-height: 28px;
+    padding: 0 12px 2px;
+}
+
+
+
+
+/* tiles with preview icons and selection */
+#media-action-workspace-tiles section {
+	display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+#media-action-workspace-tiles section figure {
+	margin: 5px;
+	padding: 0;
+	min-width: 150px;max-width: 150px;
+	min-height: 150px;max-height: 150px;
+	overflow: hidden;
+	flex: 1;
+}
+
+/* figure contains preview image plus the checkbox selection mark */
+figure {
+	position: relative;
+}
+	figure[data-type='media'] p,
+	figure[data-type='file'] p {
+		text-align: center;
+	}
+	figure[data-type='media'] i.material-icons,
+	figure[data-type='file'] i.material-icons {
+		font-size: 3.5rem;
+		color: #08f
+	}
+
+	figure figcaption {
+		position: absolute;
+		top: 0;
+		right: 0;
+		width: 24px;
+		height: 24px;
+		color: #fff;
+		overflow: hidden;
+		background-color: #0073aa;
+		box-shadow: 0 0 0 1px white, 0 0 0 4px #0073aa;
+		visibility: hidden;
+	}
+	figure figcaption i {
+		font-size: 24px !important;
+		position: absolute;
+		vertical-align: middle;
+/* 		transition: transform .1s ease;
+ */
+	}
+	figure.selected {
+		box-shadow: 0 0 0 1px white, 0 0 0 4px #0073aa;
+	}
+	figure.selected img {
+		filter: saturate(2);
+	}
+	figure.selected figcaption {
+		visibility: visible;
+	}
+/* 	figure.selected figcaption i {
+		transform: translateX(-30px); /* through trial-and-error */
+
+
+/* the select-box popover that appears for certain types of action, e.g. classnames */
+.classifier {
+	position: absolute;
+	z-index: 200;
+	bottom: 55px;
+	min-width: 120px;
+	background-color: #08c;
+	box-shadow: 0 2px 4px rgba(0,0,0,.1);
+	border-radius: 4px;
+	padding: 10px;
+	display: flex;
+	flex-direction: column;
+	min-height: 200px;
+	font-size: 14px;
+}
+.classifier:after {
+	content: '';
+	position: absolute;
+	top: 100%;
+	left: calc(50% - 10px);
+	border:10px solid transparent;
+	border-top-color: #08c;
+}
+	.classifier select {
+		flex: 1;
+		color: #08c;
+	}
+	.classifier label {
+		color: #fff;
+	}
+	.classifier label, .classifier select {
+		display: block;
+		font-size:  inherit;
+	}
+
+
+#command-output span {
+	color: red;
+	margin: 0 .3em;
+}
+
+
+
+
+
+
+form.attachment-details label {
+	display: block;
+	font-weight: normal;
+}
+form.attachment-details input[type='text'], form.attachment-details textarea {
+	width: 100%;
+	padding: 5px;
+	border: 1px solid #ddd;
+	background-color: white;
+	outline: none;
+	margin: 5px 0;
+}
+
+section.resize-tool .ratios {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	grid-gap: 5px;
+	margin-bottom: 5px;
+}
+section.resize-tool .custom {
+
+}

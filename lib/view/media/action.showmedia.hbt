@@ -1,8 +1,0 @@
-<section data-action-source="media/images/:id" data-source-init="UI.Selection.Start">
-{{#each .}}
-	<figure data-name="{{name}}" data-type="image">
-		{{{thumbnail url}}}
-		<figcaption><i class="material-icons">check_box_outline_blank check_box</i></figcaption>
-	</figure>
-{{/each}}
-</section>

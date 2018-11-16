@@ -1,10 +1,12 @@
 <?php
+
 class MediaController extends Controller {
 
 	public function __construct() {
 		parent::__construct($this);
+        parent::RequiresLogon();
 	}
-	
+
     public function js($context = 0) {
 	    $model = array(
 		    "tier" => Session::CurrentTier(),
@@ -15,149 +17,149 @@ class MediaController extends Controller {
 		$this->View->render("_templates/appjs", $model, null, null, false, "text/javascript");
     }
 
-    public function css($context = 0) {
-	    Response::redirect(Config::get("ROOTURL") . "/css/media.css");
-		// $this->View->render("_templates/appcss", array("context" => $context), null, null, false, "text/css");
-    }
-	
-	
 	public function index($context, $layout = "insert", $field_id = "", $current_value = "") {
 
-		// tab bodies
+        $this->View->requires("minimal");
+
+        $this->View->requires("https://cdn.jsdelivr.net/npm/filedrop@2.0.0/filedrop.min.js");
+        $this->View->requires("https://cdnjs.cloudflare.com/ajax/libs/tinysort/3.2.2/tinysort.js");
+        $this->View->requires("https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js");
+        //$this->View->requires("https://cdn.jsdelivr.net/npm/vanilla-lazyload@10.19.0/dist/lazyload.min.js");
+
+		// tab bodies as runtime templates
 		$this->View->requires("media/action.upload.hbt");
-		$this->View->requires("media/action.showmedia.hbt");
-		$this->View->requires("media/action.showfiles.hbt");
-		
+		$this->View->requires("media/action.images.hbt");
+		$this->View->requires("media/action.files.hbt");
+		$this->View->requires("media/action.media.hbt");
+
 		// property templates
 		$this->View->requires("media/props.details.hbt");
-		$this->View->requires("media/props.form.hbt");
+		$this->View->requires("media/props.metadata.hbt");
 		$this->View->requires("media/props.classifier.hbt");
-		$this->View->requires("media/display.image.hbt");
-		$this->View->requires("media/display.video.hbt");
 
-		// libraries
-		$this->View->requires("https://cdn.jsdelivr.net/g/materialize@0.98.2(css/materialize.min.css),dropzone@4.3.0(dropzone.min.css)");
-		$this->View->requires("https://cdn.jsdelivr.net/g/jquery@3.2.1(jquery.min.js),materialize@0.98.2,paste-image@0.0.3,handlebarsjs@4.0.8,dropzone@4.3.0");
-		
+		// $this->View->requires("media/display.image.hbt");
+		// $this->View->requires("media/display.video.hbt");
+
 		// script values we need after load
 		$this->View->requires("init", "UI.Init.SetParams('$field_id','$current_value');");
-		
+
 	    $model = MediaModel::base_model($context, $layout);
-	    
+
         $this->View->render("media/base", $model, "media");
 
 	}
-	
+
 	public function images($context) {
 		$course = new CourseModel($context);
-		$path = $course->RealPath . "\\SCO1\\en-us\\Content\\media";
-		$files = glob($path . "\\*.{jpg,JPG,jpeg,JPEG,png,PNG,gif,GIF,webp,WEBP}", GLOB_BRACE);
-		$images = array();
-		foreach ($files as $file) {
-			$data = getimagesize($file);
-			$fn = basename($file);
-			$image = array(
-				"hash" => md5_file($file),
-				"urlbase64" => Text::base64_urlencode($course->Path . "/SCO1/en-us/Content/media/$fn"),
-				"changed" => filemtime($file),
-				"url" => $course->Path . "/SCO1/en-us/Content/media/$fn",
-				"packageurl" => "/SCO1/en-us/Content/media/$fn",
-				"name" => $fn,
-				"size" => Utils::human_filesize(filesize($file),1),
-				"width" => $data[0],
-				"height" => $data[1],
-				"mime" => $data["mime"],
-				"basecolour" => Image::getBaseColour($file),
-			);
-			if ($data["mime"] == "image/jpeg") {
-				$exif = new iptc($file);
-				$image["copyright"] = $exif->getValue(IPTC_TYPES::IPTC_COPYRIGHT_STRING);
-				$image["title"] = $exif->getValue(IPTC_TYPES::IPTC_HEADLINE);
-				$image["description"] = $exif->getValue(IPTC_TYPES::IPTC_CAPTION);
+		$json = [];
+		foreach ($course->Media as $media) {
+			if ($media->isImage()) {
+				$json[] = [
+					"name" => $media->filename, // pathinfo($media->filename, PATHINFO_FILENAME),
+					"id" => $media->id,
+					"width" => $media->width,
+					"height" => $media->height,
+					"size" => $media->filesize,
+					"type" => $media->extn,
+					"changed" => $media->changed,
+					"path" => $media->path,
+					"caption" => $media->caption,
+					"alt" => $media->alt
+				];
 			}
-			$images[] = $image;
 		}
-		$this->View->renderJSON($images, true, true);
+
+		$this->View->renderJSON($json);
 	}
 
 	public function files($context) {
 		$course = new CourseModel($context);
-		$path = $course->RealPath . "\\SCO1\\en-us\\Content\\media";
-		$folder = glob($path . "\\*.{pdf,PDF,doc,DOC,docw,DOCW,zip,ZIP,txt,TXT}", GLOB_BRACE);
-		$files = array();
-		foreach ($folder as $file) {
-			$data = getimagesize($file);
-			$fn = basename($file);
-			$files[] = array(
-				"hash" => md5_file($file),
-				"changed" => filemtime($file),
-				"url" => $course->Path . "/SCO1/en-us/Content/media/$fn",
-				"packageurl" => "/SCO1/en-us/Content/media/$fn",
-				"name" => $fn,
-				"size" => Utils::human_filesize(filesize($file),1),
-				"mime" => $data["mime"]
-			);
+		$json = [];
+		foreach ($course->Media as $media) {
+			if (!$media->isImage()) {
+				$json[] = [
+					"name" => $media->filename,
+					"id" => $media->id,
+					"size" => $media->filesize,
+					"type" => $media->extn,
+					"changed" => $media->changed,
+					"path" => $media->path,
+					"caption" => $media->caption,
+				];
+			}
 		}
-		$this->View->renderJSON($files, true, true);
+
+		$this->View->renderJSON($json);
 	}
 
+	public function media($context) {
+		$course = new CourseModel($context);
+		$json = [];
+		foreach ($course->Media as $media) {
+			if ($media->isMedia()) {
+				$json[] = [
+					"name" => $media->filename,
+					"id" => $media->id,
+					"size" => $media->filesize,
+					"type" => $media->extn,
+					"changed" => $media->changed,
+					"path" => $media->path,
+					"caption" => $media->caption,
+				];
+			}
+		}
 
-    // return an image (jpeg) from the base64 encoded url and width.
-    // creates the thumb and saves it to disk in the /img/thumbs/ folder
-    // for previewing within an interface, not setting media in a course context
-    public function image($path, $width) {
-
-        $path = Text::base64_urldecode($path);
-        
-        if (strpos("/", $path) === 0) {
-            $path = trim($path,"/");
-        }
-        if (strpos($path,"/courses_copy/") !== false) { // ugh, hax!
-	        $path = Config::get("ROOTURL") . $path; 
-        } else if (strpos($path, "/courses/") !== false) { // ugh, hax!
-	        $path = Config::get("ROOTURL") . $path; 
-        } else if (strpos($path, "://") === false) {
-            $path = Config::get("URL") . $path;
-        }
-        
-        $thumb = Config::get("PATH_REAL_WEBROOT") . "img\\thumb\\" . md5($path) . "_$width.jpg";
-        if (!file_exists($thumb)) {
-            $image = Image::urlThumb($path, $thumb, $width, true);
-        }
-
-		header("Content-Type: image/jpeg");
-		$size = filesize($thumb);
-		header("Content-Length: $size");
-		readfile($thumb);
-
-    }
-    
+		$this->View->renderJSON($json);
+	}
     public function drop($context) {
 	    parent::RequiresAjax();
 		$course = new CourseModel($context);
-	    $files = IO::move_uploads($course->RealPath . "\\SCO1\\en-us\\Content\\media\\");
+	    $files = IO::move_uploads($course->RealPath . "/SCO1/en-us/Content/media/");
 	    $this->View->renderJSON($files, true);
     }
-    
-    public function meta($context) {
-	    parent::RequiresAjax();
-	    $course = new CourseModel($context);
-	    
-	    $hash = Request::post("hash", true, FILTER_SANITIZE_SPECIAL_CHARS);
-	    $title = Request::post("title", true, FILTER_SANITIZE_STRING);
-	    $alt = Request::post("alt", true, FILTER_SANITIZE_STRING);
-	    $desc = Request::post("description", true, FILTER_SANITIZE_STRING);
-	    $caption = Request::post("caption", true, FILTER_SANITIZE_STRING);
-	    
-	    // need to actually build this into media in the database model
-	    $result = array(
-		    "hash" => $hash,
-		    "title" => $title,
-		    "alt" => $alt,
-		    "description" => $desc,
-		    "caption" => $caption,
-	    );
-	    $this->View->renderJSON($result, true);
+
+    // public function meta($context) {
+	   //  parent::RequiresAjax();
+	   //  $course = new CourseModel($context);
+
+	   //  $hash = Request::post("hash", true, FILTER_SANITIZE_SPECIAL_CHARS);
+	   //  $title = Request::post("title", true, FILTER_SANITIZE_STRING);
+	   //  $alt = Request::post("alt", true, FILTER_SANITIZE_STRING);
+	   //  $desc = Request::post("description", true, FILTER_SANITIZE_STRING);
+	   //  $caption = Request::post("caption", true, FILTER_SANITIZE_STRING);
+
+	   //  // need to actually build this into media in the database model
+	   //  $result = array(
+		  //   "hash" => $hash,
+		  //   "title" => $title,
+		  //   "alt" => $alt,
+		  //   "description" => $desc,
+		  //   "caption" => $caption,
+	   //  );
+	   //  $this->View->renderJSON($result, true);
+    // }
+
+    // serve a cachable thumbnail version of the image relating to the media id, if the user has accesss
+    public function thumb($id, $w = 150, $h = 150, $seconds_to_cache = 3600) {
+    	$media = new MediaModel("id", $id);
+
+        $cm = new CourseModel($media->context);
+        $cm->validateAccess(Session::CurrentUserId());
+
+        $fn = str_replace('./','', $media->path . '/' . $media->filename); // ./foo.gif->foo.gif but subfolder/foo.gif remains
+        $src = $cm->MediaRealPath . $fn;
+        $dest = Image::cache_thumbnail($src, $media->hash, $w, $h);
+
+		$size = filesize($dest);
+		$ts = gmdate("D, d M Y H:i:s", time() + $seconds_to_cache) . " GMT";
+
+		header("Content-Type: {$media->mime}");
+		header("Content-Length: $size");
+		header("Expires: $ts");
+		header("Pragma: cache");
+		header("Cache-Control: max-age=$seconds_to_cache");
+
+		readfile($dest); // send to output
     }
 
 }

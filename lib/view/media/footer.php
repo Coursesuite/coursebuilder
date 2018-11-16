@@ -1,11 +1,8 @@
-<?php $this->renderTemplates(); ?>
-
 <?php
-if (isset($this->scripts)) {
-	foreach ($this->scripts as $script) {
-		echo "<script type='text/javascript' src='$script'></script>" . PHP_EOL;
-	}
-}
+	echo PHP_EOL;
+$this->renderTemplates();
+if (isset($this->inlinejs)) foreach ($this->inlinejs as $script) echo "<script type='text/javascript'>{$script}</script>", PHP_EOL;
+if (isset($this->scripts)) foreach ($this->scripts as $script) echo "<script type='text/javascript' src='{$script}' crossorigin='anonymous'></script>", PHP_EOL;
 if (isset($this->initjs)) {
 	echo "<script type='text/javascript'>";
 	echo "document.addEventListener('DOMContentLoaded',function(){";
@@ -14,6 +11,7 @@ if (isset($this->initjs)) {
 	}
 	echo "},false);</script>" . PHP_EOL;
 }
+
 ?>
 </body>
 </html>

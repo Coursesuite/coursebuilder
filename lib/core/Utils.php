@@ -80,4 +80,9 @@ class Utils {
 		return implode("\n",$output);
 	}
 
+	public static function rgb2hex($rgb) {
+		$rgb = array_values($rgb);
+		return '#' . sprintf('%02x', $rgb[0]) . sprintf('%02x', $rgb[1]) . sprintf('%02x', $rgb[2]);
+	}
+
 }

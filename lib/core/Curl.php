@@ -68,4 +68,32 @@ class Curl
         LoggingModel::logInternal("cloudConvertHook", $action, $param, $server_output);
         return $server_output;
     }
+
+    public static function cronCall($method, $context) {
+        self::curl_request_async(Config::get("URL") . "/cron/{$method}/{$context}/",[],'GET');
+    }
+
+    private static function curl_request_async($url, $params = [], $type = 'POST') {
+        $post_params = [];
+        foreach ($params as $key => &$val) {
+            if (is_array($val)) $val = implode(',', $val);
+            $post_params[] = $key.'='.urlencode($val);
+        }
+        $post_string = implode('&', $post_params);
+
+        $parts = parse_url($url);
+        $fp = fsockopen($parts['host'], isset($parts['port']) ? $parts['port']:80, $errno, $errstr, 300);
+
+        if('GET' == $type && strlen($post_string) > 0) $parts['path'] .= '?'.$post_string;
+
+        $out = "$type ".$parts['path']." HTTP/1.1\r\n";
+        $out.= "Host: ".$parts['host']."\r\n";
+        $out.= "Content-Type: application/x-www-form-urlencoded\r\n";
+        $out.= "Content-Length: ".strlen($post_string)."\r\n";
+        $out.= "Connection: Close\r\n\r\n";
+        if ('POST' == $type && isset($post_string)) $out.= $post_string;
+
+        fwrite($fp, $out);
+        fclose($fp);
+    }
 }

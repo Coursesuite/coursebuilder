@@ -1,32 +1,81 @@
-<section id='media-container'>
-	{{#equals layout "insert"}}
-	<aside id='media-action-selection'>
-		{{#each actions}}
-		<a href="javascript:UI.Action.Change('{{name}}');" class="waves-effect waves-orange" data-command="{{name}}">{{label}}</a>
-		{{/each}}
+<button data-action='close' class='close-button'><span class='material-icons'>close</span></button>
+
+<header>
+	<h1>Add media</h1>
+</header>
+
+<nav id='media-action-selection'>
+	{{#each actions}}
+	<a href='#!' data-action='command' data-value='{{name}}'>{{label}}</a>
+	{{/each}}
+</nav>
+
+<main>
+	<nav>
+		<div class='buttons'>
+			<button data-action='action' data-value='upload'>Upload items</button>
+			<button data-action='action' data-value='files'>Files</button>
+			<button data-action='action' data-value='media'>Media</button>
+			<button data-action='action' data-value='images' class='active'>Images</button>
+		</div>
+		<div class='view'>
+			<button data-action='sort' data-value='changed' title='Sort newest first' class='active'><span class='material-icons'>calendar_today</span></button>
+			<button data-action='sort' data-value='name' title='Sort by name'><span class='material-icons'>sort_by_alpha</span></button>
+			<button data-action='sort' data-value='extn' title='Sort by kind'><span class='material-icons'>compare</span></button>
+			<button data-action='sort' data-value='folder' title='Sort by folder'><span class='material-icons'>folder</span></button>
+			<input type='text' placeholder='Search items ...' data-action='search'>
+		</div>
+	</nav>
+	<article>
+		<article id='media-action-workspace-tiles' class='loading'></article>
+	</article>
+	<aside id='media-action-workspace-properties'>
+		<h2>Nothing selected</h2>
+		<section>Nothing to display</section>
 	</aside>
+</main>
+
+<footer>
+	<div class="left">
+		<output id='command-output'>No command</output>
+	</div>
+	<div class="right">
+		<button data-action='finalise' class='active'>{{#equals layout 'insert'}}Insert{{else}}Close{{/equals}}</button>
+	</div>
+</footer>
+
+{{!--
+
+<main id='media-container'>
+	{{#equals layout 'insert'}}
+	<div>
+		{{#each actions}}
+		<a href='javascript:UI.Action.Change('{{name}}');' data-command='{{name}}'>{{label}}</a>
+		{{/each}}
+	</div>
 	{{/equals}}
-	<article id='media-action-container'>
+	<div id='media-action-container'>
 		<header id='media-action-toolbar'>
-			<div class='media-action-toolbar-title'>
-				<h1>Action title</h1>
-				<a href="javascript:parent.MediaOverlay.Close();"><i class="material-icons">clear</i></a>
+			<div id='tabs'>
 			</div>
-			<div class='media-action-toolbar-sections'>
-				<div id="tabs">
-					<a href="#action.upload">Upload items</a>
-					<a href="#action.showfiles">Files in library</a>
-					<a href="#action.showmedia">Media in library</a>
-				</div>
+			<div id='sort'>
 			</div>
 		</header>
-		<section id='media-action-workspace'>
+		<div id='media-action-workspace'>
 			<article id='media-action-workspace-tiles' class='loading'></article>
-			<aside id='media-action-workspace-properties'>Select something ...</aisde>
-		</section>
-		<footer id='media-selection-toolbar'>
-			<div><div id='command-output'>No selection</div></div>
-			<a class='btn waves-effect waves-light' href='javascript:UI.Action.Finalise()'>{{#equals layout "insert"}}Insert{{else}}Close{{/equals}}</a>
-		</footer>
-	</article>
-</section>
+		</div>
+	</div>
+	<div>
+		<p>Select something ...</p>
+	</div>
+</main>
+<footer id='media-selection-toolbar'>
+	<div id='command-selection'></div>
+	<div id='command-output'>No selection</div>
+	<div class='actions'>
+		<button onclick='parent.MediaOverlay.Close()' transparent>Cancel</button>
+		<button onclick='UI.Action.Finalise()'>{{#equals layout 'insert'}}Insert{{else}}Close{{/equals}}</button>
+	</div>
+</footer>
+
+--}}

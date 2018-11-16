@@ -8,8 +8,8 @@
 
     {{#isin "bullets,numbers" kind}}
         <p>List type:
-          <label><input type='radio' value='bullets' name='modifier'{{#compare kind "bullets"}} checked{{/compare}}> Bullets</label>
-          <label><input type='radio' value='numbers' name='modifier'{{#compare kind "numbers"}} checked{{/compare}}> Numbers</label>
+          <label><input type='radio' value='bullets' name='kindmodifier'{{#compare kind "bullets"}} checked{{/compare}}> Bullets</label>
+          <label><input type='radio' value='numbers' name='kindmodifier'{{#compare kind "numbers"}} checked{{/compare}}> Numbers</label>
         </p>
     {{/isin}}
 
@@ -23,7 +23,7 @@
     <div class="pill-edit-content">
       <ul class="pill-edit-tabs">
       {{#each tabs}}
-        <li sortable data-pageid="{{id}}"><span class="pill-edit-tab"><a href="#" data-action="select-tab" data-target="#pillEditTab{{@index}}">{{label}}</a><a href="#" data-action="remove-tab" data-target="pillEditTab{{@index}}">&times;</a></span></li>
+        <li sortable data-pageid="{{id}}"><span class="pill-edit-tab"><a href="#" data-action="select-tab" data-target="#pillEditTab{{@index}}">{{tab}}</a><a href="#" data-action="remove-tab" data-target="pillEditTab{{@index}}">&times;</a></span></li>
       {{/each}}
         <li class="f1"><span class="pill-edit-gap">&nbsp;</span></li>
         <li><span class="pill-edit-tab"><a href="#" data-action="add-tab">&plus;</a></span></li>
@@ -31,7 +31,7 @@
 
       {{#each tabs}}
       <div class="pill-edit-bodies" id="pillEditTab{{@index}}" hidden>
-        {{#isin "bullets,numbers" ../kind}}{{else}}
+        {{#isin "bullets,numbers,slidebox" ../kind}}{{else}}
         <p>Label: <input type='text' value='{{label}}'></p>
         {{/isin}}
         <textarea>{{{content}}}</textarea>
@@ -40,7 +40,7 @@
     </div>
     <footer>
       <button data-modal-action='cancel' transparent>Cancel</button>
-    	<button data-modal-action='save' data-modal-kind="{{kind}}">Save {{kind}}</button>
+    	<button data-modal-action='save' data-modal-kind="{{kind}}">Save</button>
     </footer>
   </div>
 </div>

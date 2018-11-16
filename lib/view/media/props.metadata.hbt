@@ -1,0 +1,19 @@
+<h2>Metadata</h2>
+<form class="attachment-details">
+	<label>Filename</label>
+	<div><input type="text" value="{{filename}}" name="filename"></div>
+
+	<label>Caption</label>
+	<div><textarea class="materialize-textarea" name="caption">{{caption}}</textarea></div>
+
+{{#if width}}
+	<label>Alt</label>
+	<div><input type="text" value="{{alt}}" name="alt"></div>
+
+{{/if}}
+
+	<label>Folder</label>
+	<div><input type="text" value="{{path}}" name="folder"></div>
+
+	<button data-action='update-metadata'>Update</button>
+</form>

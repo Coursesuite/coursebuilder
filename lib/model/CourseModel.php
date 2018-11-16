@@ -95,8 +95,10 @@ class CourseModel extends Model {
     public function __set($property, $value){
 	    if ($property == "Pages") {
 		    return $this->$_pages = $value;
-	    } else if (in_array($property, ["Path", "RealPath", "DisplayPath"])) {
+	    } else if (in_array($property, ["Path", "RealPath", "DisplayPath", "MediaPath", "MediaRealPath"])) {
 		    throw new Exception("Unable to set path");
+	    } else if (in_array($property, ["Media"])) {
+		    throw new Exception("Unable to set media");
 	    }
 	    if ($property == self::ID_ROW_NAME) return; // disallow
 		return $this->_data[$property] = $value;
@@ -111,13 +113,27 @@ class CourseModel extends Model {
 	    } else if ($property == "RealPath") { // the realpath(folder_name) for filesystem uses
 			$path = DatabaseFactory::get_record("coursefolder", array("id" => $this->_data[self::ID_ROW_NAME]), "path");
 			return Config::get("BASE") . str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $path);
+
 	    } else if ($property == "Path") {  // e.g. /user_courses/username/course_folder for url alias use
 			$path = DatabaseFactory::get_record("coursefolder", array("id" => $this->_data[self::ID_ROW_NAME]), "path");
 			return $path;
+
 	    } else if ($property == "DisplayPath") { // e.g. username / course_folder for visibility to user
 			$path = realpath(Config::get("BASE") . DatabaseFactory::get_record("coursefolder", array("id" => $this->_data[self::ID_ROW_NAME]), "path"));
 			$path = str_replace(Config::get("PATH_CONTAINERS"), '', $path);
 			return $path;
+
+	    } else if ($property == "MediaRealPath") {
+			$path = DatabaseFactory::get_record("coursefolder", array("id" => $this->_data[self::ID_ROW_NAME]), "path") . "/SCO1/en-us/Content/media/";
+ 			return Config::get("BASE") . str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $path);
+
+	    } else if ($property == "MediaPath") {
+			$path = DatabaseFactory::get_record("coursefolder", array("id" => $this->_data[self::ID_ROW_NAME]), "path") . "/SCO1/en-us/Content/media/";
+			return $path;
+
+	    } else if ($property == "Media") {
+	    	return new MediaCollection($this->_data[self::ID_ROW_NAME]);
+
 	    }
 		return array_key_exists($property, $this->_data)
 			? $this->_data[$property]
@@ -137,6 +153,10 @@ class CourseModel extends Model {
     		PageModel::convertPages($xml, $this->RealPath . "/SCO1/en-us/Content/", 0, $this->_data[self::ID_ROW_NAME]);
     	}
     	PageModel::calculatePaths($this->_data[self::ID_ROW_NAME]);
+    }
+
+    public function checkMedia() {
+    	Curl::cronCall("mediascan", $this->_data[self::ID_ROW_NAME]);
     }
 
 }

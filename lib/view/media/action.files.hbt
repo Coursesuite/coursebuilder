@@ -1,0 +1,9 @@
+<section data-action-source="media/files/:id" data-source-init="UI.Selection.Start">
+{{#each .}}
+	<figure data-name="{{name}}" data-type="file" data-extn="{{type}}" data-changed="{{changed}}" data-folder="{{path}}" data-action="select">
+		<p><i class="material-icons">description</i></p>
+		<p>{{name}}</p>
+		<figcaption><i class="material-icons">{{!--check_box_outline_blank check_box --}}check</i></figcaption>
+	</figure>
+{{/each}}
+</section>

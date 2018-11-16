@@ -194,3 +194,65 @@ Handlebars.registerHelper('humandate', function(time) {
     	day_diff < 31 && Math.ceil(day_diff / 7) + " weeks ago";
 
 });
+
+Handlebars.registerHelper("prettyDate", function (timestamp) {
+    var date = new Date(timestamp * 1000),
+        diff = (((new Date()).getTime() - date.getTime()) / 1000),
+        day_diff = Math.floor(diff / 86400);
+    var year = date.getFullYear(),
+        month = date.getMonth(),
+        day = date.getDate();
+
+    if (isNaN(day_diff) || day_diff < 0 || day_diff >= 31)
+        return (
+	        day.toString()
+	        +((day===1||day===21||day===31)?"st":(day===2||day===22)?"nd":(day===3)?"rd":"th")
+            +" "+['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][month]
+            +" "+year.toString()
+        );
+
+    var r =
+    (
+        (
+            day_diff == 0 &&
+            (
+                (diff < 60 && "just now")
+                || (diff < 120 && "1 minute ago")
+                || (diff < 3600 && Math.floor(diff / 60) + " minutes ago")
+                || (diff < 7200 && "1 hour ago")
+                || (diff < 86400 && Math.floor(diff / 3600) + " hours ago")
+            )
+        )
+        || (day_diff == 1 && "Yesterday")
+        || (day_diff < 7 && day_diff + " days ago")
+        || (day_diff < 31 && Math.ceil(day_diff / 7) + " weeks ago")
+    );
+    return r;
+});
+
+Handlebars.registerHelper("thumbnail", function(path) {
+	return    "<div class='thumbnail-container'>"
+			   +"<div class='thumbnail'>"
+				+"<div class='centered'>"
+				 +"<img src='" + path + "'>"
+				+"</div>"
+			   +"</div>"
+			  +"</div>";
+});
+
+Handlebars.registerHelper("generatedThumbnail", function(path,width) {
+	return "/app/media/image/" + path + "/" + width;
+});
+
+Handlebars.registerHelper("lengthOf", function(ar) {
+	return ar.length;
+});
+
+Handlebars.registerHelper("hratio", function(w, h, wanted) {
+	var ratio = h / w;
+	return Math.round(wanted * ratio);
+});
+
+Handlebars.registerHelper("halve", function (value) {
+	return Math.round(value / 2);
+});

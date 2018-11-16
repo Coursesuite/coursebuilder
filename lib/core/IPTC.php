@@ -1,5 +1,5 @@
 <?php
-	
+
 use MyCLabs\Enum\Enum;
 
 class IPTC_TYPES extends Enum {
@@ -39,6 +39,7 @@ class IPTC_TYPES extends Enum {
 class IPTC
 {
     var $meta = [];
+    var $hasAPP13 = false;
     var $file = null;
 
     function __construct($filename)
@@ -47,9 +48,16 @@ class IPTC
 
         $size = getimagesize($filename, $info);
 
-        if(isset($info["APP13"])) $this->meta = iptcparse($info["APP13"]);
+        if(isset($info["APP13"])) {
+            $this->hasAPP13 = true;
+            $this->meta = iptcparse($info["APP13"]);
+        }
 
         $this->file = $filename;
+    }
+
+    function hasMeta() {
+        return $this->hasAPP13;
     }
 
     function getValue($tag)
@@ -68,7 +76,7 @@ class IPTC
     {
         $mode = 0;
 
-        $content = iptcembed($this->binary(), $this->file, $mode);   
+        $content = iptcembed($this->binary(), $this->file, $mode);
 
         $filename = $this->file;
 
@@ -77,7 +85,7 @@ class IPTC
         $fp = fopen($this->file, "w");
         fwrite($fp, $content);
         fclose($fp);
-    }         
+    }
 
     private function binary()
     {
@@ -87,7 +95,7 @@ class IPTC
         {
             $tag = str_replace("2#", "", $key);
             $data .= $this->iptc_maketag(2, $tag, $this->meta[$key][0]);
-        }       
+        }
 
         return $data;
     }
@@ -103,16 +111,16 @@ class IPTC
         }
         else
         {
-            $retval .= chr(0x80) . 
-                       chr(0x04) . 
-                       chr(($length >> 24) & 0xFF) . 
-                       chr(($length >> 16) & 0xFF) . 
-                       chr(($length >> 8) & 0xFF) . 
+            $retval .= chr(0x80) .
+                       chr(0x04) .
+                       chr(($length >> 24) & 0xFF) .
+                       chr(($length >> 16) & 0xFF) .
+                       chr(($length >> 8) & 0xFF) .
                        chr($length & 0xFF);
         }
 
-        return $retval . $value;            
-    }   
+        return $retval . $value;
+    }
 
     function dump()
     {

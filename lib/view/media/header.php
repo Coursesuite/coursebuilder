@@ -2,20 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title><?php echo $this->title; ?></title>
+    <title><?php echo $this->page_title; ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="<?php echo $this->description; ?>">
     <link rel="shortcut icon" href="/favicon.png">
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
-	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-	<link rel="stylesheet" href="<?php echo $this->url . "/" . $this->page . "/css/" . $this->context; ?>">
 <?php
-if (isset($this->sheets)) {
-	foreach ($this->sheets as $sheet) {
-		echo "	<link rel='stylesheet' type='text/css' href='$sheet'>" . PHP_EOL;
-	}
-} ?>
-	<script type="text/javascript" src="<?php echo $this->url . "/" . $this->page . "/js/" . $this->context; ?>"></script>
+if (isset($this->less)) foreach ($this->less as $file) echo "<link rel='stylesheet/less' href='{$file}'>", PHP_EOL;
+if (isset($this->sheets)) foreach ($this->sheets as $file) echo "<link rel='stylesheet' type='text/css' href='{$file}' crossorigin='anonymous'>", PHP_EOL;
+if (isset($this->headjs)) foreach ($this->headjs as $script) echo "<script type='text/javascript' src='{$script}' crossorigin='anonymous'></script>", PHP_EOL;
+echo Licence::webservice_script();
+?>
+<script type='text/javascript' src='<?php echo $this->url . "/" . $this->page . "/js/" .  $this->context; ?>'></script>
 </head>
 
 <body class="page-<?php echo $this->page . ' action-' . $this->action; ?>">

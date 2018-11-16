@@ -576,6 +576,12 @@ if(typeof String.prototype.endsWith !== 'function') {
 	};
 }
 
+if (typeof String.prototype.extn !== 'function') {
+	String.prototype.extn = function (inverse) {
+		return (inverse || false) ? this.slice(0, Math.max(0, this.lastIndexOf(".")) || Infinity) : this.slice((Math.max(0, this.lastIndexOf(".")) || Infinity) + 1);
+	}
+}
+
 // routine to detect selecting a keyword and expanding the selection to encompass the whole tag, which
 // might contain nested tags. please feel free to go cross-eyed.
 function checkIfWeNeedToExpandTheSelection(el) {
@@ -1015,8 +1021,9 @@ function parseSelection(text, cmd) {
 		h = "Tabs",
 		intro = "Each tab represents a page with a label drawn as a tab. Click to edit contents, drag to re-order, &times; twice to remove an item, &plus; to add item. When saved, tabs will be stored as hidden sub-pages of the current navigation selection.",
 		ar = [], content = safeSplit(text);
-		for (var i=0; i<content.length; i+=2) {
+		for (var i=0,j=1; i<content.length; i+=2,j++) {
 			ar.push({
+				tab: "Tab " + j,
 				label: content[i],
 				content: content[i+1],
 				id: "s" + content[i].replace(/[^a-zA-Z0-9]/g,"").slice(0,30).toLowerCase()
@@ -1027,8 +1034,9 @@ function parseSelection(text, cmd) {
 		h = "Accordions",
 		intro = "Each tab represents an expandable item beginning with a label. Click to edit contents, drag to re-order, &times; twice to remove an item, &plus; to add item. When saved, tabs will be stored as hidden sub-pages of the current navigation selection.",
 		ar = [], content = safeSplit(text);
-		for (var i=0; i<content.length; i+=2) {
+		for (var i=0,j=1; i<content.length; i+=2,j++) {
 			ar.push({
+				tab: "Section " + j,
 				label: content[i],
 				content: content[i+1],
 				id: "s" + content[i].replace(/[^a-zA-Z0-9]/g,"").slice(0,30).toLowerCase()
@@ -1042,7 +1050,8 @@ function parseSelection(text, cmd) {
 		modifier = content[0]; // e.g. "horizontal" or "vertical"
 		for (var i=1; i<content.length; i++) {
 			ar.push({
-				label: "Slide " + (i+1),
+				tab: "Slide " + i,
+				label: "Slide " + i,
 				content: content[i],
 				id: "s" + content[i].replace(/[^a-zA-Z0-9]/g,"").slice(0,30).toLowerCase()
 			});
@@ -1052,9 +1061,11 @@ function parseSelection(text, cmd) {
 		h = "List of " + cmd, // needs translation maybe
 		intro = "Each tab represents an item in the list of " + cmd + ". Click to edit contents, drag to re-order, &times; twice to remove an item, &plus; to add item. Choose the type of list being created.",
 		ar = [], content = safeSplit(text);
+		if (text.startsWith("{numbers ")) k = "numbers";
 		for (var i=0; i<content.length; i++) {
 			ar.push({
-				label: "Item " + (i + 1),
+				tab: "Item " + (i+1),
+				label: "Item " + (i+1),
 				content: content[i],
 				id: "s" + content[i].replace(/[^a-zA-Z0-9]/g,"").slice(0,30).toLowerCase()
 			});
@@ -1077,6 +1088,8 @@ function show_dialogue_pilledit(kind, region) {
 	// 3. Compile a new runtime template based on the new data and append it on the document
 	// 4. Tell a dialogue control to show this content as a modal (https://github.com/benceg/vanilla-modal)
 	// 5. Initialise any plugin code, such as tabs or editors
+	// 6. Autoload any file contents on demand
+	// 7. Add handlers for the save and cancel routines
 
 	 var selection = get_selection(region),
 		tmplJson = parseSelection(selection && selection.text, kind);
@@ -1119,77 +1132,101 @@ function show_dialogue_pilledit(kind, region) {
 						break;
 					}
 				})
+				.sortablejs()
+				.find("a[data-action='select-tab']:eq(0)").click();
+
+			$(".pill-edit-modal > footer")
 				.on("click","[data-modal-action]", function (e) {
 					e.preventDefault();
 					switch (e.target.dataset.modalAction) {
 						case "save":
-							var modifier = $(".pill-edit-modal input[name='modifier']"),
+							var modifier = $(".pill-edit-modal input[name='modifier']:checked"),
+								kind_modifier = $(".pill-edit-modal input[name='kindmodifier']:checked"),
 								kind = e.target.dataset.modalKind,
 								command = [],
-								result = "{" + kind + " ";
-							if (modifier.length) command.push(modifier.val());
+								opqueue = [];
+							if (modifier.length) command.push(modifier.val()); // {key modifier|value1|value2}
+							if (kind_modifier.length) kind = kind_modifier.val(); // {key -> {newkey
 
 							// each draggable tab, in on-screen order
-							$(".pill-edit-tabs>li[sortable]").each(function(el) {
-								var ta = $(el).find("textarea"),
-									inp = $(el).find("input");
+							$(".pill-edit-tabs>li[sortable]").each(function(tabIndex) {
 
-								// the the textarea content was loaded from a filename then persist the content back to that filename
-								// but ensure that the resulting command value then reflects the filename in situ
-								if ("loadedFilename" in ta.dataset) {
-									$.post('/app/edit/action/' + window.CourseBuildr.Course.id + '/page.save/', {
-										id: ta.dataset.pageId,
-										content: ta.value
-									}, function (obj) {
-										if (obj.status !== "ok") {
-											console.warn(obj);
-											if (obj.error) alert(obj.error);
-											el.value = name; // reset value
-											return;
-										} else {
-											ta.value = ta.dataset.loadedFilename;
-										}
-									});
+								// this <li> has a reference to the actual dom node that contains its body
+								var dest = document.querySelector(this.querySelector("a[data-target]").dataset.target),
+									ta = dest.querySelector("textarea"),
+									inp = dest.querySelector("input");
+
+								// textareas should push out to filenames if they contain line breaks OR were loaded dynamically
+								if (/\r|\n/.exec(ta.value) || "loadedFilename" in ta.dataset) {
+
+									if ("loadedFilename" in ta.dataset) {
+										// the the textarea content was loaded from a filename then persist the content back to that filename
+										opqueue.push({
+											endpoint: 'page.savecontent',
+											filename: ta.dataset.loadedFilename,
+											content: ta.value,
+											id: ta.dataset.pageId,
+											sequence: tabIndex+1
+										});
+										// but ensure that the resulting command value then reflects the filename in situ
+										ta.value = ta.dataset.loadedFilename;
+									} else {
+										var fn = 'parse' + CourseBuildr.Edit.Tree.CurrentModel().model.filename.extn(true) + '_' + tabIndex + '.html';
+										// the textarea SHOULD BE set to a filename, so gather the data
+										opqueue.push({
+											endpoint: 'page.savepartial',
+											filename: fn,
+											content: ta.value,
+											id: CourseBuildr.Edit.Tree.CurrentModel().model.id, // becomes parent
+											sequence: tabIndex+1
+										});
+										// the textarea now has to reflect the new filename
+										ta.value = fn;
+									}
+
 								}
 
 								// need to create pages where we haven't already loaded from them, if the kind permits loading
 								switch (kind) {
 									case "tabs": case "accordion":
-										var filn = 'parse' + Date.now() + '.html';
-									// take the content and push it to the server as an include under the selected tree node
-									// then take the resulting filename and put it in the textarea
-									// trigger the tree node to reload so the new child nodes appear
-										command.push(inp.value); // name|value|name|value
+										command.push(inp.value); // name|value|...|name|value
 										command.push(ta.value);
 										break;
 
 									case "bullets": case "numbers":
-										command.push(ta.value); // value|value|value
+										command.push(ta.value); // value|...|value
 										break;
 
 									default:
-										command.push(ta.value); // value|value|value
+										command.push(ta.value); // value|...|value
+										break;
 
 								}
+							}); // each li[sortable]
 
-								result += command.join("|") + "}";
-								replace_selection(region,result);
-								dlg.destroy(); // or close
+							result = "{" + kind + " " + command.join("|") + "}";
+							replace_selection(region,result);
 
-							});
+							// persist the tab contents as needed
+							CourseBuildr.Edit.Tree.Actions.SaveQueue(opqueue);
+
+							dlg.destroy(); // or close
 							break;
+
 						case "cancel":
 							dlg.destroy(); // or close
 							break;
 					}
-				})
-				.sortablejs()
-				.find("a[data-action='select-tab']:eq(0)").click();
+				});
 				// console.dir(document.querySelectorAll(".pill-edit-tabs>li:not([unsortable])"));
 
 		},
 		onBeforeClose:function(e) {
-			// console.info("on before close", e);
+			// hilight here so you can see the changes as the close happens
+			retriggerHighlighter("edit-area");
+		},
+		onClose:function(e) {
+
 		}
 	});
 	dlg.open("#pill-edit-modal");
@@ -1426,154 +1463,6 @@ function hex2rgba(hx,a) {
 		b = parseInt(m[3],16);
 	return 'rgba(' + r + ',' + g + ',' + b + ',' + a + ')';
 }
-
-
-// var toolbarjson = {
-// 	"purpose": [
-// 		{
-// 			name: "Elements",
-// 			group: [
-// 				{
-// 					label:"Images, Video & Audio",
-// 					commands: [
-// 						{text:"right-hand images" , command:"{rightimages %images%}"},
-// 						{text:"single image" , command:"{image %image%}"},
-// 						{text:"slideshow" , command:"{slideshow %effect%|%pictures%}"},
-// 						{text:"Video (inline)", command:"{inlinevideo %videosize%|%linkurl%}", icon:"fab fa-youtube"},
-// 						{text:"Video (fullscreen), Play button", command:"{fullscreenvideo %linkurl%}"},
-// 						{text:"Video (fullscreen), Image button", command: "{fullscreenvideoimage %image%|%linkurl%}"},
-// 						// {text:"stretch right image", command: "{backstretch %image%}"},
-// 						{text:"Captioned image", command: "{caption black|%image%|%selection%}", helper: "select", values:["black","white","theme"]}
-// 					]
-// 				},
-// 				{
-// 					label:"Background images",
-// 					commands: [
-// 						{text:"page background", command:"{pagebg %image%}"},
-// 						{text:"grid background", command:"{gridbg %image%}"},
-// 						{text:"column background", command:"{columnbg %image%}"}
-// 					]
-// 				},
-// 				{
-// 					label: "Data loaders",
-// 					commands: [
-// 						{text:"load and parse external file" , command:"{parse %url%}"},
-// 						{text:"load but do not parse external file" , command:"{load %url%}"},
-// 						{text:"iframe", command: "{iframe 500|%link%}", helper:"height"},
-// 						{text:"slidebox (vertical)", command: "{slidebox vertical|text, image or url for first page|text, image or url for subsequent pages}", pilledit: true, helper: "select", values: ["horizontal","vertical"]},
-// 						{text:"slidebox (horizontal)", command: "{slidebox horizontal|text, image or url for first page|text, image or url for subsequent pages}", pilledit: true, helper: "select", values: ["horizontal","vertical"]}
-// 					]
-// 				},
-// 				{
-// 					label: "Utilities",
-// 					commands: [
-// 						{text:"any html tag" , command:"{tag tag|%selection%}"},
-// 						{text:"any html tag (with css class)" , command:"{tag tag.className|%selection%}"},
-// 						{text:"clearfix" , command:"{clear both}"},
-// 						{text:"line break (br)" , command:"{br}"},
-// 						{text:"line split (p)" , command:"{/}"},
-// 						{text:"classname (inline)" , command:"{wrap classname|%selection%}"},
-// 						{text:"classname (block)" , command:"{block classname|%selection%}"},
-// 						{text:"Strip all HTML from source code", command:"//stripHTML//"},
-// 						{text:"Strip all except BODY from source code", command:"//stripHEAD//"},
-// 						{text:"Try to convert html automatically", command:"//convertAUTO//"},
-// 						{text:"Insert media", command:"//insert-media//"},
-// 						{text:"use right column", command:"{right %selection%}"},
-// 						{text:"Convert selection to parse include", command:"//convertBLOCK//", icon:"fas fa-file-alt"}
-// 					]
-// 				}
-// 			]
-// 		},
-// 		{
-// 			name: "Interactions",
-// 			group: [
-// 				{
-// 					label: "Overlays & Popups",
-// 					commands: [
-// 						//{"text":"balloon popup" , "command":"{balloon %selection%|tip-text}", "icon":"far fa-comment-alt"},
-// 						{text:"lightbox popup (button)" , command:"{popup %selection%|%url%}", icon:"fas fa-external-link-alt"},
-// 						{text:"lightbox popup (text)" , command:"{popuptext %selection%|%url%}"},
-// 						{text:"tip (button)" , command:"{tipbutton %selection%|title box text|tip text in here}"},
-// 						{text:"tip (text)" , command:"{tiptext %selection%|tip text in here}"},
-// 						{text:"glossary term" , command:"{term %term%}"},
-// 						{text:"reference number" , command:"{ref %ref%}"}
-// 					]
-// 				},
-// 				{
-// 					label: "Interactions",
-// 					commands: [
-// 						{text:"fastfact" , command:"{fastfact Fast Fact|%selection%}"},
-// 						{text:"flip cards" , command:"{flip front-1|rear-1|front-N|rear-N}"},
-// 						{text:"scorm checkbox selection" , command:"{clickcheck label 1|label ..|label N}"},
-// 						{text:"scorm true/false selection" , command:"{clicktf true|false|label 1|label ..|label N}", helper:"select",values: ["true","false"]},
-// 						{text:"scorm image selection" , command:"{clickimage %images%}"},
-// 						{text:"scorm match activity" , command:"{match Question 1|Answer 1|Question 2|Answer 2|Question N|Answer N}"},
-// 						{text:"scorm match-set activity" , command:"{matchset Question 1|Answer 1|Question 2|Answer 2|Question N|Answer N}"},
-// 						{text:"survey" , command:"{survey no-options|question 1|question ..|question N}"},
-// 						{text:"accordion", command:"{accordion title 1|url 1|title ..|url ..|title N|url N}", pilledit: true, icon: "material-icons material-icons-toc", nestable: false},
-// 						{text:"tab bar" , command:"{tabs title 1|url 1|title ..|url ..|title N|url N}", pilledit: true, icon: "material-icons material-icons-tab", nestable: false},
-// 						{text:"zoom-image" , command:"{zoomimage %thumbnail%|%image%}"},
-// 						{text:"Split image", command: "{splitimage %left%|%right%}"}
-// 					]
-// 				},
-// 				{
-// 					label: "Pages",
-// 					commands: [
-// 						{text:"completion page" , command:"{completion You-have-completed...|You-have-not-yet-completed...}"},
-// 						{text:"ifcomplete switch" , command:"{ifcomplete complete-text|incomplete-text}"}
-// 					]
-// 				}
-// 			]
-// 		},
-// 		{
-// 			name: "Formatters",
-// 			group: [
-// 				{
-// 					label: "Formatting",
-// 					commands: [
-// 						{text:"h1" , command:"{tag h1|%selection%}"},
-// 						{text:"h2" , command:"{tag h2|%selection%}"},
-// 						{text:"bold" , command:"{bold %selection%}", icon:"fas fa-bold"},
-// 						{text:"italic" , command:"{italic %selection%}", icon:"fas fa-italic"},
-// 						{text:"numbered list" , command:"{numbers item 1|item ..|item N}", pilledit: true, helper: "radio", values: ["bullets","numbers"]},
-// 						{text:"bulleted list" , command:"{bullets point 1|point ..|point N}", icon:"fas fa-list-ul", pilledit: true, helper: "radio", values: ["bullets","numbers"]},
-// 						{text:"centered (div)" , command:"{centered %selection%}", icon:"fas fa-align-center"},
-// 						{text:"centered (p)" , command:"{centerp %selection%}"},
-// 						{text:"link (go to page)" , command:"{link %url%|%selection%}", icon:"fas fa-link"},
-// 						{text:"link (reference)" , command:"{linkref %url%|%selection%}"},
-// 						{text:"link (open in new window)" , command:"{external %link%|%selection%}"},
-// 						{text:"block quote" , command:"{quote %selection%}"},
-// 						{text:"columns", command:"{columns column 1|column ..|column 5}", pilledit: true},
-// 						{text:"float left", command:"{float left|%selection%}"},
-// 						{text:"float right", command:"{float right|%selection%}"},
-// 						// {text:"Line break", command:"{/}"},
-// 						// {text:"Blank single line", command:"{/blank-line/}"},
-// 						{text:"Horizontal line", command:"{-}"}
-// 					]
-// 				},
-// 				{
-// 					label: "Formatter blocks",
-// 					commands: [
-// 						{text:"Column splitter", command:"<|>"},
-// 						{text:"Fold splitter", command:"<->"},
-// 						{text:"Grid 3414", command:"<layout grid3414>"},
-// 						{text:"Grid 3525", command:"<layout grid3525>"},
-// 						{text:"Grid 1212 L", command:"<layout grid1212L>"},
-// 						{text:"Grid 1212 R", command:"<layout grid1212R>"}
-// 					]
-// 				}
-// 			]
-// 		}
-// 	],
-// 	"grids": [
-// 		{value:"", label: "<i class='fas fa-magic'></i> Auto"},
-// 		{value:"grid3414", label: "<i class='fas fa-columns'></i> <u>&frac34;</u> : &frac14;"},
-// 		{value:"grid3525", label: "<i class='fas fa-columns'></i> <u>&frac35;</u> : &frac25;"},
-// 		{value:"grid1212l", label: "<i class='fas fa-columns'></i> <u>&frac12;</u> : &frac12;"},
-// 		{value:"grid1212r", label: "<i class='fas fa-columns'></i> &frac12; : <u>&frac12;</u>"},
-// 		{value:"grid0", label: "<i class='far fa-window-maximize'></i> None"}
-// 	]
-// };
 
 var MediaOverlay = (function(window,document,$,undefined) {
 

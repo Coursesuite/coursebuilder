@@ -1,0 +1,8 @@
+<section data-action-source="media/images/:id" data-source-init="UI.Selection.Start">
+{{#each .}}
+	<figure data-name="{{name}}" data-type="image" data-extn="{{type}}" data-changed="{{changed}}" data-folder="{{path}}" data-action="select">
+		<img src="/app/media/thumb/{{id}}/" width="150" height="150">
+		<figcaption><i class="material-icons">check</i></figcaption>
+	</figure>
+{{/each}}
+</section>

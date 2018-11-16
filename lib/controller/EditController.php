@@ -90,6 +90,7 @@ class EditController extends Controller
 
         $cm = new CourseModel($course_id);
         $cm->validateAccess(Session::CurrentUserId());
+        $cm->checkMedia();
         $cm->upgrade();
 
         $this->View->requires("minimal");
@@ -112,8 +113,7 @@ class EditController extends Controller
         // a modal handler for drawing dialogues (stored in the runtime handlebars templates)
         $this->View->requires("https://unpkg.com/vanilla-modal@1.6.5/dist/index.js");
         $this->View->requires("https://unpkg.com/sortablejs@1.7.0/Sortable.min.js");
-        // $this->View->requires("edit/easyedit.hbt");
-        $this->View->requires("edit/pilledit.hbt");
+        $this->View->requires("edit/pilledit.hbt"); // modal-based multipage editor
 
         // splitter panes
         $this->View->requires("https://unpkg.com/split.js");
@@ -123,26 +123,6 @@ class EditController extends Controller
         // $this->View->requires("plugins/MediumEditor");
         // $this->View->requires("medium-editor");
         $this->View->requires("plugins/Quizzard");
-
-
-        // shoulnd't need to include these here since you can dyncamially call back for models using runtime partials
-        // $this->View->requires("uikit");
-        // $this->View->requires("base");
-        // $this->View->requires("/css/tardproof.less");
-
-        // $this->View->requires("/js/diff_match_patch.js");
-        // $this->View->requires("/js/jquery.pretty-text-diff.js");
-        // $this->View->requires("/js/lib/jstree/jquery.jstree.js");
-        // $this->View->requires("/js/shortcut.js");
-        // $this->View->requires("/js/jquery.tinysort.min.js");
-        // $this->View->requires("/js/jquery.highlighttextarea.lite.js");
-        // $this->View->requires("/js/spectrum.js");
-
-        // $this->View->requires("js", "https://cdn.jsdelivr.net/g/paste-image@0.0.3,handlebarsjs@4.0.8,dropzone@4.3.0");
-        // $this->View->requires("js", "/app/edit/js/{$course_id}/");
-
-        // $this->View->requires("https://cdn.jsdelivr.net/g/dropzone@4.3.0(dropzone.min.css)");
-        // $this->View->requires("https://cdn.jsdelivr.net/g/jquery@3.2.1(jquery.min.js),paste-image@0.0.3,handlebarsjs@4.0.8,dropzone@4.3.0");
 
         $course = $cm->get_model(); // to get the public model
 
@@ -312,9 +292,20 @@ class EditController extends Controller
                 $result->status = "ok";
                 break;
 
+            case "page.savecontent":
+                $row = Request::rowint('id');
+                $obj = new PageModel($row);
+                if ($obj->loaded()) {
+                    $obj->content = Request::post('content',true);
+                    $obj->save();
+                }
+                $result->status = "ok";
+                break;
+
             case "page.savepartial":
                 $row = Request::rowint('id');
                 $filename = Request::post('filename');
+                $title = pathinfo(Request::post('title', false, null, $filename), PATHINFO_FILENAME);
                 $content = Request::post('content',true);
                 $parent = new PageModel($row);
                 if ($parent->loaded()) {
@@ -323,10 +314,10 @@ class EditController extends Controller
                     $child->course = $parent->course;
                     $child->parent = $parent->id;
                     $child->sequence = 999; // todo
-                    $child->title = Request::post('text',true);
+                    $child->title = $title;
                     $child->filename = $filename;
-                    $child->type = "Information";
-                    $child->scormid = time();
+                    $child->type = 'Information';
+                    $child->scormid = 's' . time();
                     $child->contribute = 'n';
                     $child->score = 100;
                     $child->percentage = 100;

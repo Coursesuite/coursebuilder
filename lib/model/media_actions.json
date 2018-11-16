@@ -2,55 +2,73 @@
 	"actions": [
 		{
 			"name": "image",
-			"label": "Insert single image",
+			"label": "Single image",
 			"selection": "single",
 			"classifiers": [
-				{"label":"Class","items":["box-shadow","fade-in","fade-in-fast","bounce-in","slide-in","blind-in"], "default":"box-shadow"}
+				{
+					"label":"Class",
+					"items":["none", "box-shadow", "fade-in", "fade-in-fast", "bounce-in", "slide-in", "blind-in"],
+					"default":"box-shadow"
+				}
 			]
 		},
 		{
 			"name": "rightimages",
-			"label": "Insert side bar images",
+			"label": "Sidebar images",
 			"selection": "multiple",
 			"classifiers": [
-				{"label":"Class","items":["box-shadow","fade-in","fade-in-fast","bounce-in","slide-in","blind-in"], "default":"box-shadow"}
+				{
+					"label":"Class",
+					"items":["none", "box-shadow", "fade-in", "fade-in-fast", "bounce-in", "slide-in", "blind-in"],
+					"default":"box-shadow"
+				}
 			]
 		},
 		{
 			"name": "pagebg",
-			"label": "Insert page background",
+			"label": "Page background",
 			"selection": "single",
 			"classifiers": []
 		},
 		{
 			"name": "slideshow",
-			"label": "Create slideshow",
+			"label": "Slideshow",
 			"selection": "multiple",
 			"classifiers": [
-				{"label":"Effect","items":["none", "blindX", "blindY", "blindZ", "cover", "curtainX", "curtainY", "fade", "fadeZoom", "growX", "growY", "scrollUp", "scrollDown", "scrollLeft", "scrollRight", "scrollHorz", "scrollVert", "shuffle", "slideX", "slideY", "toss", "turnUp", "turnDown", "turnLeft", "turnRight", "uncover", "wipe", "zoom"], "default":"fade"}
+				{
+					"label":"Effect",
+					"items":["none", "blindX", "blindY", "blindZ", "cover", "curtainX", "curtainY", "fade", "fadeZoom", "growX", "growY", "scrollUp", "scrollDown", "scrollLeft", "scrollRight", "scrollHorz", "scrollVert", "shuffle", "slideX", "slideY", "toss", "turnUp", "turnDown", "turnLeft", "turnRight", "uncover", "wipe", "zoom"],
+					"default":"fade"
+				}
 			]
 		},
 		{
 			"name": "zoomimage",
-			"label": "Insert zoomable image",
+			"label": "Zoomable",
 			"selection": "two",
 			"classifiers": []
 		},
 		{
 			"name": "splitimage",
-			"label": "Insert splittable image",
+			"label": "Splittable",
 			"selection": "two",
 			"classifiers": []
 		},
 		{
 			"name": "imageflip",
-			"label": "Insert two-sided image",
+			"label": "Flippable",
 			"selection": "two",
 			"classifiers": []
 		},
 		{
+			"name": "clickimage",
+			"label": "Checkable",
+			"selection": "mutliple",
+			"classifiers": []
+		},
+		{
 			"name": "fullscreenvideo",
-			"label": "Video (overlay)",
+			"label": "Video",
 			"selection": "single",
 			"classifiers": []
 		},
@@ -58,12 +76,6 @@
 			"name": "inlinevideo",
 			"label": "Video (inline)",
 			"selection": "single",
-			"classifiers": []
-		},
-		{
-			"name": "clickimage",
-			"label": "Selectable image interaction",
-			"selection": "mutliple",
 			"classifiers": []
 		}
 	]

@@ -1,21 +1,29 @@
-<header class="attachment-header">
-	Attachment Details
-	<span id="save-status">
-		<span class="saved">Saved.</span>
-	</span>
-</header>
-<div class="attachment-info">
-	{{#if width}}<div class="preview">
-		{{{thumbnail url}}}
-	</div>{{/if}}
-	<div class="details">
-		<div class="filename">{{name}}</div>
-		<div class="uploaded">{{prettyDate changed}}</div>
-		<div class="file-size">{{size}}</div>
-		{{#if width}}<div class="dimensions">{{width}} x {{height}}</div>{{/if}}
-		<div class='actions'>
-			<a class="edit-attachment" href="#edit" target="_blank">Edit {{mime}}</a>
-			<button type="button" class="button-link delete-attachment">Delete Permanently</button>
+<h2>Properties</h2>
+<section class="attachment-info">
+	<div><strong>File name:</strong> {{name}}</div>
+	<div><strong>Uploaded on:</strong> {{prettyDate changed}}</div>
+	<div><strong>File size:</strong> {{size}}</div>
+	{{#if width}}<div><strong>Dimensions:</strong> {{width}} x {{height}}</div>{{/if}}
+</section>
+
+{{#if width}}
+<h2>Resize <label><input type='checkbox' checked name='make-copy'> As copy?</label></h2>
+<section class="resize-tool">
+	<div class='ratios'>
+		<button data-action='resize-ratio' data-value='150'>150 x {{hratio width height 150}}</button>
+		<button data-action='resize-ratio' data-value='300'>300 x {{hratio width height 300}}</button>
+		<button data-action='resize-ratio' data-value='640'>640 x {{hratio width height 640}}</button>
+		<button data-action='resize-ratio' data-value='1024'>1024 x {{hratio width height 1024}}</button>
+	</div>
+	<div class='custom'>
+		<div>
+			<label>W:<input type='text' size='4' name='resize-w' value='{{halve width}}'></label>
+			x
+			<label>H:<input type='text' size='4' name='resize-h' value='{{halve height}}'></label>
+		</div>
+		<div>
+			<button data-action='resize-custom'><span class='material-icons small'>crop</span> Resize</button>
 		</div>
 	</div>
-</div>
+</section>
+{{/if}}

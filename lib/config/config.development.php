@@ -27,6 +27,7 @@ return array(
 	'PATH_VIEW' => $lib . '/view/',
     'PATH_CACHE' => $lib . '/cache/',
     'PATH_PUBLIC_CACHE' => '/cache/',
+    'PATH_PUBLIC_CACHE_REAL' => $base . '/phpapp/cache/',
     'PATH_COURSE_TEMPLATES' => $lib . '/templates/courses/',
 
     'PATH_TOURS' => $base . '/phpapp/js/tour/',
