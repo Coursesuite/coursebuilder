@@ -6,15 +6,24 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit966fcc2c4879a2f5a23480f61320f9d3
 {
-    public static $files = array (
-        '3a37ebac017bc098e9a86b35401e7a68' => __DIR__ . '/..' . '/mongodb/mongodb/src/functions.php',
-    );
-
     public static $prefixLengthsPsr4 = array (
+        'm' => 
+        array (
+            'mikehaertl\\wkhtmlto\\' => 20,
+            'mikehaertl\\tmp\\' => 15,
+            'mikehaertl\\shellcommand\\' => 24,
+        ),
+        'S' => 
+        array (
+            'Screen\\' => 7,
+        ),
+        'N' => 
+        array (
+            'Ninjitsu\\' => 9,
+        ),
         'M' => 
         array (
             'MyCLabs\\Enum\\' => 13,
-            'MongoDB\\' => 8,
         ),
         'L' => 
         array (
@@ -27,13 +36,29 @@ class ComposerStaticInit966fcc2c4879a2f5a23480f61320f9d3
     );
 
     public static $prefixDirsPsr4 = array (
+        'mikehaertl\\wkhtmlto\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mikehaertl/phpwkhtmltopdf/src',
+        ),
+        'mikehaertl\\tmp\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mikehaertl/php-tmpfile/src',
+        ),
+        'mikehaertl\\shellcommand\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mikehaertl/php-shellcommand/src',
+        ),
+        'Screen\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/microweber/screen/src',
+        ),
+        'Ninjitsu\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/compilers/ninjitsu',
+        ),
         'MyCLabs\\Enum\\' => 
         array (
             0 => __DIR__ . '/..' . '/myclabs/php-enum/src',
-        ),
-        'MongoDB\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/mongodb/mongodb/src',
         ),
         'LightnCandy\\' => 
         array (
@@ -64,6 +89,14 @@ class ComposerStaticInit966fcc2c4879a2f5a23480f61320f9d3
         ),
     );
 
+    public static $classMap = array (
+        'lessc' => __DIR__ . '/..' . '/leafo/lessphp/lessc.inc.php',
+        'lessc_formatter_classic' => __DIR__ . '/..' . '/leafo/lessphp/lessc.inc.php',
+        'lessc_formatter_compressed' => __DIR__ . '/..' . '/leafo/lessphp/lessc.inc.php',
+        'lessc_formatter_lessjs' => __DIR__ . '/..' . '/leafo/lessphp/lessc.inc.php',
+        'lessc_parser' => __DIR__ . '/..' . '/leafo/lessphp/lessc.inc.php',
+    );
+
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
@@ -71,6 +104,7 @@ class ComposerStaticInit966fcc2c4879a2f5a23480f61320f9d3
             $loader->prefixDirsPsr4 = ComposerStaticInit966fcc2c4879a2f5a23480f61320f9d3::$prefixDirsPsr4;
             $loader->fallbackDirsPsr4 = ComposerStaticInit966fcc2c4879a2f5a23480f61320f9d3::$fallbackDirsPsr4;
             $loader->prefixesPsr0 = ComposerStaticInit966fcc2c4879a2f5a23480f61320f9d3::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit966fcc2c4879a2f5a23480f61320f9d3::$classMap;
 
         }, null, ClassLoader::class);
     }

@@ -20,13 +20,13 @@
             <input type="checkbox" class="dd-input" id="test">
 
             <ul class="dd-menu">
-            <li><a href='#' data-action='preview'><i class="material-icons">airplay</i> Preview</a></li>
-            <li><a href='#' data-action='publish'><i class="material-icons">cloud_upload</i> Publish</a></li>
-            <li><a href='#' data-action='download'><i class="material-icons">archive</i> Download</a></li>
+            <li><a href='#!' data-action='preview'><i class="material-icons">airplay</i> Preview</a></li>
+            <li><a href='#!' data-action='publish'><i class="material-icons">cloud_upload</i> Publish</a></li>
+            <li><a href='#!' data-action='download'><i class="material-icons">archive</i> Download</a></li>
             <li class="divider"></li>
-            <li><a href='#' data-action='close'><i class="material-icons">close</i> Close</a></li>
+            <li><a href='#!' data-action='close'><i class="material-icons">close</i> Close</a></li>
             <li class="divider"></li>
-            <li><a href='#' data-action='logout'><i class="material-icons">lock</i> Log Out</a></li>
+            <li><a href='#!' data-action='logout'><i class="material-icons">lock</i> Log Out</a></li>
             </ul>
         </label>
 

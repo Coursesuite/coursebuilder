@@ -1,5 +1,0 @@
-<div class='rp-completion' id='rp-competent'>
-	<h1>{{title}}</h1>
-	<p>Sorry, you have <strong>failed</strong> the course. Your score was {{score}}% and you needed {{passingScore}}%.</p>
-	<p>Please press the <span class='button-like'>Save &amp; Exit</span> button at the top-right of this screen to return to the catalogue, or <span class='button-like'>Start a new attempt</span> if you have attempts remaining.</p>
-</div>

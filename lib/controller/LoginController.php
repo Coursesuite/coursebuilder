@@ -1,7 +1,7 @@
 <?php
-	
+
 class LoginController extends Controller {
-	
+
     public function __construct(...$params)
     {
         parent::__construct($this, $params);
@@ -9,8 +9,8 @@ class LoginController extends Controller {
 
 	// render the index (logon form)
 	public function index() {
-    
-		$this->View->requires("_templates/navbar");
+
+		// $this->View->requires("_templates/navbar");
 	    $this->View->requires("_templates/fridgeMagnets");
 	    $data = array(
 		    "csrf" => Csrf::makeToken(),
@@ -18,7 +18,7 @@ class LoginController extends Controller {
 	    );
 		$this->View->render("login/index", $data);
 	}
-	
+
 	public function logout() {
 		Response::cookie("aspname", null);
 		Session::destroy();
@@ -26,7 +26,7 @@ class LoginController extends Controller {
 		Session::set("feedback","You have been logged out.");
 		Response::redirect("login/index");
 	}
-	
+
 	// handle the logon form postback
 	public function authenticate() {
 		if (!Csrf::isTokenValid()) {
@@ -39,13 +39,13 @@ class LoginController extends Controller {
 		if (!empty($username) && (Utils::UserType($username) === "external")) {
 			Session::set("feedback","You need to log in https://www.coursesuite.ninja/store/info/coursebuildr instead.");
 			Response::redirect("login/index");
-		}	
-			
+		}
+
 		if (empty($username) || empty(Request::post("password"))) {
 			Session::set("feedback","Missing form data.");
 			Response::redirect("login/index");
 		}
-		
+
 		// yes, yes, I'm doing database calls inside a controller,
 		// feel free to refactor this if this bothers you.
 		$database = DatabaseFactory::getFactory()->getConnection();
@@ -75,7 +75,7 @@ class LoginController extends Controller {
 		Session::set("feedback","Sorry you got something wrong.");
 		Response::redirect("login/index");
 	}
-	
+
 /*
 	public function checksso($kind, $token) {
 		$get = array ($kind => $token);
@@ -84,26 +84,26 @@ class LoginController extends Controller {
 		$this->View->write(print_r($verifier, true));
 	}
 */
-		
+
 	public function sso($kind, $token) {
 		$get = array($kind => $token);
 		$verifier = Validator::Instance()->Validate($get);
-		
+
 		if (!$verifier->valid) {
 			header("location: " . $verifier->home . "bad-token");
 			die();
 		}
-		
+
 		if ($verifier->licence->remaining < 1) {
 			header("location: " . $verifier->home . "in-use");
 			die();
 		}
-		
+
 		if ($verifier->licence->tier < 1) {
 			header("location: " . $verifier->home . "bad-tier");
 			die();
 		}
-		
+
 		$App = new stdClass();
 		$App->Home = $verifier->home;
 		$App->Tier =  $verifier->licence->tier;
@@ -114,7 +114,7 @@ class LoginController extends Controller {
 			$jsApp->Bearer = $verifier->api->bearer;
 			$jsApp->Method = "POST"; // or PUT
 		}
-		
+
         $container = $verifier->user->container;
         $email = $verifier->user->email;
 		$user_id = -1;
@@ -152,7 +152,7 @@ class LoginController extends Controller {
 			$ac->save();
 			// $user_id = DatabaseFactory::get_record("plebs", array("email" => $email), "id");
 		}
-		
+
 		$sql = "select count(1) from container where name = :name LIMIT 1";
 		$query = $database->prepare($sql);
 		$query->execute(array(":name" => $container));
@@ -172,7 +172,7 @@ class LoginController extends Controller {
 		Response::cookie("aspname", $username);
 
 		Response::redirect("index/");
-		
+
 	}
-	
+
 }

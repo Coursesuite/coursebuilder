@@ -51,9 +51,13 @@ class AccountModel extends Model
 
     // magic methods!
     public function __set($property, $value){
+        $idname = self::ID_ROW_NAME;
 	    if ($property === "containers") return;
-	    if ($property == self::ID_ROW_NAME) return; // disallow
-      return $this->_data[$property] = $value;
+	    if ($property === $idname) return;
+        if ($property === "preferences") {
+            $value = serialize($value);
+        }
+        return $this->_data[$property] = $value;
     }
 
     public function __get($property){
@@ -63,13 +67,16 @@ class AccountModel extends Model
 		    		: array($this->container)
 		    		;
 		    return $value;
-	    }
+	    } else if ($property === "preferences") {
+            if (empty($this->_data["preferences"])) return new stdClass();
+            return unserialize($this->_data["preferences"]);
+        }
 		return array_key_exists($property, $this->_data)
 			? $this->_data[$property]
 			: null
 			;
     }
-    
+
     public function properties() {
 	    return array_keys($this->_data);
     }
@@ -82,10 +89,22 @@ class AccountModel extends Model
 	    }
     }
 
+    public function SetPreference($name, $value) {
+        $curr = $this->preferences;
+        $curr->$name = $value;
+        $this->preferences = $curr;
+        $this->save();
+    }
+
+    public function GetPreference($name, $default = null) {
+        $curr = $this->preferences;
+        return isset($curr->$name) ? $curr->$name : $default;
+    }
+
 	/*
-		
+
 		static accessors
-		
+
 	*/
     public static function lookup_user_id_by_email($email) {
 	    $database = DatabaseFactory::getFactory()->getConnection();

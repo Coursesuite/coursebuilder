@@ -1,0 +1,14 @@
+	<fieldset data-question-type="pool" data-question-pool="{{@index}}" data-index="{{globIndex}}">
+		<legend><span><i class='fas fa-list-alt'></i> Edit Set {{indexplus1 @index}}</span><a href='#remove-set'><i class='fas fa-trash'></i></a></legend>
+
+		<div data-id="pool.{{@index}}">
+			<div>
+				<label for="deliver{{@index}}">Deliver from set</label>
+				<div><input data-id="questionPool.{{@index}}.deliver" type="number" max="99" min="0" id="deliver{{@index}}" placeholder="0 means all" value="{{#compare deliver "is" "numeric"}}{{deliver}}{{else}}0{{/compare}}"><span class="help-inline">Show X questions from this set (0 means all)</span></div>
+			</div>
+			<div>
+				<label for="order{{@index}}">Question Order</label>
+				<div><input data-id="questionPool.{{@index}}.order" type="radio" value="shuffle" id="order{{@index}}" name="order{{@index}}"{{#compare order "is" "natural"}}{{else}} checked{{/compare}}>Random <input data-id="questionPool.{{@index}}.order" type="radio" value="natural" id="order{{@index}}" name="order{{@index}}"{{#compare order "natural"}} checked{{/compare}}>Natural</div>
+			</div>
+		</div>
+	</fieldset>

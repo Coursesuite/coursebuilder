@@ -73,6 +73,7 @@ class Curl
         self::curl_request_async(Config::get("URL") . "/cron/{$method}/{$context}/",[],'GET');
     }
 
+
     private static function curl_request_async($url, $params = [], $type = 'POST') {
         $post_params = [];
         foreach ($params as $key => &$val) {

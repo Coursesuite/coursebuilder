@@ -1,7 +1,0 @@
-<ul>
-	<li class='meta{{#compare pools.current "<" 0}} selected{{/compare}}'><a href='#' data-pool='-1' data-question='0'>{{test.introduction}}</a></li>
-	{{#each question}}
-	<li class='question {{status}}{{#if current}} selected{{/if}}'><a title='{{text}}' class='tooltip' href='#' data-pool='{{pool}}' data-question='{{order}}'>{{indexplus1 @index}}. {{text}}</a>
-	{{/each}}
-	<li class='meta{{#compare pools.current pools.total}} selected{{/compare}}'><a href='#' data-pool='{{pools.total}}' data-question='0'>{{test.results}}</a></li>
-</ul>

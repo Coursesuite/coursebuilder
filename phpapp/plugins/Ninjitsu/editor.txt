@@ -1,2 +1,6 @@
 <div id="tab-body"></div>
-<div class="p-small">You can drag images and PDF files directly to the editor above to link/embed them</div>
+<div class="view-toolbar">
+	<a href="#" data-action="switch-view" data-target="ta-dom" class="active">Editor</a>
+	<a href="#" data-action="switch-view" data-target="ta-preview">Preview</a>
+	<p>You can drag images and PDF files directly to the editor above to link/embed them</p>
+</div>

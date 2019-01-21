@@ -85,4 +85,15 @@ class Utils {
 		return '#' . sprintf('%02x', $rgb[0]) . sprintf('%02x', $rgb[1]) . sprintf('%02x', $rgb[2]);
 	}
 
+	public static function array_in_string($str, array $arr) {
+	    foreach ($arr as $arr_value) {
+	        if (strpos($str,$arr_value) !== false) return true;
+	    }
+	    return false;
+	}
+
+	public static function is_serial($string) {
+    	return (@unserialize($string) !== false || $string == 'b:0;');
+	}
+
 }

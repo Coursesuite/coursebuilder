@@ -1,20 +1,21 @@
-		<fieldset data-question-type="{{type}}" data-question-index="{{@index}}">
-			<legend><i class='icon-list-alt'></i> {{type}} <span class='pull-right'><a href='#move-to-pool' title='Move to a different question pool'><i class='icon-truck icon-special-small'></i></a> <span class='badge'>{{indexplus1 @index}}. | <a href='#remove-question'><i class='icon-remove icon-light'></i></a></span>&nbsp;</span></legend>
+		<fieldset data-question-type="{{type}}" data-question-index="{{@index}}" data-question-pool="{{@../index}}" data-index="{{globIndex}}">
+			<legend><span><i class='fas fa-list-alt'></i> {{type}}</span><a href='#' data-action='remove-question'><i class='fas fa-trash'></i></a></legend>
 
 {{! question text }}
 
-			<div class="control-group" data-id="question.{{@index}}.prompt">
-				<label class="control-label" for="prompt{{@index}}">Question</label>
-				<div class="controls"><textarea data-attribute="prompt" rows="3" class="span6" id="prompt{{@index}}" placeholder="Question text">{{{prompt.textValue}}}</textarea>
-				<span class="help-inline"><a href='#insert-picture'><i class='icon-picture'></i></a></span></div>
+			<div data-id="question.{{@index}}.prompt">
+				<label for="prompt{{@index}}">Question</label>
+				<div><textarea data-attribute="prompt" rows="3" id="prompt{{@index}}" placeholder="Question text">{{{prompt}}}</textarea>
+				<span class="help-inline"><a href='#' data-action='insert-picture'><i class='fas fa-image'></i></a></div>
 			</div>
 
 {{! media on hotspot question... }}
 			{{#compare type "QuestionChoiceMultiple"}}
-			<div class="control-group" data-id="question.{{@index}}.media">
-				<label class="control-label" for="media{{@index}}">Hotspot image</label>
-				<div class="controls"><input data-attribute="media" type="text" class="span5" id="media{{@index}}" placeholder="Image" value="{{{singleQuote media.textValue}}}">
-				<span class="help-inline"><a href='#insert-picture'><i class='icon-picture'></i></a> <a href='#hotspot-help'><i class='icon-question-sign'></i></a></span></div>
+			<div data-id="question.{{@index}}.media">
+				<label for="media{{@index}}">Hotspot image</label>
+				<div><input data-attribute="media" type="text" id="media{{@index}}" placeholder="Image" value="{{{singleQuote media}}}">
+				<a href='#' data-action='insert-picture'><i class='fas fa-image'></i></a>
+				<a href='#' data-action='hotspot-help'><i class='fas fa-question-circle'></i></a></div>
 			</div>
 			{{/compare}}
 			
@@ -26,20 +27,20 @@
 			{{#compare type "~" "QuestionFillIn,QuestionRankInOrder"}}
 
 				<thead><tr>
-					<th><i class='icon-keyboard icon-muted'></i></th>
+					{{!-- <th class="narrow"><i class='fas fa-keyboard'></i></th>--}}
 					<th>{{#compare type "QuestionFillIn"}}Possible answers (case insensitive){{else}}Correct answer sequence{{/compare}}</th>
-					<th><i class='icon-remove icon-muted'></i></th>
+					<th class="narrow"><i class='fas fa-trash fa-muted'></i></th>
 				</tr></thead>
 				<tbody>
 				{{#each choice}}
 				<tr>
-					<td>{{indexplus1 @index}}</td>
+					{{!-- <td class="narrow">{{indexplus1 @index}}</td> --}}
 					{{#compare type "QuestionFillIn"}}
-					<td><input data-attribute="choice" class="span4" id="choice{{@index}}" type="text" value="{{{textValue}}}"></td>
+					<td><input data-attribute="choice" id="choice{{@index}}" type="text" value="{{{value}}}"></td>
 					{{else}}
-					<td><div class="input-append"><input data-attribute="choice" class="span4" id="choice{{@index}}" type="text" value="{{{singleQuote textValue}}}"><span class="add-on"><a href='#insert-picture'><i class='icon-picture'></i></a></span></div></td>
+					<td><div class="input-append"><input data-attribute="choice" id="choice{{@index}}" type="text" value="{{{singleQuote value}}}"><a href='#' data-action='insert-picture'><i class='fas fa-image'></i></a></div></td>
 					{{/compare}}
-					<td><a href="#delete-row" title="Delete this row"><i class='icon-remove-sign'></i></a></td>
+					<td class="narrow"><a href="#" data-action="delete-row" title="Delete this row"><i class='fas fa-trash-alt'></i></a></td>
 				</tr>
 				{{/each}}
 
@@ -53,7 +54,7 @@
 					{{else}}{{#compare type "QuestionDragToList"}}
 						{{! no correct items}}
 					{{else}}
-						<th><i class='icon-check' title='Is correct?'></i></th>
+						<th class="narrow"><i class='fas fa-check' title='Is correct?'></i></th>
 					{{/compare}}{{/compare}}
 					<th>Choice</th>
 					<th>{{#compare type "QuestionMatching"}}
@@ -65,16 +66,18 @@
 								Feedback
 							{{/compare}}
 						{{/compare}}</th>
-					<th><i class='icon-remove icon-muted'></i></th>
+					{{#compare type "QuestionTF"}}{{else}}
+					<th class="narrow"><i class='fas fa-trash fa-muted'></i></th>
+					{{/compare}}
 				</tr>
 				</tr></thead>
 				<tbody>
 				{{#compare type "QuestionMatching"}}
 					{{#each choiceA}}
 					<tr>
-						<td><div class="input-append"><input data-attribute="choiceA" class="input-block-level" id="choice{{@index}}" type="text" value="{{{singleQuote textValue}}}"><span class="add-on"><a href='#insert-picture'><i class='icon-picture'></i></a></span></div></td>
-						<td><div class="input-append"><input data-attribute="choiceB" class="input-block-level" id="feedback{{@index}}" type="text" value="{{{siblingIndex @index ../this "choiceB"}}}"><span class="add-on"><a href='#insert-picture'><i class='icon-picture'></i></a></span></div></td>
-						<td class='narrow'><a href="#delete-row" title="Delete this row"><i class='icon-remove-sign'></i></a></td>
+						<td><div class="input-append"><input data-attribute="choiceA" id="choice{{@index}}" type="text" value="{{{singleQuote value}}}"><a href='#' data-action='insert-picture'><i class='fas fa-image'></i></a></div></td>
+						<td><div class="input-append"><input data-attribute="choiceB" id="feedback{{@index}}" type="text" value="{{{siblingIndex @index ../this "choiceB"}}}"><a href='#' data-action='insert-picture'><i class='fas fa-image'></i></a></div></td>
+						<td class='narrow'><a href="#" data-action="delete-row" title="Delete this row"><i class='fas fa-trash-alt'></i></a></td>
 					</tr>
 					{{/each}}
 				{{else}}
@@ -82,19 +85,21 @@
 				{{#compare type "QuestionDragToList"}}
 					{{#each choice}}
 					<tr>
-						<td><div class="input-append"><input data-attribute="choice" class="input-block-level" id="choice{{@index}}" type="text" value="{{{singleQuote textValue}}}"><span class="add-on"><a href='#insert-picture'><i class='icon-picture'></i></a></span></div></td>
-						<td><div class="input-append"><input data-attribute="list" class="input-block-level" id="list{{@index}}" type="text" value="{{list}}"></div></td>
-						<td class='narrow'><a href="#delete-row" title="Delete this row"><i class='icon-remove-sign'></i></a></td>
+						<td><div class="input-append"><input data-attribute="choice" id="choice{{@index}}" type="text" value="{{{singleQuote value}}}"><a href='#' data-action='insert-picture'><i class='fas fa-image'></i></a></div></td>
+						<td><div class="input-append"><input data-attribute="list" id="list{{@index}}" type="text" value="{{list}}"></div></td>
+						<td class="narrow"><a href="#" data-action="delete-row" title="Delete this row"><i class='fas fa-trash-alt'></i></a></td>
 					</tr>
 					{{/each}}
 				{{else}}
 					{{! not a Match or Drag question}}
 					{{#each choice}}
 					<tr>
-						<td class='narrow'><input data-attribute="correct" type='checkbox' id='correct{{@index}}'{{#if correct}} checked{{/if}} value='true'></td>
-						<td><div class="input-append"><input data-attribute="choice" class="input-block-level" id="choice{{@index}}" type="text" value="{{{singleQuote textValue}}}"><span class="add-on"><a href='#insert-picture'><i class='icon-picture'></i></a></span></div></td>
-						<td><div class="input-append"><input data-attribute="feedback" class="input-block-level" id="feedback{{@index}}" type="text" value="{{{siblingIndex @index ../this "feedback"}}}"{{#compare ../type "!=" "QuestionChoice"}} disabled{{/compare}}></div></td>
-						<td class='narrow'><a href="#delete-row" title="Delete this row"><i class='icon-remove-sign'></i></a></td>
+						<td class="narrow"><input data-attribute="correct" type='checkbox' id='correct{{@index}}'{{#if correct}} checked{{/if}} value='true'></td>
+						<td><div class="input-append"><input data-attribute="choice" id="choice{{@index}}" type="text" value="{{{singleQuote value}}}"><a href='#' data-action='insert-picture'><i class='fas fa-image'></i></a></div></td>
+						<td><div class="input-append"><input data-attribute="feedback" id="feedback{{@index}}" type="text" value="{{{siblingIndex @index ../this "feedback"}}}"{{#compare ../type "!=" "QuestionChoice"}} disabled{{/compare}}></div></td>
+						{{#compare ../type "QuestionTF"}}{{else}}
+						<td class="narrow"><a href="#" data-action="delete-row" title="Delete this row"><i class='fas fa-trash-alt'></i></a></td>
+						{{/compare}}
 					</tr>
 					{{/each}}
 				{{/compare}}{{/compare}}
@@ -102,7 +107,7 @@
 				</tbody>
 			{{#compare type "!=" "QuestionTF"}}
 				<tfoot><tr>
-					<td colspan="2"><i class="icon-plus-sign"></i> <a href="#clone-row">Add a row</a></td>
+					<td colspan="2"><i class="fas fa-plus-circle"></i> <a href="#" data-action="clone-row"">Add a row</a></td>
 				</tr></tfoot>
 			{{/compare}}
 
@@ -125,27 +130,27 @@
 
 {{! answer layout drop down on some types }}
 			{{#compare type "!=" "QuestionFillIn"}}
-			<div class="control-group" data-id="question.{{@index}}.layout">
-				<label class="control-label" for="layout{{@index}}">Answer layout</label>
-				<div class="controls"><select id="layout{{@index}}" placeholder="Layout template" data-attribute="layout">
+			<div data-id="question.{{@index}}.layout">
+				<label for="layout{{@index}}">Answer layout</label>
+				<div><select id="layout{{@index}}" placeholder="Layout template" data-attribute="layout">
 					<option value="stack"{{#compare layout "!=" "float"}} selected{{/compare}}>Stack (vertical)</option>
 					<option value="float"{{#compare layout "float"}} selected{{/compare}}>Float (horizontal)</option>
-				</select> <a href='#layout-help'><i class='icon-question-sign'></i></a></span></div>
+				</select> <a href='#layout-help'><i class='fas fa-question-circle'></i></a></div>
 			</div>
 			{{/compare}}
 						
 {{! feedback for question }}
-			<div class="control-group" data-id="question.{{@index}}.feedbackCorrect">
-				<label class="control-label" for="feedbackCorrect{{@index}}">feedbackCorrect</label>
-				<div class="controls"><textarea data-attribute="feedbackCorrect" class="input-block-level" rows="2" id="feedbackCorrect{{@index}}" placeholder="Feedback (correct)">{{feedbackCorrect.textValue}}</textarea></div>
+			<div data-id="question.{{@index}}.feedbackCorrect">
+				<label for="feedbackCorrect{{@index}}">feedbackCorrect</label>
+				<div><textarea data-attribute="feedbackCorrect" rows="2" id="feedbackCorrect{{@index}}" placeholder="Feedback (correct)">{{feedbackCorrect}}</textarea></div>
 			</div>
-			<div class="control-group" data-id="question.{{@index}}.feedbackIncorrect">
-				<label class="control-label" for="feedbackIncorrect{{@index}}">feedbackIncorrect</label>
-				<div class="controls"><textarea data-attribute="feedbackIncorrect" class="input-block-level" rows="2" id="feedbackIncorrect{{@index}}" placeholder="Feedback (incorrect)">{{feedbackIncorrect.textValue}}</textarea></div>
+			<div data-id="question.{{@index}}.feedbackIncorrect">
+				<label for="feedbackIncorrect{{@index}}">feedbackIncorrect</label>
+				<div><textarea data-attribute="feedbackIncorrect" rows="2" id="feedbackIncorrect{{@index}}" placeholder="Feedback (incorrect)">{{feedbackIncorrect}}</textarea></div>
 			</div>
-			<div class="control-group" data-id="question.{{@index}}.review">
-				<label class="control-label" for="review{{@index}}">review</label>
-				<div class="controls"><input data-attribute="review" type="text" id="review{{@index}}" placeholder="Review text" value="{{review.textValue}}"> <a href='#review-help'><i class='icon-question-sign'></i></a></span></div>
+			<div data-id="question.{{@index}}.review">
+				<label for="review{{@index}}">review</label>
+				<div><input data-attribute="review" type="text" id="review{{@index}}" placeholder="Review text" value="{{review}}"> <a href='#review-help'><i class='fas fa-question-circle'></i></a></div>
 			</div>
 
 		</fieldset>

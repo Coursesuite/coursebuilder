@@ -170,4 +170,23 @@ Class MediaModel Extends Model { // implements Modellable
 		$model["context"] = $context;  // typically the course id, but we might extend
 		return $model;
 	}
+
+	// turn media into a json string that is compatible with the runtime needs
+	public static function generateMediaJson($context) {
+		if (is_object($context)) {
+			forEach($context->Media as $media) {
+				$result[] = [
+					"filename" => $media->filename,
+					"extn" => $media->extn,
+					"width" => $media->width,
+					"height" => $media->height
+				];
+			}
+			return json_encode($result, JSON_NUMERIC_CHECK);
+		} else if (is_numeric($context)) {
+			$rows = Model::Read(self::TABLE_NAME, "context=:c", [":c"=>$context], "filename,extn,width,height");
+			return json_encode($rows, JSON_NUMERIC_CHECK);
+		}
+	}
+
 }

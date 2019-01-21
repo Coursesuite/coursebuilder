@@ -10,10 +10,12 @@ class PagesCollection Implements Iterator {
 
 
 	// the array is a list of the ids of the pages
-	function __construct($course_id, $parent_id) {
+	function __construct($course_id, $parent_id = 0) {
 		$idname = self::ID_ROW_NAME;
 		$this->position = 0;
-		$this->data = DatabaseFactory::get_record(self::TABLE_NAME, ["course"=>$course_id, "parent"=>$parent_id], $idname, 999, 0, "sequence");
+		$params = ["course"=>$course_id];
+		if ($parent_id > -1) $params["parent"] = $parent_id;
+		$this->data = DatabaseFactory::get_record(self::TABLE_NAME, $params, $idname, 999, 0, "sequence");
 	}
 	public function rewind() {
 		$this->position = 0;

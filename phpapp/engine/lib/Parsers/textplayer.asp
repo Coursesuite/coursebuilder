@@ -89,7 +89,7 @@ if (!Array.prototype.map) {
     }
     // 9. return A
     return A;
-  };      
+  };
 }
 
 if (!Array.prototype.push) {
@@ -145,7 +145,7 @@ var $ = {
 	},
 	ajax : function (obj) {
 		var fso = new ActiveXObject("scripting.filesystemobject");
-		
+
 		var url = _mappedFolder + obj.url.replace(/\//g,"\\").split("?")[0];
 		var file = LoadFileStream(url); // removes BOM
 		if (file == "" && typeof(obj.error) === 'function') {
@@ -196,9 +196,9 @@ function LoadFileStream(fileToLoad) {
 
 Handlebars.getTemplate = function(name) {
 	if (Handlebars.templates === undefined || Handlebars.templates[name] === undefined) {
-	
+
 		if ("grids/" == name) name = "grids/auto";
-	
+
 		var fso = new ActiveXObject("scripting.filesystemobject"),
 			url = _mappedFolder + "\\SCO1\\Layout\\layouts\\" + name.replace(/\//g,"\\") + ".txt",
 			data = "";

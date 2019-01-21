@@ -5,8 +5,18 @@
 
 }
 
+.wait-cursor main>aside * {
+  cursor: wait !important;
+}
+
 body.page-edit.action-content {
 	overflow-y: hidden;
+}
+body.content-saving button[data-action='content-save'] .fa-save {
+  animation: fa-spin 2s infinite linear;
+}
+body.content-saving button[data-action='content-save'] .fa-save:before {
+  content: "\f110";
 }
 
 body > header .logo-narrow {
@@ -49,6 +59,18 @@ body > main > article {
   overflow: hidden;
   overflow-y: auto;
 }
+
+/* tree node preview-image */
+#pi {
+  position:fixed;
+  width:160px;
+  height:120px;
+  z-index:599;
+  background-color:#fff;
+  box-shadow:0 0 5px rgba(0,0,0,.5);
+  pointer-events:none;
+}
+
 
 .dd {
   display: inline-block;
@@ -157,6 +179,12 @@ body > main > article {
 
 .template-navtree {
   padding-top: 10px;
+}
+
+.navtree-toolbar {
+  padding: 10px 5px;
+  background-color: #f4f4f4;
+  border-bottom: 1px solid #eee;
 }
 
 /* edit content page */

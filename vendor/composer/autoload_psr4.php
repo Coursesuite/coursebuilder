@@ -6,8 +6,12 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'mikehaertl\\wkhtmlto\\' => array($vendorDir . '/mikehaertl/phpwkhtmltopdf/src'),
+    'mikehaertl\\tmp\\' => array($vendorDir . '/mikehaertl/php-tmpfile/src'),
+    'mikehaertl\\shellcommand\\' => array($vendorDir . '/mikehaertl/php-shellcommand/src'),
+    'Screen\\' => array($vendorDir . '/microweber/screen/src'),
+    'Ninjitsu\\' => array($baseDir . '/compilers/ninjitsu'),
     'MyCLabs\\Enum\\' => array($vendorDir . '/myclabs/php-enum/src'),
-    'MongoDB\\' => array($vendorDir . '/mongodb/mongodb/src'),
     'LightnCandy\\' => array($vendorDir . '/zordius/lightncandy/src'),
     'ColorThief\\' => array($vendorDir . '/ksubileau/color-thief-php/lib/ColorThief'),
     '' => array($baseDir . '/lib/core', $baseDir . '/lib/model'),

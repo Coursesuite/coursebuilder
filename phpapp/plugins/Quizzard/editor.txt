@@ -1,0 +1,204 @@
+{{#with test}}
+
+{{!--
+-introduction page- [questions][results page][options]
+-------------------
+
+Title        [            ]
+Intro Text   [            ]
+Button       [            ]
+
+
+[introduction page][questions]-results page-[options]
+                              --------------
+
+Title             [            ]
+Show results   [x][            ]
+Exit button    [x][            ]
+Restart button [ ][            ]
+
+
+[introduction page]-questions-[results page][options]
+                   -----------
+
+[+][=] 1. set          [x]    Prompt   [               ]
+[-][=] 2. set          [x]    Media    [  ^  ] [  ...  ]
+   [=] 1. Question ... [x]             [< * >]
+   [=] 2. Question ... [x]             [  v  ]
+   [=] 3. Question ... [x]    Distractors
+   --------------------       Randomise order [x]
+          [+]                 [ ][=][title         ][feedback         ][x]
+[+][=] 3. set          [x]    [o][=][title         ][feedback         ][x]
+                              [ ][=][title         ][feedback         ][x]
+                              [+]
+                              Layout    [           ]
+                              Feedback
+                              [Correct]             [incorrect]
+                              Metadata  [           ]
+--}}
+
+<div class='area-toolbar'>
+	<a href='#' data-action='area' data-target='settings'>Settings</a>
+	<a href='#' data-action='area' data-target='intro'>Intro Page</a>
+	<a href='#' data-action='area' data-target='sets' class='active'>Questions</a>
+	<a href='#' data-action='area' data-target='results'>Results Page</a>
+</div>
+
+<div data-area='sets' class='active'>
+<aside>
+<ul sortable data-sort-group='pool'>
+{{#each questionPool}}
+<li><div>
+	<i class='fas fa-grip-lines'></i>
+	<a href='#' data-action='toggle-set'><i class='fas fa-folder-{{#compare @index 0}}minus{{else}}plus{{/compare}}'></i></a>
+	<a href='#' data-action='edit' data-target='{{globIndex}}'>Set {{indexplus1 @index}}</a>
+	</div>
+	<ul data-expand='true'{{#compare @index 0}} class='active'{{/compare}} sortable data-sort-group='question' data-sort-index="{{@index}}">
+	{{#each question}}
+	<li sortable><div><i class='fas fa-grip-lines'></i> <a href='#' data-action='edit' data-target='{{globIndex}}'>{{shorten prompt 50}}</a></div></li>
+	{{/each}}
+	<li class="locked"><div><i class='fas fa-plus-square'></i> <a href='#' data-action='add-question'>Add a question</a></div></li>
+	</ul>
+</li>
+{{/each}}
+<li class="locked"><div><i class='fas fa-plus-square'></i> <a href='#' data-action='add-set'>Add a set</a></div></li>
+</ul>
+</aside>
+<article>
+{{globIndexReset}}
+{{#each questionPool}}
+{{> pool}}
+{{#each question}}
+{{> quest}}
+{{/each}}
+{{/each}}
+
+<div id='qPreview'>
+	<iframe id='qPreviewFrame'></iframe>
+</div>
+
+<div class="view-toolbar">
+	<a href="#" data-action="switch-view" data-target="q-editor" class="active">Editor</a>
+	<a href="#" data-action="switch-view" data-target="q-preview">Preview</a>
+</div>
+
+</article>
+
+<nav class='new-question'><div class='grid-2'>
+	<a href='#' data-action='append-question' data-type="QuestionFillIn">Enter the word</a>
+	<a href='#' data-action='append-question' data-type="QuestionMatching">Drag to match</a>
+	<a href='#' data-action='append-question' data-type="QuestionTF">True / False</a>
+	<a href='#' data-action='append-question' data-type="QuestionChoice">Single choice</a>
+	<a href='#' data-action='append-question' data-type="QuestionChoiceMultiple">Multiple choices</a>
+	<a href='#' data-action='append-question' data-type="QuestionRankInOrder">Rank in order</a>
+	<a href='#' data-action='append-question' data-type="QuestionDragToList">Drag to list</a>
+</div></nav>
+
+</div>
+
+<div data-area='intro'>
+	<div>
+	    <label for="inputQT">Custom Title</label>
+	    <div><textarea data-id="quizTitle" rows="2" id="inputQT" placeholder="Leave empty to use default title">{{quizTitle}}</textarea></div>
+	</div>
+	<div>
+	    <label for="input1">introduction</label>
+	    <div><textarea data-id="introduction" rows="2" id="input1" placeholder="{{introduction}}">{{introduction}}</textarea></div>
+	</div>
+</div>
+
+<div data-area='results'>
+	<div>
+		<label for="input2">Passed message</label>
+		<div><textarea data-id="passedMessage" rows="2" id="input2" placeholder="{{passedMessage}}">{{passedMessage}}</textarea></div>
+	</div>
+	<div>
+		<label for="input3">Failed message</label>
+		<div><textarea data-id="failedMessage" rows="2" id="input3" placeholder="{{failedMessage}}">{{failedMessage}}</textarea></div>
+	</div>
+	<div>
+		<label for="input4">Incomplete message</label>
+		<div><textarea data-id="incompleteMessage" rows="2" id="input4" placeholder="{{incompleteMessage}}">{{incompleteMessage}}</textarea></div>
+	</div>
+	<div>
+		<label for="input5">Completed message</label>
+		<div><textarea data-id="completedMessage" rows="2" id="input5" placeholder="{{completedMessage}}">{{completedMessage}}</textarea></div>
+	</div>
+	<div>
+		<label for="input5q">Attempts message</label>
+		<div><textarea data-id="attemptsMessage" rows="2" id="input5q" placeholder="{{attemptsMessage}}">{{attemptsMessage}}</textarea></div>
+	</div>
+	<div>
+		<label for="input5e">No more attempts</label>
+		<div><textarea data-id="maxAttemptsReachedMessage" rows="2" id="input5e" placeholder="{{maxAttemptsReachedMessage}}">{{maxAttemptsReachedMessage}}</textarea></div>
+	</div>
+</div>
+
+<div data-area='settings'>
+	  <div>
+	    <label for="input0">Time limit</label>
+	    <div><input data-id="test.timeLimit" type="number" max="300" min="0" id="input0" placeholder="minutes" value="{{timeLimit}}">
+	    <a href='#' data-action='timelimit-help'><i class='fas fa-question-circle'></i></a></div>
+	  </div>
+	  <div>
+	    <label for="input01">Maximum attempts</label>
+	    <div><input data-id="test.maxAttempts" type="number" max="9" min="0" id="input01" placeholder="attempts" value="{{#compare maxAttempts "is" "numeric"}}{{maxAttempts}}{{else}}0{{/compare}}">
+	    <a href='#' data-action='attempts-help'><i class='fas fa-question-circle'></i></a></div>
+	  </div>
+	  <div>
+	  	<label class=" for="cbshowStatus">Show test status</label>
+	  	<div><input type="checkbox" value="true" data-id="show-status" id="cbshowStatus"{{#compare showStatus "true"}} checked{{/compare}}{{#compare showStatus null}} checked{{/compare}}>
+	  	<a href='#' data-action='status-help'><i class='fas fa-question-circle'></i></a></div>
+	  </div>
+	  <div>
+	    <label for="selectra">Reveal answers</label>
+	    <div><select id="selectra" data-id="revealAnswers">
+	    	<option value="always"{{#compare revealAnswers ""}} selected{{/compare}}>Default</option>
+	    	<option value="pass"{{#compare revealAnswers "pass"}} selected{{/compare}}>Pass</option>
+	    	<option value="always"{{#compare revealAnswers "always"}} selected{{/compare}}>Always</option>
+	    </select></div>
+	  </div>
+	  <div>
+	    <label for="selectrs">Restartable (Quiz only)</label>
+	    <div><select id="selectrs" data-id="restartable">
+	    	{{#compare restartable "true"}}
+	    	<option value="false">No</option>
+	    	<option value="true" selected>Yes</option>
+	    	{{else}}
+	    	<option value="false" selected>No</option>
+	    	<option value="true">Yes</option>
+	    	{{/compare}}
+	    </select><a href='#' data-action='restartable-help'><i class='fas fa-question-circle'></i></a></div>
+	  </div>
+	  <div>
+	  	<label for="selectCAV">Check Answer button</label>
+	  	<div><select id="selectCAV" data-id="checkQuestionVisible">
+	    	{{#compare checkQuestionVisible "true"}}
+	    	<option value="false">Depends on quiz type, restartable</option>
+	    	<option value="true" selected>Always visible</option>
+	    	{{else}}
+	    	<option value="false" selected>Depends on quiz type, restartable</option>
+	    	<option value="true">Always visible</option>
+	    	{{/compare}}
+	  	</select></div>
+	  </div>
+	  <div>
+	  	<label class=" for="cbshowExit">Exit quiz visible / label</label>
+	  	<div>
+			<div class="input-prepend">
+			  <span class="add-on"><input type="checkbox" title="Tick to make visible" value="true" data-id="exitButtonVisible" id="cbshowExit"{{#compare exitButton.visible "true"}} checked{{/compare}}> Visible</span>
+			  <input type="text" value="{{exitButton}}" data-id="exitButton" id="txtshowExit" placeholder="Exit button label">
+			</div>
+		</div>
+	  </div>
+	  <div>
+	    <label for="selectil">Question index position</label>
+	    <div><select id="selectil" data-id="indexLayout">
+	    	<option value="vertical"{{#compare indexLayout "!=" "horizontal"}} selected{{/compare}}>East</option>
+	    	<option value="horizontal"{{#compare indexLayout "horizontal"}} selected{{/compare}}>South</option>
+	    </select></div>
+	  </div>
+	</div>
+</div>
+
+{{/with}}

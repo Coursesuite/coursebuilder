@@ -6,8 +6,7 @@ class Text
 {
 	private static $texts;
 
-	public static function get($key, $data = null)
-	{
+	public static function get($key, $data = null) {
 		// if not $key
 		if (!$key) {
 			return null;
@@ -41,8 +40,7 @@ class Text
 		return sprintf(self::$texts[key], $args);
 	}
 
-	public static function output($ar, $key, $encode = false)
-	{
+	public static function output($ar, $key, $encode = false) {
 		if (is_array($ar)) {
 			if (array_key_exists($key, $ar)) {
 				$outp = $ar[$key];
@@ -56,8 +54,7 @@ class Text
 		}
 	}
 
-	public static function formatString($key, $data)
-	{
+	public static function formatString($key, $data) {
 		if (!$key) {
 			return null;
 		}
@@ -76,31 +73,40 @@ class Text
 		return $out;
 	}
 
-	public static function toHtml($string)
-	{
+	public static function toHtml($string) {
 		$PDE = new ParsedownExtra();
 		return $PDE->text($string);
 	}
 
-	public static function compileHtml($template, $json)
-	{
+	// compile handlebars into a template, then execute it against an object
+	public static function compileHtml($template, $obj) {
+		if (strpos($template, "/") === 0) $template = file_get_contents($template);
 		$compiled = LightnCandy::compile($template);
 		$content = LightnCandy::prepare($compiled);
-		return ($content($json));
+		$aj = json_decode(json_encode($obj), true);
+		return $content($aj);
 	}
 
-	public static function base64enc($val)
-	{
+	// execute php directly, applying args as variables
+	public static function compilePhpTemplate($templatePath, array $args) {
+        if (!file_exists($templatePath)) {
+            return ""; // throw new Exception($templateName);
+        }
+        ob_start();
+        extract($args);
+        include $templatePath;
+        return ob_get_clean();
+	}
+
+	public static function base64enc($val) {
 		return strtr(base64_encode($val), '+/=', '-_,');
 	}
 
-	public static function base64dec($val)
-	{
+	public static function base64dec($val) {
 		return base64_decode(strtr($val, '-_,', '+/='));
 	}
 
-	public static function StaticPageRenderer($route)
-	{
+	public static function StaticPageRenderer($route) {
 		$page = StaticPageModel::getRecordByKey($route);
 		if (isset($page) && $page !== false) {
 			$PDE = new ParsedownExtra();
@@ -109,20 +115,17 @@ class Text
 		return "";
 	}
 
-	public static function formatBytes($size, $precision = 2)
-	{
+	public static function formatBytes($size, $precision = 2) {
 		$base = log($size, 1024);
 		$suffixes = array('', 'K', 'M', 'G', 'T');
 		return round(pow(1024, $base - floor($base)), $precision) . ' ' . $suffixes[floor($base)];
 	}
 
-	public static function formatTime($seconds)
-	{
+	public static function formatTime($seconds) {
 		return gmdate("H:i:s", $seconds);
 	}
 
-	public static function generatePassword()
-	{
+	public static function generatePassword() {
 		return substr(str_replace(["O","o","0","i","j","l","I","L","S","5","1"],"", base64_encode(md5(mt_rand()))),5,10);
 	}
 
@@ -241,8 +244,7 @@ class Text
 	 * @param  string|array  $needles
 	 * @return bool
 	 */
-	public static function contains($haystack, $needles)
-	{
+	public static function contains($haystack, $needles) {
 		foreach ((array) $needles as $needle)
 		{
 			if ($needle != '' && strpos($haystack, $needle) !== false) return true;
@@ -256,8 +258,7 @@ class Text
 	 * @param  string|array  $needles
 	 * @return bool
 	 */
-	public static function endsWith($haystack, $needles)
-	{
+	public static function endsWith($haystack, $needles) {
 		foreach ((array) $needles as $needle)
 		{
 			if ((string) $needle === substr($haystack, -strlen($needle))) return true;
@@ -271,8 +272,7 @@ class Text
 	 * @param  string  $cap
 	 * @return string
 	 */
-	public static function finish($value, $cap)
-	{
+	public static function finish($value, $cap) {
 		$quoted = preg_quote($cap, '/');
 		return preg_replace('/(?:'.$quoted.')+$/', '', $value).$cap;
 	}
@@ -283,8 +283,7 @@ class Text
 	 * @param  string  $value
 	 * @return bool
 	 */
-	public static function is($pattern, $value)
-	{
+	public static function is($pattern, $value) {
 		if ($pattern == $value) return true;
 		$pattern = preg_quote($pattern, '#');
 		// Asterisks are translated into zero-or-more regular expression wildcards
@@ -299,8 +298,7 @@ class Text
 	 * @param  string  $value
 	 * @return int
 	 */
-	public static function length($value)
-	{
+	public static function length($value) {
 		return mb_strlen($value);
 	}
 	/**
@@ -311,8 +309,7 @@ class Text
 	 * @param  string  $end
 	 * @return string
 	 */
-	public static function limit($value, $limit = 100, $end = '...')
-	{
+	public static function limit($value, $limit = 100, $end = '...') {
 		if (mb_strlen($value) <= $limit) return $value;
 		return rtrim(mb_substr($value, 0, $limit, 'UTF-8')).$end;
 	}
@@ -322,8 +319,7 @@ class Text
 	 * @param  string  $value
 	 * @return string
 	 */
-	public static function lower($value)
-	{
+	public static function lower($value) {
 		return mb_strtolower($value);
 	}
 	/**
@@ -334,8 +330,7 @@ class Text
 	 * @param  string  $end
 	 * @return string
 	 */
-	public static function words($value, $words = 100, $end = '...')
-	{
+	public static function words($value, $words = 100, $end = '...') {
 		preg_match('/^\s*+(?:\S++\s*+){1,'.$words.'}/u', $value, $matches);
 		if ( ! isset($matches[0]) || strlen($value) === strlen($matches[0])) return $value;
 		return rtrim($matches[0]).$end;
@@ -347,8 +342,7 @@ class Text
 	 * @param  string  $default
 	 * @return array
 	 */
-	public static function parseCallback($callback, $default)
-	{
+	public static function parseCallback($callback, $default) {
 		return static::contains($callback, '@') ? explode('@', $callback, 2) : array($callback, $default);
 	}
 
@@ -360,8 +354,7 @@ class Text
 	 *
 	 * @throws \RuntimeException
 	 */
-	public static function random($length = 16)
-	{
+	public static function random($length = 16) {
 		if (function_exists('openssl_random_pseudo_bytes'))
 		{
 			$bytes = openssl_random_pseudo_bytes($length * 2);
@@ -381,8 +374,7 @@ class Text
 	 * @param  int  $length
 	 * @return string
 	 */
-	public static function quickRandom($length = 16)
-	{
+	public static function quickRandom($length = 16) {
 		$pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 		return substr(str_shuffle(str_repeat($pool, $length)), 0, $length);
 	}
@@ -392,8 +384,7 @@ class Text
 	 * @param  string  $value
 	 * @return string
 	 */
-	public static function upper($value)
-	{
+	public static function upper($value) {
 		return mb_strtoupper($value);
 	}
 	/**
@@ -402,8 +393,7 @@ class Text
 	 * @param  string  $value
 	 * @return string
 	 */
-	public static function title($value)
-	{
+	public static function title($value) {
 		return mb_convert_case($value, MB_CASE_TITLE, 'UTF-8');
 	}
 	/**
@@ -413,13 +403,45 @@ class Text
 	 * @param  string|array  $needles
 	 * @return bool
 	 */
-	public static function startsWith($haystack, $needles)
-	{
+	public static function startsWith($haystack, $needles) {
 		foreach ((array) $needles as $needle)
 		{
 			if ($needle != '' && strpos($haystack, $needle) === 0) return true;
 		}
 		return false;
+	}
+
+	/* get rid of that pesky BOM sequence */
+	public static function BomSquad($value) {
+	    $bom = pack('H*','EFBBBF');
+	    return preg_replace("/^$bom/", '', $value);
+	}
+
+	public static function ConvertUTF8($str) {
+	    // set default encode
+	    mb_internal_encoding('UTF-8');
+
+	    // pre filter
+	    if (empty($str)) {
+	        return $str;
+	    }
+
+	    $str = self::BomSquad($str);
+
+	    // get charset
+	    $charset = mb_detect_encoding($str, array('ISO-8859-1', 'UTF-8', 'ASCII'));
+
+	    if (stristr($charset, 'utf') || stristr($charset, 'iso')) {
+	        $str = iconv('ISO-8859-1', 'UTF-8//TRANSLIT', utf8_decode($str));
+	    } else {
+	        $str = mb_convert_encoding($str, 'UTF-8', 'UTF-8');
+	    }
+
+	    // remove BOM
+	   $str = urldecode(str_replace("%C2%81", '', urlencode($str)));
+
+	    // prepare string
+	    return $str;
 	}
 
 

@@ -3,7 +3,7 @@
 // this is kind of an Entity with a DataMapper in the parent
 // so not ideal but reasonable in this app
 
-class CourseModel extends Model {
+class CourseModel extends HashableModel {
 
 	CONST TABLE_NAME = "courses";
 	CONST ID_ROW_NAME = "id";
@@ -53,6 +53,10 @@ class CourseModel extends Model {
 
 	}
 
+    public function loaded() {
+        return isset($this->_data) && isset($this->_data[self::ID_ROW_NAME]) && $this->_data[self::ID_ROW_NAME] > 0;
+    }
+
 	public function get_model($assoc = true)
     {
         return ($assoc) ? (array) $this->_data : $this->_data;
@@ -60,7 +64,7 @@ class CourseModel extends Model {
 
     public function __construct($row_id = 0)
     {
-        parent::__construct();
+        parent::__construct(["config","glossary","references","media"]);
         if ($row_id === 0) {
 	    	$this->_data = (array) parent::Create(self::TABLE_NAME);
         } else if ($row_id > 0) {
@@ -83,8 +87,8 @@ class CourseModel extends Model {
 	    }
     }
 
-    public function save()
-    {
+    public function save() {
+        $this->_data["touched"] = time();
         $id = parent::Update(self::TABLE_NAME, self::ID_ROW_NAME, $this->_data);
         if ($this->_data[self::ID_ROW_NAME] === 0) {
 	        $this->_data[self::ID_ROW_NAME] = $id; // set directly, not via __set()
@@ -93,23 +97,40 @@ class CourseModel extends Model {
     }
 
     public function __set($property, $value){
-	    if ($property == "Pages") {
+        if ($property == self::ID_ROW_NAME) {
+            return; // disallow
+	    } else if ($property == "Pages") {
 		    return $this->$_pages = $value;
 	    } else if (in_array($property, ["Path", "RealPath", "DisplayPath", "MediaPath", "MediaRealPath"])) {
 		    throw new Exception("Unable to set path");
 	    } else if (in_array($property, ["Media"])) {
 		    throw new Exception("Unable to set media");
-	    }
-	    if ($property == self::ID_ROW_NAME) return; // disallow
+	    } else if (in_array($property, ["AllPages"])) {
+		    throw new Exception("Unable to set collection");
+	    } else if ($property === "hashes" && empty($value)) {
+            $value = null;
+        }
+        $this->PutHash($property, $value); // checks internally if it needs to based on the property name
 		return $this->_data[$property] = $value;
     }
 
     public function __get($property){
 	    if ($property == "Pages") {
+	    	if (!isset($_pages)) {
+	    		$_pages = new PagesCollection($this->_data[self::ID_ROW_NAME], 0);
+	    	}
 		    return isset($_pages)
 		    	? $_pages
 		    	: null
 		    	;
+	    } else if ($property == "AllPages") {
+    		return new PagesCollection($this->_data[self::ID_ROW_NAME], -1);
+        } else if ($property == "Settings") { // json object prepackaged for use in javascript
+            $json = json_decode($this->_data["config"], true);
+            $json["images"] = json_decode($this->_data["media"], true);
+            $json["glossary"] = json_decode($this->_data["glossary"], true);
+            $json["references"] = json_decode($this->_data["references"], true);
+            return $json;
 	    } else if ($property == "RealPath") { // the realpath(folder_name) for filesystem uses
 			$path = DatabaseFactory::get_record("coursefolder", array("id" => $this->_data[self::ID_ROW_NAME]), "path");
 			return Config::get("BASE") . str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $path);
@@ -134,7 +155,12 @@ class CourseModel extends Model {
 	    } else if ($property == "Media") {
 	    	return new MediaCollection($this->_data[self::ID_ROW_NAME]);
 
-	    }
+	    } else if ($property == "hashes") {
+            if (empty($this->_data["hashes"])) return new stdClass();
+            if (is_object($this->_data["hashes"])) return $this->_data["hashes"];
+            $value = unserialize($this->_data["hashes"]);
+            return is_object($value) ? $value : (new stdClass()); // we expect hashes to only be an object, not some other kind of serializable value
+        }
 		return array_key_exists($property, $this->_data)
 			? $this->_data[$property]
 			: null
@@ -143,6 +169,14 @@ class CourseModel extends Model {
 
     public function properties() {
 	    return array_keys($this->_data);
+    }
+
+    // touch the course record in the lightest possible way
+    public function touch() {
+        $idname = self::ID_ROW_NAME;
+        $table = self::TABLE_NAME;
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $database->query("UPDATE {$table} SET `touched`=" . time() . " WHERE {$idname}=" . $this->_data[$idname]);
     }
 
     // takes pages and configuration from the disk and puts it into the database, where needed
@@ -158,5 +192,156 @@ class CourseModel extends Model {
     public function checkMedia() {
     	Curl::cronCall("mediascan", $this->_data[self::ID_ROW_NAME]);
     }
+
+    public function exportContent($path = null) {
+        if (is_null($path)) $path = "{$this->RealPath}/SCO1/en-us/Content/";
+        $path = rtrim($path,DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR;
+        $js = [];
+        foreach ($this->AllPages as $page) {
+            $c = $page->content;
+            $t = $page->template;
+            if (empty($c)) continue;
+            IO::saveSTRING("{$path}{$page->filename}", $c);
+            $js[$page->filename] = empty($t) ? "auto" : $t;
+        }
+        return $js;
+    }
+
+    public function exportHtml($path = null) {
+        if (is_null($path)) $path = "{$this->RealPath}/SCO1/en-us/Content/";
+        $path = rtrim($path,DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR;
+        $js = [];
+        foreach ($this->AllPages as $page) {
+            $h = $page->html;
+            $t = $page->template;
+            if (empty($h)) continue;
+            IO::saveSTRING("{$path}{$page->filename}", $h);
+            $js[$page->filename] = empty($t) ? "auto" : $t;
+        }
+        return $js;
+    }
+
+    public function compile() {
+    	$fold = $this->RealPath;
+    	$Config = json_decode($this->config);
+    	IO::emptyFolder("{$fold}/SCO1/Configuration");
+    	IO::emptyFolder("{$fold}/SCO1/Layout");
+
+    	// base course files
+    	IO::xcopy(Config::get("LIB") . "/templates/runtimes/textplayer/", $this->RealPath . "/SCO1/");
+
+
+    	// customisations OR template
+    	if (file_exists(Config::get("BASE") . "/phpapp/layouts/." . md5($this->id))) { // in a dotfolder
+    		$layout = Config::get("BASE") . "/phpapp/layouts/." . md5($this->id);
+    	} else {
+    		$layout = Config::get("LIB") . "/templates/layouts/{$Config->layout->template}/";
+    	}
+    	IO::xcopy($layout, $this->RealPath . "/SCO1/", [], [], true);
+
+    	// update config files
+    	IO::saveSTRING("{$fold}/SCO1/Configuration/settings.json", $this->config);
+    	IO::saveSTRING("{$fold}/SCO1/Configuration/glossary.json", $this->glossary);
+    	IO::saveSTRING("{$fold}/SCO1/Configuration/references.json", $this->references);
+    	IO::saveSTRING("{$fold}/SCO1/Configuration/images.json", MediaModel::generateMediaJson($this)); // update
+    	IO::saveSTRING("{$fold}/SCO1/Configuration/help.txt", $this->help);
+
+    	// update css variables
+    	$str = Text::compileHtml(Config::get("LIB") . "/templates/less_variables.hba", $Config);
+    	IO::saveSTRING("{$fold}/SCO1/Layout/less/variables.less", $str);
+
+    	// scorm files
+    	$sco = $Config->engine->sco;
+    	IO::xcopy(Config::get("LIB") . "/templates/scorm/{$sco}/", $this->RealPath);
+
+    	// files from the database
+        $this->exportHtml("{$fold}/SCO1/en-us/Content/");
+    	// foreach ($this->AllPages as $page) {
+    	// 	$content = !empty($page->html) ? $page->html : $page->content;
+    	// 	IO::saveSTRING("{$fold}/SCO1/en-us/Content/{$page->filename}", $content);
+    	// }
+
+    	$ref = md5($this->config);
+    	$scodata = array(
+    		"REFID" => $ref,
+    		"TITLE" => $Config->course->name,
+    		"DESCRIPTION" => $Config->course->description,
+    		"ORGID" => $ref,
+    		"ITEMID" => $ref,
+    		"LAUNCH" => "index.html",
+    		"FILES" => IO::files($this->RealPath)
+    	);
+
+    	// recompile manifest (as handlebars)
+    	$outp = Text::compileHtml($this->RealPath . "/imsmanifest.xml", $scodata);
+    	IO::saveSTRING("{$fold}/imsmanifest.xml", $outp);
+
+        $this->compileCss("self::save");
+
+    }
+
+    public function maybeCompileCss($func = null) {
+        if (!file_exists("{$this->RealPath}/SCO1/Layout/css/app.css")) {
+            $this->compileCss($func);
+        }
+    }
+
+    public function compileCss($func = null) {
+        $fold = $this->RealPath;
+        $less = new lessc;
+        $css = $less->compileFile("{$fold}/SCO1/Layout/less/app.less");
+        $css = str_replace("../css/", "", $css);
+        IO::saveSTRING("{$fold}/SCO1/Layout/css/app.css", $css); // fix references
+        $this->PutHash("css", md5($css), $func);
+    }
+
+
+
+
+    /*
+     *
+     *          STATIC METHODS
+     *
+     */
+
+    // public static function precompile($course_id = 0, $debug = false) {
+
+    //     if ($course_id < 1) return;
+
+    //     // we would want to compile both pages and screenshots in a single process - fix
+
+    //     $cm = new CourseModel($course_id);
+
+    //     require_once(Config::get("LIB") . "/compilers/ninjitsu/compiler.php");  // needed until I can figure out why autoloading isn't working
+    //     require_once(Config::get("LIB") . "/compilers/ninjitsu/screenshot.php");  // needed until I can figure out why autoloading isn't working
+
+    //     $cm->compileCss();
+
+    //     $c = new \Ninjitsu\Compiler();
+    //     $c->render($cm, $debug);
+
+    //     $s = new \Ninjitsu\Screenshot();
+    //     $s->render($cm, $debug);
+
+    // }
+
+    public static function compileAllHtml($course_id) {
+        require_once(Config::get("LIB") . "/compilers/ninjitsu/compiler.php");  // needed until I can figure out why autoloading isn't working
+        $cm = new CourseModel($course_id);
+        if ($cm->loaded()) {
+            $c->maybeCompileCss();
+            $c = new \Ninjitsu\Compiler();
+            $c->render($cm, false);
+        }
+    }
+    public static function createAllThumbnails($course_id) {
+        require_once(Config::get("LIB") . "/compilers/ninjitsu/screenshot.php");  // needed until I can figure out why autoloading isn't working
+        $cm = new CourseModel($course_id);
+        if ($cm->loaded()) {
+            $s = new \Ninjitsu\Screenshot();
+            $s->render($cm, false);
+        }
+    }
+
 
 }

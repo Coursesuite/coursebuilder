@@ -17,7 +17,6 @@ class EditController extends Controller
         $this->View->requires("minimal");
         $this->View->requires("edit/navbar");
         $this->View->requires("/css/app/navbar.css");
-        $this->View->requires("https://unpkg.com/split.js/split.min.js");
         $this->View->requires("Utils::json_to_form");
 
         // take the entire php form and save it as json
@@ -42,7 +41,6 @@ class EditController extends Controller
         $this->View->requires("minimal");
         $this->View->requires("edit/navbar");
         $this->View->requires("/css/app/navbar.css");
-        $this->View->requires("https://unpkg.com/split.js/split.min.js");
         $course = $cm->get_model(); // to get the public model
         $course["displaypath"] = $cm->DisplayPath;
         $course["launch"] = IO::append_path($cm->Path, ["SCO1", "index.html"]);
@@ -93,22 +91,23 @@ class EditController extends Controller
         $cm->checkMedia();
         $cm->upgrade();
 
+        $treemode =  Session::User()->GetPreference("treemode","default");
+
         $this->View->requires("minimal");
 
         $this->View->requires("edit/navbar");
         $this->View->requires("/css/app/navbar.css");
 
-        // $this->View->requires("edit/treeview.hbt");
         // tree view
-        $this->View->requires("https://cdn.jsdelivr.net/npm/jstree@3.3.5/dist/jstree.min.js");
-        $this->View->requires("https://cdn.jsdelivr.net/npm/jstree@3.3.5/dist/themes/default/style.min.css");
+        $this->View->requires("/node_modules/jstree/dist/jstree.min.js");
+        $this->View->requires("/node_modules/jstree/dist/themes/{$treemode}/style.min.css");
 
         // drag and drop file library
         $this->View->requires("https://cdn.jsdelivr.net/npm/filedrop@2.0.0/filedrop.min.js");
 
         // for now we have a mix of material-icons and font-awesome-5
         $this->View->requires("/css/node_modules/material-icons-css/css/material-icons.min.css");
-        $this->View->requires("https://use.fontawesome.com/releases/v5.4.1/css/all.css");
+        $this->View->requires("https://use.fontawesome.com/releases/v5.6.3/css/all.css");
 
         // a modal handler for drawing dialogues (stored in the runtime handlebars templates)
         $this->View->requires("https://unpkg.com/vanilla-modal@1.6.5/dist/index.js");
@@ -116,9 +115,9 @@ class EditController extends Controller
         $this->View->requires("edit/pilledit.hbt"); // modal-based multipage editor
 
         // splitter panes
-        $this->View->requires("https://unpkg.com/split.js");
+        $this->View->requires("https://unpkg.com/split.js@1.5.10/dist/split.js");
 
-        // plugins
+        // plugins - refactor with some kind of autoloader
         $this->View->requires("plugins/Ninjitsu");
         // $this->View->requires("plugins/MediumEditor");
         // $this->View->requires("medium-editor");
@@ -139,12 +138,15 @@ class EditController extends Controller
             "tier" => Session::CurrentTier(),
             "mycontainers" => Session::User()->containers,
             "course" => (new CourseModel($context))->get_model(),
-            "toolbarjson" => IO::loadJSON(Config::get("PATH_REAL_WEBROOT") . "/plugins/Ninjitsu/toolbar.json")
+            "toolbarjson" => IO::loadJSON(Config::get("PATH_REAL_WEBROOT") . "/plugins/Ninjitsu/toolbar.json"),
+            "prefs" => Session::User()->preferences,
+            "who" => Session::User()->email
         );
         $this->View->render("_templates/appjs", $model, null, null, false, "text/javascript");
     }
 
     public function nav($context = 0, $parent = 0) {
+        $treemode =  Session::User()->GetPreference("treemode","default");
         $context = Utils::rowInt($context);
         $parent = Utils::rowInt($parent);
         $pages = new PagesCollection($context, $parent);
@@ -156,26 +158,22 @@ class EditController extends Controller
             } else {
                 $icon = "material-icons material-icons-school";
             }
-            $model[] = [
+            $item = [
                 "id" => "page_{$key}",
                 "index" => $key,
                 "text" => $obj->title,
                 "icon" => $icon,
                 "children" => $obj->HasChildren,
-                "order" => $obj->sequence
+                "order" => $obj->sequence,
+                "a_attr" => ["data-preview" => true]
             ];
+            if ($treemode === "image") {
+                $item["a_attr"] = ["data-preview" => false, "title" => $obj->title];
+                unset($item["icon"]);
+                $item["text"] = "<img src='/app/media/screenshot/{$obj->id}' width='160' height='120'>"; // /1024/768/3600/true/
+            }
+            $model[] = $item;
         }
-        // if ($parent === 0) {
-        //     $sub = $model;
-        //     $model = [
-        //         "children" => $sub,
-        //         "id" => "root",
-        //         "index" => 0,
-        //         "text" => "Course",
-        //         "icon" => "material-icons material-icons-folder-shared",
-        //         "order" => 0
-        //     ];
-        // }
         $this->View->renderJSON($model);
     }
 
@@ -196,6 +194,16 @@ class EditController extends Controller
         $result->contextid = $course_id;
 
         switch (strtolower($action)) {
+            case "tree.mode":
+                $mode = Request::post('mode');
+                if (in_array($mode,["image","default"])) {
+                    Session::User()->SetPreference("treemode", $mode);
+                    if ($mode === "image") {
+                        // kick of the cron for creating screenshots
+                    }
+                }
+                $result->status = "reload";
+                break;
             case "tree.rename":
                 $cm = new CourseModel($course_id);
                 $cm->validateAccess(Session::CurrentUserId());
@@ -261,11 +269,22 @@ class EditController extends Controller
                 }
                 break;
 
+            case "content.load":
+                $row = Request::rowint('id');
+                $obj = new PageModel($row);
+                if ($obj->loaded()) {
+                    $result->content = $obj->content;
+                    $result->status = 'ok';
+                }
+                break;
+
             case "page.load":
                 $row = Request::rowint('id');
                 $obj = new PageModel($row);
                 if ($obj->loaded()) {
                     $result->model = $obj->get_model();
+                    unset ($result->model["html"]); // don't mention it
+                    unset ($result->model["hashes"]); // don't mention it
                     if ($obj->type === "Information" || $obj->type === "Summary") {
                         $result->editor = "ninjitsu";
                     } else if ($obj->type === "Quiz" || $obj->type === "Test") {
@@ -280,14 +299,17 @@ class EditController extends Controller
                 break;
 
             case "page.save":
-                // var_dump($_POST);
                 $row = Request::rowint('id');
                 $obj = new PageModel($row);
+              // $obj->AfterSave = "self::compile";
                 if ($obj->loaded()) {
-                    $obj->set_model($_POST); // ugh
+                    // $obj->set_model($_POST); // doesn't trigger __set ... so
+                    foreach ($_POST as $key => $value) {
+                        if (in_array($key,["hashes","modified","path","id"])) continue;
+                        if (in_array($key,["html"])) $obj->AfterSave = "self::createThumbnail";
+                        $obj->$key = $value; // this does trigger __set
+                    }
                     $obj->save();
-                //     $obj->content = Request::post("content"); // might contain base64 elements
-                //     $obj->save();
                 }
                 $result->status = "ok";
                 break;
@@ -299,6 +321,7 @@ class EditController extends Controller
                     $obj->content = Request::post('content',true);
                     $obj->save();
                 }
+                $result->obj = $obj;
                 $result->status = "ok";
                 break;
 
@@ -352,12 +375,90 @@ class EditController extends Controller
                 }
                 break;
 
+            case "page.contentbyfilename.raw":
+                $filename = Request::post("filename");
+                $obj = PageModel::loadByFilename($course_id, $filename);
+                if ($obj->loaded()) {
+                    die($obj->content);
+                }
+                die();
+                break;
+
+            case "page.templatebyfilename.raw":
+                $filename = Request::post("filename");
+                $fn = Config::get("LIB") . "/templates/runtimes/textplayer/Layout/layouts/{$filename}";
+                die(IO::loadFile($fn));
+                break;
+
+            case "page.savehtml":
+                $row = Request::rowint('id');
+                $pm = new PageModel($row);
+                if ($parent->loaded()) {
+                    $pm->html = Request::post("html",true);
+                    $pm->save();
+                }
+                $result->status = "ok";
+                break;
+
             default:
                 $result->status = "ok";
                 break;
         };
         $this->View->renderJSON($result);
     }
+
+    public function preview($page_id = 0) {
+        $pm = new PageModel($page_id);
+        $pm->Course->validateAccess(Session::CurrentUserId());
+        $t = $pm->template; if (empty($t)) $t = "auto";
+        $model = [
+            "html" => $pm->html,
+            "content" => $pm->content,
+            "settings" => $pm->Course->Settings,
+            "template" => $t,
+            "mappedfolder" => $pm->Course->Path,
+            "id" => $page_id,
+        ];
+
+        // $this->View->requires($pm->Course->Path."/SCO1/Layout/js/core.js");
+        // $this->View->requires($pm->Course->Path."/SCO1/Layout/js/render.js");
+        $this->View->requires("loadjs", Config::get("LIB")."/templates/runtimes/textplayer/Layout/js/shivs.js");
+        $this->View->requires("loadjs", Config::get("LIB")."/templates/runtimes/textplayer/Layout/js/core.js");
+        $this->View->requires("https://code.jquery.com/jquery-1.12.4.min.js");
+        $this->View->requires("loadjs", Config::get("LIB")."/templates/runtimes/textplayer/Layout/js/render.js");
+        $this->View->requires("loadjs", Config::get("LIB")."/templates/runtimes/textplayer/Layout/js/run.js");
+        $this->View->requires($pm->Course->Path."/SCO1/Layout/css/app.css");
+        $this->View->requires("plugins/Ninjitsu/preview/", $model);
+
+        $this->View->render("edit/preview", $model);
+    }
+
+    public function download($course_id = 0, $dest = "browser") {
+        $cm = new CourseModel($course_id);
+
+        $cm->compile();
+
+        //IO::xcopy(Config::get("BASE") . "/phpapp/runtimes/textplayer/", $cm->RealPath . "/SCO1/");
+        //IO::xcopy(Config::get("BASE") . "/phpapp/layouts/bottom-bar-menu", $cm->RealPath . "/SCO1", [], [], true);
+
+    }
+
+    public function tim($course_id = 0) {
+        $cm = new CourseModel($course_id);
+header("content-type:text/plain");
+        // autoloading isn't working ??
+        require_once(Config::get("LIB") . "/compilers/ninjitsu/compiler.php");
+        $s = new \Ninjitsu\Compiler();
+        $pm = new PageModel(621);
+        $s->render($pm);
+
+        // require_once(Config::get("LIB") . "/compilers/ninjitsu/screenshot.php");
+        // $s = new \Ninjitsu\Screenshot();
+        // $pm = new PageModel(622);
+        // $s->render($pm);
+
+    }
+
 
     public function asp_index($id) {
 	    $user_id = Session::get("user_id");

@@ -18,5 +18,7 @@ window.CourseBuildr = {
 	}{{/if}}{{#if course}},
 	"Course": {{{json_encode course}}},
 	"Toolbar": {{{json_encode toolbarjson}}},
-	{{/if}}
+	{{else}},
+	{{/if}}"Prefs": {{{json_encode prefs}}},
+	"Who": "{{{base64 who}}}"
 }

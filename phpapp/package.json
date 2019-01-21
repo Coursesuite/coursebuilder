@@ -1,0 +1,17 @@
+{
+  "name": "coursebuilder",
+  "version": "1.0.0",
+  "description": "course builder",
+  "main": "/app/index.php",
+  "dependencies": {
+    "jstree": "^3.3.7",
+    "medium-editor-autolist": "^1.0.1",
+    "medium-editor-insert-plugin": "^2.5.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "Unlicense"
+}

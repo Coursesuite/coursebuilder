@@ -7,8 +7,48 @@
 
 		return {
 			Init: _init,
-			Save: _save
+			Save: _save,
+			Preview: _preview
 		}
+
+		function _message(event) {
+			if (event.data.action === "ready") {
+				document.getElementById("ta-preview-frame").setAttribute("data-ready",true);
+			} else if (event.data.action === "preview") {
+				_data.model.html = event.data.html;
+			}
+		}
+
+		function _preview(treeobj, value) {
+			var frame = document.getElementById("ta-preview-frame");
+			if ("ready" in frame.dataset) { // previously initialised
+				frame.contentWindow.postMessage({
+					content: value,
+					template: treeobj.CurrentModel().model.template
+				});
+			} else { // load
+				frame.setAttribute("src","/app/edit/preview/" + _data.model.id)
+			}
+		}
+
+		function _bind() {
+			window.removeEventListener('message', _message, false);
+			window.addEventListener('message', _message, false);
+			$(".view-toolbar").off().on("click","a[data-action]",function(e) {
+				e.preventDefault();
+				var tgt = e.target.closest("[data-action");
+				switch(tgt.dataset.action) {
+					case "switch-view":
+						$(tgt).addClass("active").siblings("a").removeClass("active");
+						$("#" + tgt.dataset.target).addClass("active").siblings("div").removeClass("active");
+						if (tgt.dataset.target === "ta-preview") {
+							_preview(_tree,document.getElementById("edit-area").value);
+						}
+						break;
+				}
+			})
+		}
+
 
 		// set up the controls and bindings for the editor
 		function _create() {
@@ -90,6 +130,7 @@
 			_data = _tree.CurrentModel();
 			$("#editor").html(Handlebars.getCompiledTemplate("/plugins/Ninjitsu/editor", {}));
 			_create();
+			_bind();
 			if (_data.editorId === "edit-area") {
 				_apply_model(); // score, template, etc - global editor stuff, not on tab editor, help editor etc
 				$(document).on("splitter-resize", function () {

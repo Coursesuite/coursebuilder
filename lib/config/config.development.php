@@ -10,12 +10,14 @@ $https = false;
 
 $lib = realpath(dirname(__FILE__) . '/../');
 $base = realpath(dirname(__FILE__) . '/../../');
+$address = ($https ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'];
 
 return array(
     'HTTPS' => $https,
-    'URL' => ($https ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . dirname($_SERVER['SCRIPT_NAME']),
-    'ROOTURL' => ($https ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'],
+    'URL' => $address . dirname($_SERVER['SCRIPT_NAME']),
+    'ROOTURL' => $address,
     'RELATIVEURL' => dirname($_SERVER['SCRIPT_NAME']),
+    'ROOTURLCOURSES' => $address . '/user_content/',
 
     'BASE' => $base,
     'LIB' => $lib,
@@ -27,6 +29,7 @@ return array(
 	'PATH_VIEW' => $lib . '/view/',
     'PATH_CACHE' => $lib . '/cache/',
     'PATH_PUBLIC_CACHE' => '/cache/',
+    'PATH_PUBLIC_CACHE_FULL' => $address . '/cache/',
     'PATH_PUBLIC_CACHE_REAL' => $base . '/phpapp/cache/',
     'PATH_COURSE_TEMPLATES' => $lib . '/templates/courses/',
 

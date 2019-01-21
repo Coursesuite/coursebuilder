@@ -1,5 +1,8 @@
 <?php
 
+// use mikehaertl\wkhtmlto\Image;
+// use Screen\Capture;
+
 class MediaController extends Controller {
 
 	public function __construct() {
@@ -160,6 +163,25 @@ class MediaController extends Controller {
 		header("Cache-Control: max-age=$seconds_to_cache");
 
 		readfile($dest); // send to output
+    }
+
+    // serve a screenshot of the page, if one already exists
+    public function screenshot($page_id, $seconds_to_cache = 3600, ...$ignore) {
+    	$page = new PageModel($page_id);
+    	$hash = $page->GetHash("html");
+    	if (empty($hash)) {header('content-type:image/jpeg');die();} // serve broken image
+        $fold = implode('/', array_slice(str_split($hash, 2),0,2));
+	    $image = \Config::get("PATH_PUBLIC_CACHE_REAL") . "s/{$fold}/{$hash}.jpg"; // disk path
+	    if (file_exists($image)) {
+			$size = filesize($image);
+			$ts = gmdate("D, d M Y H:i:s", time() + $seconds_to_cache) . " GMT";
+			header("Content-Type: image/jpeg");
+			header("Content-Length: $size");
+			header("Expires: $ts");
+			header("Pragma: cache");
+			header("Cache-Control: max-age=$seconds_to_cache");
+			readfile($image); // send to output
+		}
     }
 
 }

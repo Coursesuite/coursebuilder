@@ -67,8 +67,15 @@ the structure we want
   display: flex;
   flex-direction: row;
 }
+.editor-wrapper .editor-surface-wrapper #ta-preview.active,
+.editor-wrapper .editor-surface-wrapper #ta-dom.active {
+	display: block;
+}
+
+.editor-wrapper .editor-surface-wrapper #ta-preview,
 .editor-wrapper .editor-surface-wrapper #ta-dom {
   flex: 1;
+  display: none;
   margin-right: 5px;
 }
 .editor-wrapper .editor-surface-wrapper #ta-dom .highlightTextarea {
@@ -77,6 +84,7 @@ the structure we want
 .editor-wrapper .editor-surface-wrapper #ta-dom .highlightTextarea .container {
   height: 100%;
 }
+.editor-wrapper .editor-surface-wrapper #ta-preview > iframe,
 .editor-wrapper .editor-surface-wrapper #ta-dom .highlightTextarea #edit-area {
   height: 100%;
   width: 100%;
@@ -90,8 +98,41 @@ the structure we want
   flex: 1;
   outline: none;
 }
-.p-small {
+.editor-wrapper .editor-surface-wrapper #ta-preview > iframe {
+	border: none;
+	background-color: white;
+}
+
+.view-toolbar:before {
+	content: '';
+	border-top: 1px solid #ccc;
+	display: block;
+	width: 100%;
+	height: 1px;
+}
+.view-toolbar > a {
+	margin-top: -1px;
+	margin-left: 10px;
+	display: inline-block;
+	padding: 5px 10px;
+	border: 1px solid #ccc;
+	background-color: #eee;
+	color: inherit;
+	font-size: 0.9em;
+	text-decoration: none;
+
+}
+.view-toolbar > a.active {
+	background-color: white;
+	border-top-color: white;
+}
+
+.view-toolbar > p {
+	margin: 0 0 0 10px;
+	padding: 0;
+	display: inline-block;
+	padding: 5px 10px;
 	font-size: 0.8em;
-	color: gray;
 	font-style: italic;
+	color: gray;
 }

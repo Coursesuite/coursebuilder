@@ -1,3 +1,4 @@
 user_content
 lib/cache
 phpapp/cache
+lib/templates/layouts/.*

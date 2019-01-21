@@ -13,7 +13,7 @@ class View
 	protected $css = array();
 	protected $less = array();
     protected $head = array();
-	protected $headjs = array("https://cdn.polyfill.io/v2/polyfill.min.js");
+	protected $headjs = array("https://cdn.polyfill.io/v2/polyfill.min.js");// https://cors.io/? fix CORS at polyfill.io's end
 	protected $inlinejs = array();
 	protected $js = array();
 	protected $initjs = array();
@@ -44,6 +44,11 @@ class View
 	{
         if ($name === "js") {
             $this->js[] = $param;
+
+        } else if ($name === "loadjs") {
+            if (file_exists($param)) {
+                $this->inlinejs[] = IO::loadFile($param);
+            }
 
         } else if ($name === "medium-editor") {
             $this->css[] = "/node_modules/medium-editor/dist/css/medium-editor.min.css";
@@ -78,7 +83,9 @@ class View
 			$this->partials[] = '_templates/uikit/navigation.hbp';
 
 		} else if ($name === "base") {
-            $this->js[] = "https://cdn.polyfill.io/v2/polyfill.min.js";
+
+            // $this->js[] = "https://cdn.polyfill.io/v2/polyfill.min.js"; // already in headjs
+
             // pick one icon font or make one .. having all these icon fonts is overkill
             // $this->css[] = "https://fonts.googleapis.com/css?family=Material+Icons";
             // $this->css[] = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css";
@@ -103,16 +110,31 @@ class View
 			$this->js[] = '/js/tour/bootstrap-tour-standalone.min.js';
 
         } else if (Text::startsWith($name, "plugins/")) {
+            $name = rtrim($name,"/");
+            // $files = IO::getFilteredFileList(Config::get("PATH_REAL_WEBROOT") . "/{$name}", ['css','js','hbt']);
             $iterator = new DirectoryIterator(Config::get("PATH_REAL_WEBROOT") . "/{$name}");
+            $hasInit = false;
             foreach ($iterator as $fileinfo) {
+                $fn = $fileinfo->getFilename();
+                if ($fn === "init.js") {
+                    $hasInit = true;
+                    continue;
+                }
                 $extn = $fileinfo->getExtension();
                 if ($fileinfo->isFile() && in_array($extn, ['css','js','hbt'], true)) {
                     if ($extn==='hbt') {
-                        $this->tmpl[] = "/{$name}/" . $fileinfo->getFilename();
+                        $this->tmpl[] = "/{$name}/{$fn}";
                     } else {
-                        $this->$extn[] = "/{$name}/" . $fileinfo->getFilename();
+                        $this->$extn[] = "/{$name}/{$fn}";
                     }
                 }
+            }
+            if (!empty($param)) {
+                $json = json_encode($param, JSON_PARTIAL_OUTPUT_ON_ERROR | JSON_NUMERIC_CHECK);
+                $this->inlinejs[] = "var PluginModel={$json};";
+            }
+            if ($hasInit) { // load after other files
+                $this->js[] = "/{$name}/init.js";
             }
 
 		} else if (strpos($name, ".less") !== false && strpos($name, "://") === false) {
@@ -121,13 +143,13 @@ class View
 			$this->headjs[] = "https://cdnjs.cloudflare.com/ajax/libs/less.js/3.0.1/less.min.js";
 
 		} else if (strpos($name, ".css") !== false) {
-            if (strpos($name, "://") !== false || strpos($name, "/css/") === 0) {
+            if (strpos($name, "://") !== false || strpos($name, "/css/") === 0 || strpos($name, "/node_modules/") === 0 || Text::startsWith($name,"/")) {
                 $this->css[] = $name;
             } else {
                 $this->css[] = "/css/$name";
             }
 		} else if (strpos($name, ".js") !== false) {
-            if (strpos($name, "://") !== false || strpos($name,"/js/") === 0) {
+            if (strpos($name, "://") !== false || strpos($name,"/js/") === 0 || strpos($name,"/node_modules/") === 0 || Text::startsWith($name,"/")) {
                 $this->js[] = $name;
             } else {
     			$this->js[] = "/js/$name";
@@ -297,6 +319,9 @@ class View
             },
             "uniq" => function ($value) {
                 return "_" . md5($value);
+            },
+            "base64" => function ($value) {
+                return base64_encode($value);
             }
         );
 
@@ -370,6 +395,10 @@ class View
         $data["less"] = $this->less;
         $data["page"] = $this->page;
         $data["action"] = $this->action;
+        if (Session::CurrentUserId() > 0) {
+            $data["userprefs"] = Session::User()->preferences;
+            $data["who"] = Session::User()->email;
+        }
         if (!isset($data["context"])) {
 	        $data["context"] = 0; // typically id of currently selected course
         } else {

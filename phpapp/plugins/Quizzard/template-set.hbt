@@ -1,0 +1,25 @@
+{{#compare renderer "set"}}
+<li><div>
+	<i class='fas fa-grip-lines'></i>
+	<a href='#' data-action='toggle-set'><i class='fas fa-folder-plus'></i></a>
+	<a href='#' data-action='edit' data-target='{{t}}'>Set {{l}}</a>
+	</div>
+	<ul data-expand='true' sortable data-sort-group='question' data-sort-index="{{n}}">
+	<li class="locked"><div><i class='fas fa-plus-square'></i> <a href='#' data-action='add-question'>Add a question</a></div></li>
+	</ul>
+</li>
+{{else}}
+<fieldset data-question-type="pool" data-question-pool="{{n}}" data-index="{{t}}">
+	<legend><span><i class="fas fa-list-alt"></i> Edit Set {{l}}</span><a href="#remove-set"><i class="fas fa-trash"></i></a></legend>
+	<div data-id="pool.{{n}}">
+		<div>
+			<label for="deliver{{n}}">Deliver from set</label>
+			<div><input data-id="questionPool.{{n}}.deliver" type="number" max="99" min="0" id="deliver{{n}}" placeholder="0 means all" value="0"><span class="help-inline">Show X questions from this set (0 means all)</span></div>
+		</div>
+		<div>
+			<label for="order{{n}}">Question Order</label>
+			<div><input data-id="questionPool.{{n}}.order" type="radio" value="shuffle" id="order{{n}}" name="order{{n}}" checked="">Random <input data-id="questionPool.{{n}}.order" type="radio" value="natural" id="order{{n}}" name="order{{n}}">Natural</div>
+		</div>
+	</div>
+</fieldset>
+{{/compare}}

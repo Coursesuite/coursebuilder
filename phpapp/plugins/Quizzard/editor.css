@@ -1,0 +1,239 @@
+.area-toolbar {
+	margin: 5px 0 1em;
+}
+.area-toolbar:after,
+.view-toolbar:before {
+	content: '';
+	display: block;
+	width: 100%;
+	height: 1px;
+}
+.area-toolbar:after {
+	border-bottom: 1px solid #ccc;
+}
+.view-toolbar:before {
+	border-top: 1px solid #ccc;
+}
+
+.area-toolbar > a,
+.view-toolbar > a {
+	margin-top: -1px;
+	margin-left: 10px;
+	display: inline-block;
+	padding: 5px 10px;
+	border: 1px solid #ccc;
+	background-color: #eee;
+	color: inherit;
+	font-size: 0.9em;
+	text-decoration: none;
+
+}
+.area-toolbar > a.active,
+.view-toolbar > a.active {
+	background-color: white;
+	border-top-color: white;
+}
+
+.area-toolbar > a {
+	margin-top: 0;
+	margin-bottom: -1px;
+}
+.area-toolbar > a.active {
+	border-top-color: #ccc;
+	border-bottom-color: white;
+}
+#qPreview,
+[data-expand],
+.new-question,
+div[data-area],
+fieldset {
+	display: none;
+}
+#qPreview.active,
+[data-expand].active,
+.new-question.active,
+div[data-area].active,
+fieldset.active {
+	display: block;
+}
+
+#qPreview{
+	position: relative;
+}
+#qPreview > iframe{
+	position: absolute;
+	top: 0; left: 0;
+	width: 100%; height: 100%;
+	border: 0;
+}
+
+div[data-area='sets'] {
+	position: relative;
+}
+div[data-area='sets']>.view-toolbar,
+div[data-area='sets']>#q-preview,
+div[data-area='sets']>article,
+div[data-area='sets']>aside {
+	position: absolute;
+}
+div[data-area='sets']>.view-toolbar {
+	bottom: 0;
+	left: 310px;
+	width: calc(100% - 310px);
+}
+div[data-area='sets']>article {
+	top: 0;
+	left: 310px;
+	width: calc(100% - 310px);
+}
+div[data-area='sets']>aside {
+	width: 300px;
+	top: 0;
+}
+
+a[data-action$='-help'], div[data-area='sets']>aside .fas {
+	min-width: 20px;
+}
+#editor a {
+	color: inherit;
+	text-decoration: none;
+}
+
+/* the UL and LI element shouldn't have padding or margin; the stuff inside them will */
+div[data-area='sets'] aside li,
+div[data-area='sets'] aside ul {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+
+div[data-area='sets'] aside li {
+	margin-top: -1px;
+}
+
+div[data-area='sets'] aside li>div {
+	border: 1px solid #ccc;
+	padding: 10px;
+}
+
+div[data-area='sets'] aside li > ul > li > div {
+	padding-left: 35px;
+}
+
+fieldset {
+	border: none;
+}
+legend {
+	font-size: 1.25em;
+}
+
+table.table {width:100%;margin-bottom:1em;}
+table.table th.narrow, table.table td.narrow {
+	width: 1em;
+	padding: .5em;
+	text-align: center;
+}
+table.table tfoot td > i {
+	width: 30px;
+	padding: .5em;
+	text-align: center;
+	display: inline-block;
+}
+table.table td:not(.narrow),table.table th:not(.narrow) {
+	min-width: 50%;
+}
+label[for]+div>textarea,
+table.table td>input[type='text'] {
+	width: 100%;
+	border: 1px solid #ccc;
+	background-color: white;
+	padding: .5em;
+}
+table.table td>div.input-append {
+	display: flex;
+}
+table.table td>div.input-append>input[type='text'] {
+	flex: 1;
+	padding: .5em;
+}
+div[data-id]>label+div>input+a[data-action='insert-picture'],
+table.table td>div.input-append>a {
+	padding: .5em;
+	background-color: #ddd;
+	color: inherit;
+}
+fieldset>legend,
+fieldset>div {
+	margin: 0 0 1em;
+}
+fieldset>legend {
+	display: flex;
+	width: 100%;
+	border-bottom: 1px solid #ccc;
+}
+fieldset>legend>span {
+	flex: 1;
+}
+fieldset>legend>a{
+	color: inherit;
+}
+
+div[data-area]>div {
+	display: flex;
+	align-items: center;
+	margin-bottom: .5em;
+}
+div[data-area]>div>div {
+	flex: 1;
+}
+div[data-area]>div>label {
+	width: 250px;
+	padding: 1em .5em;
+	background-color: #eee;
+	margin-right: .5em;
+}
+
+div[data-id]>label+div>input {
+	width: 50%;
+	padding: .5em;
+}
+
+.new-question {
+	position: fixed;
+	background-color: #eee;
+	border: 1px solid #ccc;
+	padding: .5em;
+	z-index: 99;
+	border-radius: 5px;
+}
+.new-question:before {
+	content: '';
+	position: absolute;
+	top: calc(50% - 10px);
+	left: -20px;
+	border: 10px solid transparent;
+	border-right-color: #eee;
+}
+.new-question .grid-2 {
+	display: grid;
+	grid-template-columns: 50% 50%;
+	grid-gap: .5em;
+	margin-right: .5em;
+	justify-items: stretch;
+	align-items: stretch;
+}
+.new-question a {
+    background-color: white;
+    border: 1px solid currentColor;
+    color: currentColor;
+    box-shadow: 0 1px 3px rgba(0,0,0,.1);
+    border-radius: .3em;
+    padding: .3em .7em;
+    font-size: inherit;
+    font-weight: inherit;
+    text-shadow: inherit;
+    line-height: inherit;
+    cursor: pointer;
+    margin: 0;
+    white-space: nowrap;
+}

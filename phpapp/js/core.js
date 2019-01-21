@@ -386,6 +386,16 @@ Handlebars.registerHelper('humandate', function(time) {
 
 });
 
+Handlebars.registerHelper("siblingIndex", function (index, el, sibling, options) {
+  if (el[sibling]) return el[sibling][index].textValue;
+  return "";
+});
+
+Handlebars.registerHelper("singleQuote", function (value, options) {
+  if (value) return value.replace(/["]/g,"'");
+  return "";
+});
+
 /*!
 * FitText.js 1.1
 *

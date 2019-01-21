@@ -1,0 +1,61 @@
+// begin f#1381b3;
+// end font import
+
+
+// Colours
+/*
+ Primary: Top header background + TOC background + H1 + H4
+ Seconday: Footer background + H2 + H5
+ Tertiary: H3 + H6
+
+ Base Text: paragraphs, etc
+ Alt-text:
+
+*/
+
+@primaryColour: {{layout.basecolour}};
+@secondaryColour: {{layout.altcolour}};
+@tertiaryColour: {{layout.altcolour2}};
+
+@baseText: #000000;
+@altText: #999;
+
+@baseBorder: #cccccc;
+@baseBorderFill: #eeeeee;
+
+@pageBackground: {{layout.pagecolour}};
+
+// Header background properties
+@headerBackgroundImage: "{{headerleft.content}}";
+@headerBackgroundAttachment: "{{layout.header.imagealign}}";
+@headerBackgroundRepeat: "{{layout.header.imagerepeat}}";
+@headerBackgroundSize: "{{layout.header.imagesize}}";
+
+// corners, grid-related properties
+@cornerRadius: 2px;
+@standardGutter: 10px;
+@tocIndent: 9px;
+
+// layout calculation settings
+@northHeight: {{layout.panesize.north}}px;
+@southHeight: {{layout.panesize.south}}px;
+
+// for quizzes, the colours representing correct and incorrect icons / badges
+@correct: #66B800;
+@incorrect: #D63B38;
+
+// font properties
+@headerFont: 'Roboto Condensed';
+@bodyFont: 'Helvetica';
+@fontSize: 13px;
+@lineHeight: unit((3 * (@fontSize/2)), "px");
+@FontAwesomePath: "../css/font";
+@FontAwesomeVersion: "3.1.0";
+@borderColor: #eee;
+@iconMuted: #eee;
+@iconLight: #fff;
+@iconDark: #333;
+
+// body properties
+@bodyheight: {{layout.bodyheight}};
+@bodyunit: "{{layout.bodyunit}}";

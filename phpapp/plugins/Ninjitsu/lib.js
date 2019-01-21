@@ -384,29 +384,7 @@ function openWindow(command, selection, containerid, returnmode) {
 	//w.focus();
 }
 
-// // prompt the user if they need to save
- function setConfirmUnload(on) {
- 	window.onbeforeunload = (on) ? unloadMessage : null;
- }
 
-// // message to show user as they navigate away
- function unloadMessage() {
-      return 'Reloading, or navigating away at this point might' +
-         ' mean you lose your changes ... ';
- }
-
-// // un-set the dirty flag on window unload (stops prompt to save on unload)
- function makeClean() {
- 	$("button[data-action='content-save']").removeClass("dirty");
- 	setConfirmUnload(false);
-}
-
-// set the dirty flag on window unload (prompts user to confirm no-save)
-function makeDirty() {
- 	$("button[data-action='content-save']").addClass("dirty");
-// 	$("#toXML").removeClass("ui-button-success").addClass("ui-button-warning").html("<i class='far fa-exclamation-sign'></i> Nav not saved!");
- 	setConfirmUnload(true);
-}
 
 // turns <ul><li>node<ul><li>sub-node</li></ul></ul> into <page>node<page>node</page></page>
 // then sends data to server for further processing & saving

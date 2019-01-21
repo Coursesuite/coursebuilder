@@ -1,7 +1,0 @@
-<div class="grid">
-{{#each column}}
-	<div class="col-1-{{../total}}">
-		{{{.}}}
-	</div>
-{{/each}}
-</div>
