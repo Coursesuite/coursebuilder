@@ -95,7 +95,8 @@ class Application {
         }
         if (Config::get("DEBUG") === true ) { // clear the public cache every so often ...
             $age = time() - 300; // 5 minute cache
-            foreach (glob(Config::get("PATH_REAL_WEBROOT") . Config::get("PATH_PUBLIC_CACHE") . '/*') as $file) {
+            $p = Config::get("PATH_REAL_WEBROOT") . Config::get("PATH_PUBLIC_CACHE") . '*';
+            foreach (glob($p) as $file) {
                 if (is_file($file) && filemtime($file) < $age) unlink($file);
             }
         }
