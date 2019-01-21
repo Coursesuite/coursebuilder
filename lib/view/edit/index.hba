@@ -2,9 +2,10 @@
 <main>
 	<aside>
 		<div id="pages"><div class="navtree-toolbar">
-				<label>Show as:</label>
-				<button data-action='treemode' data-value='default'{{#equals userprefs.treemode "default"}} class="selected"{{/equals}}><span class='fas fa-align-left'></span> Labels</button>
-				<button data-action='treemode' data-value='image'{{#equals userprefs.treemode "image"}} class="selected"{{/equals}}><span class='fas fa-image'></span> Images</button>
+			<ul class="tabs">
+				<li data-action='treemode' data-value='default'{{#equals userprefs.treemode "default"}} class="active"{{/equals}}><i class='fas fa-align-left'></i><span>Labels</span></li>
+				<li data-action='treemode' data-value='image'{{#equals userprefs.treemode "image"}} class="active"{{/equals}}><i class='fas fa-image'></i><span>Images</span></li>
+			</ul>
 			</div><div class="template-navtree">
 			<div><a class="jstree-anchor" href="#" tabindex="-1" id="page_1_anchor"><i class="jstree-icon jstree-themeicon material-icons material-icons-folder-shared jstree-themeicon-custom" role="presentation"></i>Content</a></div>
 			<div class="template-navtree-container"><ul><li>Tree</li></ul></div>

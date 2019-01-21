@@ -1,0 +1,84 @@
+.navtree-toolbar li {
+    margin: 0; padding: 0; list-style: none;
+}
+.navtree-toolbar .tabs {
+    float: left;
+    margin: 0 0 0 20px;
+    padding: 0;
+    height: 40px;
+}
+
+.navtree-toolbar .tabs li,
+.navtree-toolbar .tabs li:before {
+    cursor: default;
+    z-index: 1;
+    position: relative;
+    border: 1px solid #aaa;
+    border-bottom: 0;
+    transform: skewX(25deg);
+    float: left;
+    height: 29px;
+    margin: 10px 0 0 12px;
+    padding: 0 15px;
+    width: 110px;
+    border-radius: 5px 5px 0 0;
+    box-shadow: inset -1px 1px 0 rgba(255,255,255,.5);
+    background: #ddd;
+}
+.navtree-toolbar .tabs li:not(.active) {
+    z-index: 7;
+}
+
+.navtree-toolbar .tabs li.active,
+.navtree-toolbar .tabs li.active:before {
+    z-index: 9 !important;
+    background: #eee;
+    height: 30px;
+    margin-bottom: -1px !important;
+    border-color: #888;
+}
+.navtree-toolbar .tabs li:before {
+    content: '';
+    position: absolute;
+    left: -18px;
+    top: -1px;
+    transform: skewX(140deg);
+    border-right: 0;
+    margin: 0;
+    padding: 0;
+    width: 30px;
+    border-radius: 5px 0 0 0;
+  box-shadow: inset 1px 1px 0 rgba(255,255,255,.5);
+}
+.navtree-toolbar .tabs li i {
+    z-index: 9;
+    position: absolute;
+    left: -6px;
+    top: 6px;
+    width: 16px;
+    height: 16px;
+    transform: skewX(-25deg);
+    border-radius: 3px;
+}
+.navtree-toolbar .tabs li span {
+    display: block;
+    width: 98%;
+    line-height: 30px;
+    transform: skewX(-25deg);
+    white-space: nowrap;
+    overflow: hidden;
+    cursor: pointer;
+}
+.navtree-toolbar .tabs li span:after {
+    content: '';
+    width: 25px;
+    height: 28px;
+    position: absolute;
+    right: 0;
+    top: 1px;
+    background: -webkit-linear-gradient(left, hsla(0,0%,87%,0) 0%,hsla(0,0%,87%,1) 77%,hsla(0,0%,87%,1) 100%);
+}
+.navtree-toolbar .tabs li.active span:after {
+    background: -webkit-linear-gradient(left,  hsla(0,0%,93%,0) 0%,hsla(0,0%,93%,1) 77%,hsla(0,0%,93%,1) 100%);
+}
+
