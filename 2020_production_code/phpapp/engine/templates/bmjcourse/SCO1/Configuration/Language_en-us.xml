@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Version 1.0 -->
+<langStrings>
+	<template>
+		<string var="_sButtonCancel">Cancel</string>
+		<string var="_sButtonToCourse">Start Course</string>
+		<string var="_sRequired">required</string>
+		<string var="_sRequiredExplanation">You must complete this module to complete the course.</string>
+		<string var="_sOptional">optional</string>
+		<string var="_sOptionalExplanation">This module is optional. You do not need to complete this module to complete the course.</string>
+		<string var="_sTrackTime">(only includes time remaining in required modules)</string>
+		<string var="_sSwitchLanguage">Change Language</string>
+		<string var="_sProgressTitle">Progress</string>
+		<string var="_sProgressCompletionStatus">Completion Status</string>
+		<string var="_sProgressComplete">Complete</string>
+		<string var="_sProgressIncomplete">Incomplete</string>
+		<string var="_sProgressTimeRemaining">Estimated Time Remaining</string>
+		<string var="_sProgressOptions">Options</string>
+		<string var="_sHours">Hours</string>
+		<string var="_sHour">Hour</string>
+		<string var="_sMinutes">Minutes</string>
+		<string var="_sMinute">Minute</string>
+		<string var="_sStatusComplete">Complete</string>
+		<string var="_sStatusIncomplete">Incomplete</string>
+		<string var="_sStatusNotAttempted">Not Attempted</string>
+		<string var="_sTocShowHide">Click on the button to show or hide the table of contents.</string>
+		<string var="_sTocBar">Click and drag the bar to resize the table of contents.</string>
+		<string var="_sButtonProgress">Progress</string>
+		<string var="_sButtonGlossary">Glossary</string>
+		<string var="_sButtonResources">Resources</string>
+		<string var="_sButtonHelp">Help</string>
+		<string var="_sButtonOpenMenu">Open Menu</string>
+		<string var="_sButtonCloseMenu">Close Menu</string>
+		
+		<string var="_sTipExit">Close the course window</string>
+		<string var="_sTipTrack">Change the selected tracks</string>
+		<string var="_sTipExitTestout">Close the course window</string>
+		<string var="_sTipMainMenu">Display the main menu</string>
+		<string var="_sTipProgress">Display your progress within the course in a popup window</string>
+		<string var="_sTipPrint">Print the currently displayed page</string>
+		<string var="_sTipGlossary">Show the glossary in a popup window</string>
+		<string var="_sTipResources">Show the resources for this course in a popup window</string>
+		<string var="_sTipDownloadCourse">Download a file containing the content of this course</string>
+		<string var="_sTipHelp">Display the help information for this course in a popup window</string>
+		<string var="_sTipPrevious">Previous Page</string>
+		<string var="_sTipNext">Next Page</string>
+		<string var="_sTipModuleCompleted">Completed</string>
+		
+		<string var="_sButtonNext">Next</string>
+		<string var="_sButtonPrevious">Previous</string>
+		<string var="_sButtonResume">Resume</string> <!--Course Template 3.0 - CL -->
+		<string var="_sButtonWelcome">Welcome</string> <!--Course Template 3.0 - CL -->
+		<string var="_sButtonPrintProgress">Print Progress Report</string>
+		<string var="_sButtonExitProgress">Close Progress</string>
+		<string var="_sButtonPrintHelp">Print Help File</string>
+		<string var="_sButtonExitHelp">Close Help</string>
+		<string var="_sButtonPrintGlossary">Print Glossary</string>
+		<string var="_sButtonExitGlossary">Close Glossary</string>
+		<string var="_sButtonPrintResources">Print Resources</string>
+		<string var="_sButtonExitResources">Close Resources</string>
+		<string var="_sGoDoYes">Yes</string>
+		<string var="_sGoDoNo"> No </string>
+		<string var="_sTextLearnerName">LEARNER_NAME</string>
+		<string var="_sNavFailVisit">You must visit the '%%page' page before you can navigate further in this course</string>
+		<string var="_sNavFailComplete">You must complete the '%%page' page before you can navigate further in this course</string>
+		<string var="_sNavFailPass">You must pass the '%%page' page before you can navigate further in this course</string>
+		<string var="_sMonths">January, February, March, April, May, June, July, August, September, October, November, December</string>
+
+		<string var="_sTipOpenSection">click to open this section</string>
+		<string var="_sTipCloseSection">click to close this section</string>
+		<string var="_sTipPageComplete">the page is complete</string>
+		<string var="_sTipPageIncomplete">the page is incomplete</string>
+		<string var="_sTipPageNotVisited">the page has not been visited</string>
+	</template>
+	<assessment>
+		<!-- summary messages for knowledge checks  -->
+		<string var="XsSummaryTitle"><![CDATA[<h1 class='levelOne'>%%type results</h1>]]></string>
+		<string var="XsSummaryUngraded"><![CDATA[<p>Click on the 'Grade Test' button to automatically grade this test. After the test is graded, you will be able to see which questions you answered correctly and incorrectly.</p>]]></string>
+
+		<string var = "XsMissedQuestions"><![CDATA[<p>Missed Questions</p>]]></string>
+
+		<string var = "XsAnsweredQuestions"><![CDATA[<p>You have correctly answered %%correct of %%total questions.]]></string>
+
+		<string var="XsQuizSummaryCorrectCompleted"><![CDATA[<p>You have correctly answered %%correct of %%total questions. <STRONG><br /><br />Congratulations! You have completed the quiz.</STRONG></p>]]></string>
+		<string var="XsQuizSummaryPassed"><![CDATA[<p>You have correctly answered %%correct of %%total questions. <STRONG><br /><br />Congratulations! You have passed the quiz.</STRONG></p>]]></string>
+		<string var="XsQuizSummaryFailed"><![CDATA[<p>You have correctly answered %%correct of %%total questions. You have NOT passed the quiz.</p>]]></string>
+
+		<string var="XsQuizSummaryCompleted"><![CDATA[<p>You have answered %%answered of %%total questions. <STRONG><br /><br />Congratulations! You have completed the quiz.</STRONG></p>]]></string>
+		<string var="XsQuizSummaryIncomplete"><![CDATA[<p>You have answered %%answered of %%total questions. You have NOT completed the quiz.</p>]]></string>
+
+		<string var="XsQuizRequiredMust"><![CDATA[<p>You need to correctly answer %%total questions to pass this quiz.</p>]]></string>
+		<string var="XsQuizRequiredAll"><![CDATA[<p>You need to answer all questions to complete the quiz.</p>]]></string>
+
+		<string var="XsQuizMaxAttemptReached"><![CDATA[You have now reached the maximum number of attempts.]]></string>
+		<!-- introduction  -->
+		<string var="XsIntroduction">Introduction</string>
+		<string var="XsResults">Results</string>
+		<string var="XsQuestionNumber">question number</string>
+		<string var="XsNoAnswer">(no answer)</string>
+		<string var="XsQuizIntroTitle"><![CDATA[<h1 class='levelOne'>Quiz Introduction</h1>]]></string>
+		<string var="XsTestIntroTitle"><![CDATA[<h1 class='levelOne'>Test Introduction</h1>]]></string>
+
+		<string var="XsIntroQuiz"><![CDATA[<p>The quiz status bar shows your location within the quiz and the status of each question in the quiz.</p>]]></string>
+		<string var="XsIntroTest"><![CDATA[<p>The test status bar shows your location within the test and the status of each question in the test.</p>]]></string>
+
+		<!-- var button  -->
+		<string var="XsNavPrev"><![CDATA[&laquo; Previous Question]]></string>
+		<string var="XsNavNext"><![CDATA[Next Question &raquo;]]></string>
+		<string var="XsNavRetakeTest">Retake Test</string>
+		<string var="XsQuizNavFirst"><![CDATA[Start Quiz &raquo;]]></string>
+		<string var="XsTestNavFirst"><![CDATA[Start Test &raquo;]]></string>
+		<string var="XsNavIntro"><![CDATA[&laquo; Introduction]]></string>
+		<string var="XsNavResults"><![CDATA[Results &raquo;]]></string>
+		<string var="XsNavGradeTest">Grade Test</string>
+		
+		<!-- page number display  -->
+		<string var="XsMsgPageNum">Question %%question of %%total</string>
+		
+		<!-- title of the Question Item Menu  -->
+		<string var="XsItemTitle">%%testtype Status</string>
+		
+		<!-- correct/incorrect feedback -->
+		<string var="XsFeedbackCorrect">Yes, this answer is correct.</string>
+		<string var="XsFeedbackIncorrect">This answer is incorrect.</string>
+		<string var="XsCorrectIs">The correct answer is</string>
+		
+		<!-- message to describe delayed feedback - UNUSED -->
+		<string var="XsMsgDelayed">Results of the assessment:</string>
+		
+		<!-- delayed response strings - UNUSED  -->
+		<string var="XsMsgDelayedQuestion">Question</string>
+		<string var="XsMsgDelayedResponse">Your answer:</string>
+		<string var="XsMsgDelayedCorrect">The correct answer is:</string>
+		<string var="XsMsgDelayedResultTitle">Your answer is:</string>
+		<string var="XsMsgDelayedResultCorrect">Correct!</string>
+		<string var="XsMsgDelayedResultIncorrect">Incorrect</string>
+		<string var="XsMsgDelayedFeedbackResponse">Feedback for your response:</string>
+		<string var="XsMsgDelayedFeedbackCorrect">Feedback for the correct answer:</string>
+		
+		<!--  true false strings -->
+		<string var="XsMsgTrue">True</string>
+		<string var="XsMsgFalse">False</string>
+		
+		<!--  time display string - -->
+		<string var="XsMsgTime">Time Remaining: </string>	
+
+		<!-- user must supply an answer  -->
+		<string var="XsMsgAnswerTF">Please select True or False</string>
+		<string var="XsMsgAnswerMC">Please select an answer</string>
+		<string var="XsMsgAnswerMCM">Please select the correct answers</string>
+		<string var="XsMsgAnswerFI">Please provide an answer</string>
+		<string var="XsMsgAnswerM">Please provide a match for each item</string>
+		
+		<!--  string for check answers button -->
+		<string var="XsMsgCheck">Check Answer</string>
+
+		<string var="XsQuizNoChoiceStatus">The completion of the quiz is optional</string>
+		<string var="XsQuizVisitChoiceStatus">The completion of the quiz is optional</string>
+		<string var="XsQuizCompleteChoiceStatus">You must complete the quiz to complete the course</string>
+		<string var="XsQuizPassChoiceStatus">You must pass each quiz with a score of at least %%score to complete the course</string>
+
+    <string var="XsTestNoChoiceStatus">The completion of the test is optional</string>
+    <string var="XsTestVisitChoiceStatus">The completion of the test is optional</string>
+    <string var="XsTestCompleteChoiceStatus">You must complete the test to complete the course</string>
+    <string var="XsTestPassChoiceStatus">You must pass the test with a score of at least %%score to complete the course</string>
+    
+		<string var="XsTestPassed">You have passed the test</string>
+		<string var="XsTestFailed">You have not passed the test</string>
+		<string var="XsTestIncomplete">You have not completed the test</string>
+		<string var="XsTestCompleted">You have completed the test</string>
+
+		<string var="XsQuizPassed">You have passed the quiz</string>
+		<string var="XsQuizFailed">You have not passed the quiz</string>
+		<string var="XsQuizIncomplete">You have not completed the quiz</string>
+		<string var="XsQuizCompleted">You have completed the quiz</string>
+		
+		
+		<!-- directions for a question  -->
+		<string var="XsMsgDirectionsTF">Select true or false and press the Check Answer button.</string>
+		<string var="XsMsgDirectionsMC">Select the best answer and press the Check Answer button.</string>
+		<string var="XsMsgDirectionsMCM">Select the best answer(s) and press the Check Answer button.</string>
+		<string var="XsMsgDirectionsFI">Type the missing word and press the Check Answer button.</string>
+		<string var="XsMsgDirectionsFIM">Type the missing words and press the Check Answer button.</string>
+
+		<string var="XsMsgDirectionsTestTF">Select true or false.</string>
+		<string var="XsMsgDirectionsTestMC">Select the best answer.</string>
+		<string var="XsMsgDirectionsTestMCM">Select the best answer(s).</string>
+		<string var="XsMsgDirectionsTestFI">Type the missing word.</string>
+		<string var="XsMsgDirectionsTestFIM">Type the missing words.</string>
+		
+		<string var="XsMsgDirectionsNoResponse">You did not respond to this question.</string>
+		
+		<string var="XsMsgTimeoutAlert">You have reached the time limit for this test. The test has been automatically graded. You can now review the correct answers for each question.</string>
+	</assessment>
+</langStrings>

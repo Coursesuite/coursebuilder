@@ -1,0 +1,87 @@
+<div style='background-color: #fff; padding: 5px;border:3px solid #eee;border-radius: 6px;'>
+<div class='layout-edit page-colour'>
+	<div style='background-color: {{layout.basecolour}}; width: 45%; height: 3px; font-size: 0;'><span/></div>
+</div>
+<div class='layout-edit' style='display:flex;'>
+	<div class='nav pri-colour' style='width: 275px;'>
+
+		<label>Theme Colour
+			<input data-type="string" data-id="layout.basecolour" type="text" class="input-small" id="primary-colour" placeholder="Base Colour" value="{{layout.basecolour}}">
+		</label>
+
+		<p>Introduction</p>
+		<p>Course Material</p>
+		<p>Quiz</p>
+		<p>Results</p>
+
+	</div>
+	<div class='content'>
+		<h1 class='pri-text-colour'>Primary colour (headings)</h1>
+		<p class="pick-colour">
+			<label>Select colour
+				<input data-type="string" data-id="layout.altcolour" type="text" class="input-small" id="secondary-colour" placeholder="Alternate Colour" value="{{layout.altcolour}}">
+			</label>
+		</p>
+
+		<h2 class='pri-text-colour'>Secondary colour (quiz questions, subheadings)</h2>
+		<p class="pick-colour">
+			<label>Select colour
+				<input data-type="string" data-id="layout.altcolour2" type="text" class="input-small" id="tertiary-colour" placeholder="Tertiary Colour" value="{{layout.altcolour2}}">
+			</label>
+		</p>
+
+		<h4>Page colour</h4>
+		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam congue lorem non velit maximus blandit. In ullamcorper rhoncus dui, eu varius tellus egestas sit amet.</p>
+		<p class="pick-colour">
+			<label>Page colour
+				<input data-type="string" data-id="layout.pagecolour" type="text" class="input-small" id="page-colour" placeholder="Page background colour" value="{{layout.pagecolour}}">
+			</label>
+		</p>
+
+
+	</div>		
+
+</div>
+<div class='layout-edit' style='background-color: rgba(20,86,160,1.00); color: #fff; display: flex;'>
+
+	<div>
+		<label><input type="checkbox" data-type="boolean" data-id="navigation.previous.visible"{{#if navigation.previous.visible}} checked{{/if}}><input type='text' data-type='string' data-id='navigation.previous.label' placeholder='Previous' value='{{{navigation.previous.label}}}' size='15' style='width:auto;'></label>
+	</div>
+
+	<div style="flex: 1">
+		<label><input type="checkbox" data-type="boolean" data-id="navigation.home.visible"{{#if navigation.home.visible}} checked{{/if}}><input type='text' data-type='string' data-id='navigation.home.label' placeholder='Home' value='{{{navigation.home.label}}}' size='15' style='width:auto;'></label>
+		<label><input type="checkbox" data-type="boolean" data-id="navigation.progress.visible"{{#if navigation.progress.visible}} checked{{/if}}><input type='text' data-type='string' data-id='navigation.progress.label' placeholder='Progress' value='{{{navigation.progress.label}}}' size='15' style='width:auto;'></label>
+		<label><input type="checkbox" data-type="boolean" data-id="navigation.glossary.visible"{{#if navigation.glossary.visible}} checked{{/if}}><input type='text' data-type='string' data-id='navigation.glossary.label' placeholder='Glossary' value='{{{navigation.glossary.label}}}' size='15' style='width:auto;'></label>
+		<label><input type="checkbox" data-type="boolean" data-id="navigation.resources.visible"{{#if navigation.resources.visible}} checked{{/if}}><input type='text' data-type='string' data-id='navigation.resources.label' placeholder='Resources' value='{{{navigation.resources.label}}}' size='15' style='width:auto;'></label>
+		<label><input type="checkbox" data-type="boolean" data-id="navigation.help.visible"{{#if navigation.help.visible}} checked{{/if}}><input type='text' data-type='string' data-id='navigation.help.label' placeholder='Help' value='{{{navigation.help.label}}}' size='15' style='width:auto;'></label>
+	</div>
+
+	<div>
+		<label><input type="checkbox" data-type="boolean" data-id="navigation.next.visible"{{#if navigation.next.visible}} checked{{/if}}><input type='text' data-type='string' data-id='navigation.next.label' placeholder='Next' value='{{{navigation.next.label}}}' size='15' style='width:auto;'></label>
+	</div>
+
+</div>
+</div>
+
+
+<div class='hidden'>
+					<input type='hidden' data-type="image" data-id="headerleft.content" value='{{{headerleft.content}}}'>
+					<input type='hidden' data-id='layout.header.imagealign' data-type='string' class='radio-listener' value='{{layout.header.imagealign}}'>
+					<input type='hidden' data-id='layout.header.imagerepeat' data-type='string' class='radio-listener' value='{{layout.header.imagerepeat}}'>
+						<input type='text' class='input-medium' data-type='string' data-id='layout.header.imagesize' value='100% auto' placeholder='auto|length|cover|contain|intial|inherit'>
+							<input type="number" class="input-mini" min="400" title="Size of content before nav collapses" data-id="layout.minwidth" data-type="number" value="{{layout.minwidth}}" />
+							<input type="checkbox" data-type="boolean" data-id="layout.toc" data-type="number" {{#if layout.toc}} checked{{/if}} />
+				<input type="number" data-id="layout.bodyheight" min="50" max="1000" step="10" value="100">
+				<input type="hidden" data-id="layout.bodyunit" value="pc">
+				<input type="checkbox" data-type="boolean" data-id="copyright.visible">
+				<input data-type="string" data-id="copyright.content" type="text" placeholder="Copyright text" value="{{{copyright.content}}}">
+
+<input type="text" data-type="string" data-id="layout.titleheader.text" value="none">
+	<input type="checkbox" data-type="boolean" data-id="tocheader.visible" readonly disabled>
+	<input type="number" class="input-mini" min="40" title="Height of north pane (includes navigation)" data-id="layout.panesize.north" data-type="number" value="80" readonly disabled>
+	<input type="number" class="input-mini" min="40" title="Height of south pane" data-id="layout.panesize.south" data-type="number" value="50" readonly disabled>
+	<input type="checkbox" data-type="boolean" readonly disabled title="Show name / description / nav button row" data-id="layout.titleheader.visible" checked>
+	<input type="checkbox" data-type="boolean" readonly disabled data-id="layout.titleheader.navigation" checked>
+	<input type="checkbox" data-type="boolean" readonly disabled data-id="layout.footer.navigation" checked>
+	<input type="checkbox" readonly disabled data-type="boolean" title="Show footer" data-id="layout.footer.visible" checked>
+</div>

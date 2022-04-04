@@ -1,0 +1,5 @@
+<form id="codemirror" action="/engine/action.asp?id={{id}}&action=override_delete" method="post" class="visible-form">
+<input type="hidden" name="file" value="{{file}}">
+<p>Cannot preview this type of file.</p>
+<p><input type="submit" value="Delete this file" class="btn btn-danger"></p>
+</form>

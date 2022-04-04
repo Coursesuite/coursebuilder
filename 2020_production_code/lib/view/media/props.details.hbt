@@ -1,0 +1,21 @@
+<header class="attachment-header">
+	Attachment Details
+	<span id="save-status">
+		<span class="saved">Saved.</span>
+	</span>
+</header>
+<div class="attachment-info">
+	{{#if width}}<div class="preview">
+		{{{thumbnail url}}}
+	</div>{{/if}}
+	<div class="details">
+		<div class="filename">{{name}}</div>
+		<div class="uploaded">{{prettyDate changed}}</div>
+		<div class="file-size">{{size}}</div>
+		{{#if width}}<div class="dimensions">{{width}} x {{height}}</div>{{/if}}
+		<div class='actions'>
+			<a class="edit-attachment" href="#edit" target="_blank">Edit {{mime}}</a>
+			<button type="button" class="button-link delete-attachment">Delete Permanently</button>
+		</div>
+	</div>
+</div>

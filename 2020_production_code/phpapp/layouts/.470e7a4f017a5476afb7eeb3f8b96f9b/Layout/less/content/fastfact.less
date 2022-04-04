@@ -1,0 +1,30 @@
+.fastfact {
+
+	display: block;
+	width: 240px;
+	height: 240px;
+	margin: 0 auto; /* centering of box */
+	border: 1px solid @baseBorder;
+
+	.green-gradient;
+	// .gradient(top, @pageBackground, mix(@pageBackground,@primaryColour,80%));
+
+	.inset-shadow(0,0,@standardGutter,25); 
+	.border-radius();
+	padding: @standardGutter (@standardGutter * 2);
+
+	h3 {
+		font-size: (@fontSize + 2px);
+		padding: @standardGutter 0;
+		margin: 0; // 0 unit((@fontSize / 2),"px"), 0;
+		font-weight: bold;
+		.white-shadow();
+	}
+	p {
+		line-height: 1.66;
+		text-align: center;
+		font-style: italic;
+		.white-shadow();
+	    /* filter: progid:DXImageTransform.Microsoft.Shadow(color=#ffffff,direction=135,strength=1); */
+	}
+}

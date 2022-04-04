@@ -1,0 +1,41 @@
+<form id="codemirror" action="/engine/action.asp?id={{id}}&action=override_save" method="post" class="visible-form">
+
+<div class="pull-left">
+	<button data-action="overrides-diff" data-mode="core" data-file="{{file}}" class="btn btn-warning">Diff with Core</button>
+	<button data-action="overrides-diff" data-mode="template" data-file="{{file}}" class="btn btn-warning">Diff with Override</button>
+	<select id="overrides-diff" data-mode="template" data-file="{{file}}"><option value="">Diff with ...</option>
+	{{#each templates}}<option value="{{folder}}">{{name}}</option>{{/each}}</select>
+</div>
+<div class="pull-right">
+	<input type="submit" value="Save" class="btn btn-success">
+</div>
+
+<input type="hidden" name="file" value="{{file}}">
+<textarea id="code" name="code">
+{{{content}}}
+</textarea>
+
+<div class="row">
+<div class="pull-right">
+	<input type="submit" value="Save" class="btn btn-success">
+</div>
+</div>
+
+</form>
+
+<form id="codemirror" action="/engine/action.asp?id={{id}}&action=override_delete" method="post" class="visible-form">
+<input type="hidden" name="file" value="{{file}}">
+<p class="text-center"><input type="submit" value="Delete this file" class="btn btn-danger"></p>
+</form>
+
+<script>
+  var cmeditor = CodeMirror.fromTextArea(document.getElementById("code"), {
+    extraKeys: {"Ctrl-Space": "autocomplete"},
+    lineNumbers: true,
+    matchBrackets: true,
+	styleActiveLine: true,
+	mode: {{{mode}}}
+  });
+  
+  cmeditor.setSize("100%", $(".template-filetree-container").height());
+</script>

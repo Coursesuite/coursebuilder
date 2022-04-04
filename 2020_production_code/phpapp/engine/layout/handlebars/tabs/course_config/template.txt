@@ -1,0 +1,7 @@
+<div id='tab-toolbar' class='row-fluid well well-small'>
+	<div class='span2 pull-right'>
+		<a href='#' id='config-save' class='btn btn-primary'>Save</a>
+	</div>
+</div>
+
+<div id='tab-body'></div>

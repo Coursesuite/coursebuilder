@@ -1,0 +1,16 @@
+<div class="inline-checkimage" data-scormid="rpqiz_{{uniqueid}}">
+	<div class="grid grid-pad">
+	{{#each option}}
+	<div class="item col-1-4">
+		<label for="option_{{@index}}_{{../uniqueid}}" title="Option {{@index}}">
+			<img src="{{media}}" class="rp-fadeinfast" alt="Option {{@index}}">
+		</label>
+		<input type="checkbox" id="option_{{@index}}_{{../uniqueid}}" value="{{@index}}" data-label="{{label}}"{{#if selected}} checked="checked"{{/if}}>
+	</div>
+	{{/each}}
+	</div>
+	<div class="submit clearblock">
+		<a href="#save" class="standard-button"><i class="icon-save"></i>Save</a>
+		<span class="feedback {{#unless feedback}}hide{{/unless}}">You have saved: <span>{{feedback}}</span></span>
+	</div>
+</div>

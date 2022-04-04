@@ -1,0 +1,16 @@
+(function(){var c;var d=document.cookie.split("; ");for(c=0;c<d.length;c++){var a=d[c].split("=");if(0<a.length&&0==a[0].indexOf("ASPSESSIONID")){a=a[0];var b=new Date;b.setTime(b.getTime()-864E5);b="; expires="+b.toGMTString()+";path=/";document.cookie=a+"="+b}}})();
+
+window.CourseBuildr = {
+	"BaseUrl": "{{baseurl}}",
+	"Route": "{{url}}",
+	"Containers": {{{stringify mycontainers}}},
+	"Tier": {{tier}},
+	"ContextId" : {{context}},
+	"Labels": {
+		"Names": ["new","started","inprogress","almostdone","complete","archived"],
+		"Classes": ["","label-important","label-warning","label-success", "label-info", "label-inverse"]
+	}{{#if media.actions}},
+	"Media": {
+		"Actions": { {{#each media.actions}}"{{name}}":{{{json_encode .}}},{{/each}}"null":null }
+	}{{/if}}
+}

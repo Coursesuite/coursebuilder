@@ -1,0 +1,20 @@
+<header class='search-header'><form method="post">
+<div class='search-container'>
+<i class='fa fa-search' aria-hidden='true'></i><input type='text' value='{{search.value}}' id='search' title='Search courses'>
+<a href='javascript:;' id='clear-search' class='fa fa-times-circle' aria-hidden='true'></a>
+</div>
+{{#admins}}
+	<div class='search-options'>
+	{{#equals search.archive "show"}}
+		<a href='{{url}}/index/search/archive/hide' title='Courses in Archive container are shown; click to hide' class='on'><i class='fa fa-toggle-on'></i> Archived</a> 
+	{{else}}
+		<a href='{{url}}/index/search/archive/show' title='Courses in Archive container are hidden; click to show'><i class='fa fa-toggle-off'></i> Archived</a> 
+	{{/equals}}
+	{{#equals search.subs "show"}}
+		<a href='{{url}}/index/search/subs/hide' class='on'><i class='fa fa-toggle-on' title='Visible'></i> Subscriber courses</a>
+	{{else}}
+		<a href='{{url}}/index/search/subs/show'><i class='fa fa-toggle-off' title='Hidden'></i> Subscriber courses</a>
+	{{/equals}}
+	</div>
+{{/admins}}
+</form></header>

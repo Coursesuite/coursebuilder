@@ -1,0 +1,25 @@
+<div class="input-append force-inline-block">
+	{{{field}}}
+	<div class="btn-group">
+	    <button class="btn dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+		<ul class="dropdown-menu">
+		  <li class='dropdown-menu-label'>Typical names</li>
+		  <li><a href='#'>'same as title.html'</a></li>
+		  <li class="divider"></li>
+		  <li class='dropdown-menu-label'>File prefixes</li>
+		  <li>Files with these prefixes are hidden in the player navigation.<br>
+		  	  <i>includeFILE.html</i> loads and parses (depending on where it is used.<br>
+			  <i>popupFILE.html</i> does not parse (raw).<br />
+			  <i>parseFILE.html</i> loads then parses.</li>
+		  <li class="divider"></li>
+		  <li class='dropdown-menu-label'>File names</li>
+		  <li><a href='#'>'File Name.html' is <i>ok</i></a></li>
+		  <li><a href='#'>'file_name.html' is <i>better</i></a></li>
+		  <li><a href='#'>'file name.HTML' is <i>not ok</i></a></li>
+		  <li><a href='#'>'file name.txt' is <i>acceptable</i></a></li>
+		  <li><a href='#'>'file name' is <i>asking for trouble</i></a></li>
+		  <li><a href='#'>' file name.' is <i>just silly</i></a></li>
+		  <li><a href='#'>? &lt; &gt; ! &amp; etc in name is <i>a disaster</i></a></li>
+		</ul>
+	</div>
+</div>

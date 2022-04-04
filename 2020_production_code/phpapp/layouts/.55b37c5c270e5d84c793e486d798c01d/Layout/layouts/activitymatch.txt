@@ -1,0 +1,14 @@
+<div class="activity-match" data-scormid="rpqiz_{{uniqueid}}" data-uservalue="{{user}}">
+<table class="activities">
+	<thead><th class="w55"></th><th class="w20">Drop answers here</th><th class="w5">&nbsp;</td><th class="w20">Possible answers</th></tr></thead>
+	<tbody>
+	{{#each pair}}
+	<tr data-required="{{q.order}}">
+		<th class="question w60"><div class="text">{{{q.text}}}</div></th>
+		<td class="drop w20"></td>
+		{{#compare @index 0}}<th class="separator" rowspan="{{@length}}"><div /></th>{{/compare}}
+		<td class="source w20"><div data-answer="{{a.order}}">{{{a.text}}}</div></td>
+	</tr>
+	{{/each}}
+</tbody></table>
+</div>

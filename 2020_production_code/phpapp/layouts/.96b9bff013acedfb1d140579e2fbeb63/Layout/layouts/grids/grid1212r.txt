@@ -1,0 +1,24 @@
+{{#unless inset}}
+{{#compare title ">" ""}}
+<header>
+	<h1>{{title}}</h1>
+</header>
+{{/compare}}
+{{/unless}}
+<div class="grid{{#if inset}} header-inset{{/if}} grid-pad" id="main" role="main">
+	<div class="col-1-2">
+		{{#if inset}}
+		{{#compare title ">" ""}}
+		<h1>{{title}}</h1>
+		{{/compare}}
+		{{/if}}
+		<div class="display-left">
+			{{{right}}}
+		</div>
+	</div>
+	<div class="col-1-2">
+		<div class="display-right">
+			{{{left}}}
+		</div>
+	</div>
+</div>

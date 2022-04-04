@@ -1,0 +1,30 @@
+<form method="post" action="/engine/action.asp?id={{id}}&action=renamefolder" class='visible-form'>
+	<p class='lead'>Rename the course folder</p>
+	<p>Most of the time, the course folder is an irrelevant detail, much like the container, or indeed page names. The name of the folder also determines the name of the zip file that you get when you download the course. You could rename that file manually - it doesn't actually matter. The filename you enter below might be automatically modified so that it only contains characters known to be safe on various systems.</p>
+	<p class="form-inline">
+		<label>
+			Course folder:
+			<input type='text' name='rename' value='{{folder}}' class='input-xxlarge'>
+		</label>
+		<input type='submit' value='Rename' class='btn btn-primary'>
+	</p>
+</form>
+
+<form class='visible-form'>
+	<p class='lead'>Ancillary files</p>
+	<p>The course has a glossary, reference and help file. These <em>can</em> be referenced within the course material and/or shown as action buttons. If you remove terms or references that would be used by the content, those items will not be linked anymore, and you should remove them manually.</p>
+	<div class='row-fluid'>
+		<div class='span-6 ancillary-actions'>
+			<input type='button' value='Glossary' class='btn'>
+			<input type='button' value='References' class='btn'>
+			<input type='button' value='Help' class='btn'>
+		</div>
+	</div>
+	<p>You can manage the images loaded to the course, as well as files you've linked to from the course.</p>
+	<div class='row-fluid'>
+		<div class='span-6 ancillary-actions'>
+			<input type='button' value='Manage Media' data-action='media' class='btn'>
+		</div>
+	</div>
+
+</form>

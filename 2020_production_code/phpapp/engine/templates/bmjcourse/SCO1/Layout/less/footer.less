@@ -1,0 +1,64 @@
+.BottomBar {
+  	display: block;
+  	height: @southHeight;
+  	padding: 18px 10px;
+
+  	.halfColour(#7DBB00);
+	background: #7bbd00;
+
+	background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzdiYmQwMCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjElIiBzdG9wLWNvbG9yPSIjZmZmZmZmIiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iNSUiIHN0b3AtY29sb3I9IiM3YmJkMDAiIHN0b3Atb3BhY2l0eT0iMSIvPgogICAgPHN0b3Agb2Zmc2V0PSI5NSUiIHN0b3AtY29sb3I9IiM3YmJkMDAiIHN0b3Atb3BhY2l0eT0iMSIvPgogICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMDA2ZTJlIiBzdG9wLW9wYWNpdHk9IjEiLz4KICA8L2xpbmVhckdyYWRpZW50PgogIDxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InVybCgjZ3JhZC11Y2dnLWdlbmVyYXRlZCkiIC8+Cjwvc3ZnPg==);
+	background: -moz-linear-gradient(top,  #7bbd00 0%, #ffffff 1%, #7bbd00 10%, #7bbd00 90%, #006e2e 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#7bbd00), color-stop(1%,#ffffff), color-stop(10%,#7bbd00), color-stop(90%,#7bbd00), color-stop(100%,#006e2e));
+	background: -webkit-linear-gradient(top,  #7bbd00 0%,#ffffff 1%,#7bbd00 10%,#7bbd00 90%,#006e2e 100%);
+	background: -o-linear-gradient(top,  #7bbd00 0%,#ffffff 1%,#7bbd00 10%,#7bbd00 90%,#006e2e 100%);
+	background: -ms-linear-gradient(top,  #7bbd00 0%,#ffffff 1%,#7bbd00 10%,#7bbd00 90%,#006e2e 100%);
+	background: linear-gradient(to bottom,  #7bbd00 0%,#ffffff 1%,#7bbd00 10%,#7bbd00 90%,#006e2e 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7bbd00', endColorstr='#006e2e',GradientType=0 );
+
+	.bottom-link {
+		margin-left: 1em;
+		i {
+			margin-right: .3em;
+		}
+	}
+
+	font-size: 1.15em;
+
+  	#BottomMenu {
+  		float: right;
+  		padding-right: 1em;
+  		margin-top: -5px;
+  		a {
+		  	color: #fff;
+		  	text-decoration: none;
+		  	&:hover {
+			  	.halfColour(#7DBB00)
+		  	}
+  		}
+		.navigation-button-wrapper {
+			line-height: 25px;
+			margin-left: 25px;
+			a {
+				vertical-align: sub;
+			  	color: #fff;
+			  	text-decoration: none;
+			  	i {
+				  	.icon-2x;
+			  	}
+			  	&:hover {
+				  	color: #007bbd;
+			  	}
+			}
+		}
+  	}
+  	#Copyright {
+		font-size: 1.15em;
+		float: left;
+  		color: #BDDE7B;
+		a {
+		    color: inherit;
+			font-size: inherit;
+		}
+  	}
+  	
+}

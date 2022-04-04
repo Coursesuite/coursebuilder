@@ -1,0 +1,16 @@
+<div class="inline-checklist" data-scormid="rpqiz_{{uniqueid}}">
+	<div class="list">
+	{{#each option}}
+	<div class="item">
+		<input type="checkbox" id="option_{{@index}}_{{../uniqueid}}" value="{{@index}}"{{#if selected}} checked="checked"{{/if}}>
+		<label for="option_{{@index}}_{{../uniqueid}}" title="Option {{@index}}">
+			{{label}}
+		</label>
+	</div>
+	{{/each}}
+	</div>
+	<div class="submit clearblock">
+		<a href="#save" class="standard-button"><i class="icon-save"></i>Save</a>
+		<span class="feedback {{#unless feedback}}hide{{/unless}}">You have saved: <span>{{feedback}}</span></span>
+	</div>
+</div>

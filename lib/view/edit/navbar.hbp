@@ -7,6 +7,7 @@
         <div class="menu-items">
             <a href='/app/edit/template/{{context}}/'{{#equals action "template"}} class='selected'{{/equals}}>Template</a>
             <a href='/app/edit/index/{{context}}/'{{#equals action "index"}} class='selected'{{/equals}}>Content</a>
+            <a href='/app/edit/resources/{{context}}/'{{#equals action "resources"}} class='selected'{{/equals}}>Resources</a>
             <a href='/app/edit/design/{{context}}/'{{#equals action "design"}} class='selected'{{/equals}}>Design</a>
             <a href='/app/edit/sharing/{{context}}/'{{#equals action "sharing"}} class='selected'{{/equals}}>Sharing</a>
             <a href='/app/edit/advanced/{{context}}/'{{#equals action "advanced"}} class='selected'{{/equals}}>Advanced settings</a>

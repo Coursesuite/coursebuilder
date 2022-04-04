@@ -1,0 +1,78 @@
+		<div class="ui-layout-north">
+			<header id="header_all">
+				<div id="WelcomeTitle">
+					<span class="navigation-button-wrapper">
+						{{#if navigation.previous.visible}}
+						<a class="NavLink Previous {{navigation.previous.class}}" href="#null" data-action="back" title="{{navigation.previous.tooltip}}">{{#if navigation.previous.icon}}<i class='{{navigation.previous.icon}}'></i>{{/if}}{{navigation.previous.label}}</a>
+						{{/if}}
+						{{#if navigation.home.visible}}
+						<a class="NavLink Home {{navigation.home.class}}" href="#null" data-action="home" title="{{navigation.home.tooltip}}">{{#if navigation.home.icon}}<i class='{{navigation.home.icon}}'></i>{{/if}}{{navigation.home.label}}</a>
+						{{/if}}
+						{{#if navigation.next.visible}}
+						<a class="NavLink Next {{navigation.next.class}}" href="#null" data-action="forward" title="{{navigation.next.tooltip}}">{{#if navigation.next.icon}}<i class='{{navigation.next.icon}}'></i>{{/if}}{{navigation.next.label}}</a>
+						{{/if}}
+					</span>
+					<h2>
+						{{#compare layout.titleheader.text "name"}}
+						<span class='course-name'>{{course.name}}</span>
+						{{/compare}}
+						{{#compare layout.titleheader.text "description"}}
+						<span class='course-description'>{{course.description}}</span>
+						{{/compare}}
+					</h2>
+					<div class="clear"></div>
+				</div>
+			</header>
+		</div>
+
+		<div id="contentContainer" class="ui-layout-center" role="main">
+			{{! the content will get embedded here using jquery }}
+		</div>
+
+		<div id="TOCContainer" class="ui-layout-west">
+			<div id="TOC"></div>
+		</div>
+
+		<div id="loading-animation"></div>
+
+		<div class="ui-layout-south">
+			<footer>
+				<div class="BottomBar">
+					<div id="BottomMenu">
+						{{#if navigation.progress.visible}}
+						<a class="{{navigation.progress.class}}" href="#null" data-action="progress" title="{{navigation.progress.tooltip}}">{{#if navigation.progress.icon}}<i class='{{navigation.progress.icon}}'></i>{{/if}}{{navigation.progress.label}}</a>
+						{{/if}}
+						{{#if navigation.glossary.visible}}
+						<a class="{{navigation.glossary.class}}" href="#null" data-action="glossary" title="{{navigation.glossary.tooltip}}">{{#if navigation.glossary.icon}}<i class='{{navigation.glossary.icon}}'></i>{{/if}}{{navigation.glossary.label}}</a>
+						{{/if}}
+						{{#if navigation.resources.visible}}
+						<a class="{{navigation.resources.class}}" href="#null" data-action="references" title="{{navigation.resources.tooltip}}">{{#if navigation.resources.icon}}<i class='{{navigation.resources.icon}}'></i>{{/if}}{{navigation.resources.label}}</a>
+						{{/if}}
+						{{#if navigation.help.visible}}
+						<a class="{{navigation.help.class}}" href="#null" data-action="help" title="{{navigation.help.tooltip}}">{{#if navigation.help.icon}}<i class='{{navigation.help.icon}}'></i>{{/if}}{{navigation.help.label}}</a>
+						{{/if}}
+						<span class="navigation-button-wrapper">
+							{{#if navigation.previous.visible}}
+							<a class="NavLink Previous {{navigation.previous.class}}" href="#null" data-action="back" title="{{navigation.previous.tooltip}}">{{#if navigation.previous.icon}}<i class='{{navigation.previous.icon}}'></i>{{/if}}{{navigation.previous.label}}</a>
+							{{/if}}
+							{{#if navigation.home.visible}}
+							<a class="NavLink Home {{navigation.home.class}}" href="#null" data-action="home" title="{{navigation.home.tooltip}}">{{#if navigation.home.icon}}<i class='{{navigation.home.icon}}'></i>{{/if}}{{navigation.home.label}}</a>
+							{{/if}}
+							{{#if navigation.next.visible}}
+							<a class="NavLink Next {{navigation.next.class}}" href="#null" data-action="forward" title="{{navigation.next.tooltip}}">{{#if navigation.next.icon}}<i class='{{navigation.next.icon}}'></i>{{/if}}{{navigation.next.label}}</a>
+							{{/if}}
+						</span>
+					</div>
+					{{#if copyright.visible}}
+					<div id="Copyright">{{{copyright.content}}}</div>
+					{{/if}}
+	
+					<div id="audioPlayer"></div>
+					<div class="clear"></div>
+				</div>
+			</footer>
+		</div>
+		{{!--
+		<div id="layout-open-west" class="layout-toggle"><i class="icon-chevron-sign-right"></i></div>
+		<div id="layout-close-west" class="layout-toggle"><i class="icon-chevron-sign-left"></i></div>
+		--}}

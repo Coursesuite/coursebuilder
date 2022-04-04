@@ -1,0 +1,25 @@
+{{#compare title ">" ""}}
+<header>
+	<h1>{{title}}</h1>
+</header>
+{{/compare}}
+<div class="grid" id="main" role="main">
+{{#compare right ">" ""}}
+	<div class="col-3-4">
+		<div class="display-left">
+			{{{left}}}
+		</div>
+	</div>
+	<div class="col-1-4">
+		<div class="display-right">
+			{{{right}}}
+		</div>
+	</div>
+{{else}}
+	<div class="col-1-1">
+		<div class="display-full">
+			{{{left}}}
+		</div>
+	</div>
+{{/compare}}
+</div>

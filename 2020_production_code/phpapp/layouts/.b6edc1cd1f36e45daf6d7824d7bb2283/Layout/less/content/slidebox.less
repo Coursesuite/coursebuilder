@@ -1,0 +1,98 @@
+.slide-box {
+	position: relative;
+	padding: 0;
+	
+	.pages {
+		overflow: hidden;
+		.page {
+			display: block;
+			padding: 0;
+			margin: 0;
+			border: 1px solid @pageBackground; // fixes layout glitch calculating offsetTop
+          	font-size: 16px;
+          	.green {
+              	color: #06BAB1;
+              	font-size: 18px;
+          	}
+          	.blue {
+              	color: #354984;
+                font-size: 18px;
+          	}
+		}
+	}
+
+	&[data-orientation='horizontal'] {
+		.pages {
+			white-space: nowrap;
+			.page {
+				white-space: normal;
+				display: inline-block;
+				vertical-align: top; /* important for inline-block */
+			}
+		}
+	}
+
+	.navigator {
+		.opacity(33);
+		background-color: @baseBorderFill;
+		.readableColour(@baseBorderFill);
+		.border-radius;
+		.clearfix;
+      	color: #404040;
+		width: 100%;
+		padding: (@standardGutter / 2);
+		border: 1px solid @baseBorder;
+      	font-size: 16px;
+		text-align: center;
+		.action-minus {
+			float:left;
+		}
+		.action-plus {
+			float: right;
+		}
+		i {
+			cursor: pointer;
+			&:hover {
+				color: #06BAB1;
+			}
+		}
+	}
+	&:hover {
+		.navigator {
+			.opacity(100);
+		}
+	}
+}
+html.touch .slide-box .navigator {
+	.opacity(100);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

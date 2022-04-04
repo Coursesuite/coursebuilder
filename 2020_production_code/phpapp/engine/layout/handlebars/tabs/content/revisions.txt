@@ -1,0 +1,9 @@
+<div class="control-group">
+	<label class="control-label" for="{{area}}_select_revisions">Previous versions</label>
+	<div class="controls"><select id="{{area}}_select_revisions">
+		<option>Select a revision ...</option>
+		{{#each revision}}
+		<option value="{{timestamp}}">{{user}} - {{timestamp}}</option>
+		{{/each}}
+	</select> <a href='#{{area}}_revisions-help'><i class='icon-question-sign'></i></a></span></div>
+</div>

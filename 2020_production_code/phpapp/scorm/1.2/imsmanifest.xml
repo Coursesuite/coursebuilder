@@ -1,0 +1,128 @@
+<?xml version="1.0" standalone="no"?>
+<manifest identifier="MANIFEST1" version="1.2" xmlns="http://www.imsproject.org/xsd/imscp_rootv1p1p2" xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_rootv1p2" xmlns:imsmd="http://www.imsglobal.org/xsd/imsmd_rootv1p2p1" xmlns:c2lcp="http://www.click2learn.com/xsd/c21_cp_rootv1p1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsproject.org/xsd/imscp_rootv1p1p2 imscp_rootv1p1p2.xsd http://www.imsglobal.org/xsd/imsmd_rootv1p2p1 imsmd_rootv1p2p1.xsd http://www.adlnet.org/xsd/adlcp_rootv1p2 adlcp_rootv1p2.xsd http://www.click2learn.com/xsd/c21_cp_rootv1p1 c21_cp_rootv1p1.xsd">
+  <metadata>
+    <schema>ADL SCORM</schema>
+    <schemaversion>1.2</schemaversion>
+    <lom xmlns="http://www.imsglobal.org/xsd/imsmd_rootv1p2p1">
+      <general>
+        <title>@@TITLE@@</title>
+        <catalogentry>
+          <catalog>catalog</catalog>
+          <entry>
+            <langstring xml:lang="en-US">entry</langstring>
+          </entry>
+        </catalogentry>
+        <language>en-US</language>
+        <description>@@DESCRIPTION@@</description>
+        <keyword>
+          <langstring xml:lang="en-US">Default</langstring>
+        </keyword>
+        <aggregationlevel>
+          <source>
+            <langstring xml:lang="x-none">LOMv1.0</langstring>
+          </source>
+          <value>
+            <langstring xml:lang="x-none">3</langstring>
+          </value>
+        </aggregationlevel>
+      </general>
+      <lifecycle>
+        <version>
+          <langstring xml:lang="x-none">1.0</langstring>
+        </version>
+        <status>
+          <source>
+            <langstring xml:lang="x-none">LOMv1.0</langstring>
+          </source>
+          <value>
+            <langstring xml:lang="x-none">Final</langstring>
+          </value>
+        </status>
+        <contribute>
+          <role>
+            <source>
+              <langstring xml:lang="x-none">LOMv1.0</langstring>
+            </source>
+            <value>
+              <langstring xml:lang="x-none">Author</langstring>
+            </value>
+          </role>
+          <centity>
+            <vcard>BEGIN:vCard ORG: END:vCard</vcard>
+          </centity>
+          <date>
+            <datetime>2009-05-01</datetime>
+          </date>
+        </contribute>
+      </lifecycle>
+      <metametadata>
+        <metadatascheme>ADL SCORM 1.2</metadatascheme>
+        <language>en-US</language>
+      </metametadata>
+      <technical>
+        <format>text/html</format>
+        <location type="URI">.</location>
+      </technical>
+      <educational>
+        <learningresourcetype>
+          <source>
+            <langstring xml:lang="x-none">LOMv1.0</langstring>
+          </source>
+          <value>
+            <langstring xml:lang="x-none">Exercise</langstring>
+          </value>
+        </learningresourcetype>
+      </educational>
+      <rights>
+        <cost>
+          <source>
+            <langstring xml:lang="x-none">LOMv1.0</langstring>
+          </source>
+          <value>
+            <langstring xml:lang="x-none">no</langstring>
+          </value>
+        </cost>
+        <copyrightandotherrestrictions>
+          <source>
+            <langstring xml:lang="x-none">LOMv1.0</langstring>
+          </source>
+          <value>
+            <langstring xml:lang="x-none">yes</langstring>
+          </value>
+        </copyrightandotherrestrictions>
+        <description>
+          <langstring xml:lang="en-US">All rights reserved</langstring>
+        </description>
+      </rights>
+      <classification>
+        <purpose>
+          <source>
+            <langstring xml:lang="x-none">LOMv1.0</langstring>
+          </source>
+          <value>
+            <langstring xml:lang="x-none">Educational Objective</langstring>
+          </value>
+        </purpose>
+        <description>
+          <langstring xml:lang="en-US">ID</langstring>
+        </description>
+        <keyword>
+          <langstring xml:lang="en-US">Default</langstring>
+        </keyword>
+      </classification>
+    </lom>
+  </metadata>
+  <organizations default="ORG-@@ORGID@@">
+    <organization identifier="ORG-@@ORGID@@">
+      <title>@@TITLE@@</title>
+      <item identifier="ITEM-@@ITEMID@@" identifierref="RES-@@REFID@@">
+        <title>@@TITLE@@</title>
+      </item>
+    </organization>
+  </organizations>
+  <resources>
+    <resource identifier="RES-@@REFID@@" type="webcontent" adlcp:scormtype="sco" href="@@LAUNCH@@">
+@@FILELIST@@
+    </resource>
+  </resources>
+</manifest>

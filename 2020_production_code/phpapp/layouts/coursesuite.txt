@@ -1,0 +1,6 @@
+C:\inetpub\tardproof\production\phpapp\layouts\coursesuite\editor\template.txt,1d5c66e020a9df968962fc9408a8f975
+C:\inetpub\tardproof\production\phpapp\layouts\coursesuite\en-us\Content.html,46a62fd594df89e68827debf76daed87
+C:\inetpub\tardproof\production\phpapp\layouts\coursesuite\en-us\Quiz.html,97f24ca452d5d734f8a9e4359f54c62b
+C:\inetpub\tardproof\production\phpapp\layouts\coursesuite\index.html,6e42e6262592cef851f050d0496a0f11
+C:\inetpub\tardproof\production\phpapp\layouts\coursesuite\Layout\layouts\player.txt,e70f74cb04a1cd8772ae733b29638a78
+C:\inetpub\tardproof\production\phpapp\layouts\coursesuite\Layout\less\variables.less,bbea6af88f683db03644848398b45a39

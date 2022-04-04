@@ -1,0 +1,19 @@
+<h1 style='text-align:center'>{{coursename}}</h1>
+<h2 style='text-align:center'>Answer Key Table for {{name}}</h2>
+<table border="1" cellpadding="10px">
+	<thead><tr>
+		<th>Question ID</th>
+		<th>Prompt</th>
+		<th>Correct</th>
+		<th>Incorrect</th>
+	</tr></thead>
+	<tbody>
+	{{#each row}}<tr>
+		<td>{{id}}</td>
+		<td>{{prompt}}</td>
+		<td><ol>{{{correct}}}</ol></td>
+		<td><ol>{{{incorrect}}}</ol></td>
+	</tr>
+	{{/each}}
+	</tbody>
+</table>

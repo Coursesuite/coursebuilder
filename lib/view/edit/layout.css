@@ -178,6 +178,9 @@ body > main > article {
 .jstree-rename-input {
   max-width: calc(var(--asideW) - 48px);
 }
+.jstree-contextmenu {
+  z-index:  9;
+}
 
 .template-navtree {
   padding-top: 10px;

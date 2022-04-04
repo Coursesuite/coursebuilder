@@ -1,0 +1,21 @@
+.qtip-content {
+	line-height: 1.5;
+	.rp-numbers,
+	.rp-bullets {
+		display: block;
+		//padding: 0;
+		//margin: (@standardGutter / 2) 0;
+		list-style-position: outside;
+		padding-left: 1.1em;
+		li {
+			// margin-left: 1em;
+			display: list-item;
+			margin: initial;
+			list-style-position: inherit;
+			&:before {
+				content: none;
+				display: none;
+			}
+		}
+	}
+}

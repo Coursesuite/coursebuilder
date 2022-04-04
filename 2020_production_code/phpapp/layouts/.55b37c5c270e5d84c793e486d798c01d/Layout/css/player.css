@@ -1,0 +1,242 @@
+/* BASIC PAGE CONTENT */
+BODY { 
+	padding:0px; 
+	margin:0px;
+	background-color: #FFFFFF;
+	font-family: Arial, Verdana, sans-serif;
+	font-size: 10pt; 
+	font-weight: normal;
+	line-height: 16px;
+	color: #000000;
+}
+
+TD,TH,P,B,I,SPAN,STRONG,UL,LI,OL {
+	font-size:10pt;
+}
+
+span.bold {font-weight:bold}
+
+A{text-decoration:none;}
+
+H1{ font-family: Arial, Verdana, sans-serif; font-size:12pt; font-weight:bold; color: #288ac6; }
+H2{ font-family: Arial, Verdana, sans-serif; font-size:10pt; font-weight:bold; color: #2d4c91; }
+H3{ font-family: Arial, Verdana, sans-serif; font-size:10pt; font-weight:bold; color: #288ac6; }
+UL { 
+	margin-top:3px;
+	list-style-position:outside;
+}
+OL { 
+	margin-top:3px;
+	list-style-position:outside;
+}
+
+#top {
+	line-height:0px;
+	height:0px;
+}
+#TOC {
+	background-image:url(../Images/left_side_bar_grad.gif);
+	float: left;
+	overflow:auto;
+}
+#FRM_CONTENT {
+	margin-left:0px;	
+	margin-right:0px;
+	margin-top:0px;
+	margin-bottom:0px;
+}
+#WelcomeLogo {display:none;}
+#WelcomeTitle {
+	background-image:url(../Images/top_bar.gif);
+	background-repeat:no-repeat;
+	border-bottom:1px solid #808080;
+	height:46px;
+}
+#WelcomeTitle span{
+	display:block;
+	width:786px;
+	font-size: 14pt; 
+	line-height: 25px;
+	font-weight: normal;
+	color: #FFFFFF;
+	position:absolute;
+	left:20px;
+	top:7px;
+	padding-bottom:5px;
+}
+
+.level1Container {text-overflow:ellipsis;overflow:hidden;white-space:nowrap;padding-left:9px; height:21px; padding-top:5px;margin-right:1px; margin-left:1px;}
+.level2Container {text-overflow:ellipsis;overflow:hidden;white-space:nowrap;padding-left:23px; height:21px; padding-top:5px;margin-right:1px; margin-left:1px;}
+.level3Container {text-overflow:ellipsis;overflow:hidden;white-space:nowrap;padding-left:37px; height:21px; padding-top:5px;margin-right:1px; margin-left:1px;}
+.level4Container {text-overflow:ellipsis;overflow:hidden;white-space:nowrap;padding-left:51px; height:21px; padding-top:5px;margin-right:1px; margin-left:1px;}
+.level5Container {text-overflow:ellipsis;overflow:hidden;white-space:nowrap;padding-left:65px; height:21px; padding-top:5px;margin-right:1px; margin-left:1px;}
+
+.level1Container:hover {padding-left:8px;  background-color: #dfe8ed; border: #aab9cf 1px solid; height:20px; padding-top:4px;}
+.level2Container:hover {padding-left:22px; background-color: #dfe8ed; border: #aab9cf 1px solid; height:20px; padding-top:4px;}
+.level3Container:hover {padding-left:36px; background-color: #dfe8ed; border: #aab9cf 1px solid; height:20px; padding-top:4px;}
+.level4Container:hover {padding-left:50px; background-color: #dfe8ed; border: #aab9cf 1px solid; height:20px; padding-top:4px;}
+.level5Container:hover {padding-left:64px; background-color: #dfe8ed; border: #aab9cf 1px solid; height:20px; padding-top:4px;}
+
+.level1Container IMG{cursor:pointer;}
+.level2Container IMG{cursor:pointer;}
+.level3Container IMG{cursor:pointer;}
+.level4Container IMG{cursor:pointer;}
+.level5Container IMG{cursor:pointer;}
+.level5Container IMG{cursor:pointer;}
+
+.levelChild {width:15px;float:left;}
+
+.level {cursor:pointer; color: #193675;}
+.levelVisited {cursor:pointer; color: #737373;}
+.levelSelected {cursor:pointer; font-weight: bold; color: #288ac6;}
+
+.WelcomeHeading {
+	font-size: 18pt; 
+	font-weight: normal;
+	color: #277eb5;
+	margin:23px 25px 10px 54px;
+}
+.WelcomeBody {
+	margin:0px 25px 10px 54px;
+	margin-left:54px;
+	margin-bottom:10px;
+}
+div.WelcomeBody table td, div.WelcomeBody table th {
+	padding-left: 11px; 
+	padding-right: 11px;
+}
+
+.BottomBar {
+	display:block;
+	height:50px;
+	background-image:url(../Images/footer_image.gif);
+	clear:both;
+}
+
+#BottomMenu {
+	float:left;
+	margin-left:5px;
+}
+
+#BottomMenu ul {
+	padding:0px;
+	margin:8px 0px 0px 0px;
+}
+
+#BottomMenu li {
+	display:inline;
+}
+
+#BottomMenu a {
+	color: #FFFFFF;
+	font-weight:bold;
+	text-decoration:none;
+	cursor:pointer;
+	font-size:11pt;
+	padding-left:6px;
+	padding-right:6px;
+}
+
+a.NavLink {
+	color: #2879BD;
+	font-weight:bold;
+	text-decoration:none;
+	cursor:pointer;
+	font-size:12pt;
+	position: relative;
+	top: 3px;
+}
+a.NavLink:hover {color: #6E77ED; }
+
+a.NavLinkDisabled {
+	color:#828282;
+	text-decoration:none;
+	cursor:default;
+	font-size:12pt;
+	font-weight:bold;
+	position: relative;
+	top: 3px;
+}
+
+#buttonPrevious {
+	background-image:url(../Images/nav-button-background.gif);
+	background-repeat:repeat-x;
+	height:30px;
+	padding-right:5px;
+}
+
+#buttonNext {
+	background-image:url(../Images/nav-button-background.gif);
+	background-repeat:repeat-x;
+	height:30px;
+	padding-left:5px;
+}
+
+#contentContainer {
+	float:left;
+}
+
+#tocControls {
+	background-image:url(../Images/toc-resize-bar.png);
+	background-position:top;
+	background-repeat:repeat-y;
+	width:7px;
+	float:left;
+}
+
+#tocBar {
+	background-image:url(../Images/toc-resize-tab.png);
+	background-repeat:no-repeat;
+	background-position:0px 45%;
+	width:7px;
+	cursor:w-resize;
+}
+
+#tocBarMove {
+	background-image:url(../Images/toc-resize-bar.png);
+	background-position:top;
+	background-repeat:repeat-y;
+	width:7px;
+	cursor:w-resize;
+	padding-top:0px;
+	z-index:102;
+	position:absolute;
+	display:none;
+}
+#tocBarCover {
+	top:0px;
+	left:0px;
+	width:1000px;
+	height:1000px;
+	cursor:w-resize;
+	z-index:101;
+	position:absolute;
+	display:none;
+}
+#tocHideShow {
+	width:7px;
+	cursor:pointer;
+}
+
+
+.title {
+	font-size:16pt; 
+	font-weight:normal;
+	color:#277eb5;
+	overflow:visible;
+	line-height:30px
+}
+
+.assessButton {
+	font-size:10pt;
+	font-weight:normal;
+	color:#193675;
+	background-image:url(../Images/button-stretch.png);
+	background-repeat:repeat-x;
+	border: 1px solid;
+	border-color:#908f94;
+	background-color: #f0f0f0;
+	cursor:pointer;
+	margin:2px;
+}
+.assessButton:disabled {color:Gray;}

@@ -1,0 +1,5 @@
+{{#with grids}}<ul class='nav nav-pills'>
+{{#each option}}
+	<li{{if selected}} class='active'{{/if}}><a href='#'>{{{value}}}</a></li>
+{{/each}}
+</ul>{{/with}}

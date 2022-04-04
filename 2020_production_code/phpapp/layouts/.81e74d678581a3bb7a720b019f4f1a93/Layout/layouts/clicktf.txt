@@ -1,0 +1,23 @@
+<div class="inline-checktf" data-scormid="rpqiz_{{uniqueid}}">
+	<div class="list">
+	{{#each option}}
+	<div class="item">
+		<div class="radio-selector" data-index="{{@index}}">
+			<label>
+				<input type="radio" name="inline_clicktf_{{@index}}" value="0_"{{#unless selected}} checked="checked"{{/unless}}>
+				{{{../negative}}}
+			</label>
+			<label>
+				<input type="radio" name="inline_clicktf_{{@index}}" value="1"{{#if selected}} checked="checked"{{/if}}>
+				{{{../positive}}}
+			</label>
+		</div>
+		{{label}}
+	</div>
+	{{/each}}
+	</div>
+	<div class="submit clearblock">
+		<a href="#save" class="standard-button"><i class="icon-save"></i>Save</a>
+		<span class="feedback {{#unless feedback}}hide{{/unless}}"><span>{{feedback}}</span></span>
+	</div>
+</div>

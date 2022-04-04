@@ -1,0 +1,17 @@
+<div class="image-display-settings">
+	<h2>Display Settings</h2>
+	<label class="style">
+		<span>Size</span>
+		<select class="style" name="style" data-setting="style">
+			<option value="embed-small">
+				Embed in page - 320 x 180
+			</option>
+			<option value="embed-large">
+				Embed in page - 640 x 360
+			</option>
+			<option value="overlay">
+				Overlay - full size
+			</option>
+		</select>
+	</label>
+</div>

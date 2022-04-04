@@ -1,0 +1,16 @@
+C:\inetpub\tardproof\production\phpapp\layouts\anmf\editor\template.txt,eee442680834f93c97b44e99ecb278fd
+C:\inetpub\tardproof\production\phpapp\layouts\anmf\en-us\Content.html,46a62fd594df89e68827debf76daed87
+C:\inetpub\tardproof\production\phpapp\layouts\anmf\en-us\Quiz.html,c71c54e33b13fcdf20e5cc51c5c8e037
+C:\inetpub\tardproof\production\phpapp\layouts\anmf\index.html,6e42e6262592cef851f050d0496a0f11
+C:\inetpub\tardproof\production\phpapp\layouts\anmf\Layout\js\core.js,6a88e205d986d3732b25c9b8a1a12ea8
+C:\inetpub\tardproof\production\phpapp\layouts\anmf\Layout\js\quiz.js,ac646db3f2047bbc4619a21d24bc1c22
+C:\inetpub\tardproof\production\phpapp\layouts\anmf\Layout\js\run.js,89ec71a7b9cf24d0b90dd7f14a3ab850
+C:\inetpub\tardproof\production\phpapp\layouts\anmf\Layout\layouts\completion\competent.txt,b013680f598ed01b092046b1f3827da1
+C:\inetpub\tardproof\production\phpapp\layouts\anmf\Layout\layouts\player.txt,cb53f97ed7ffab1a30efb172f9008dca
+C:\inetpub\tardproof\production\phpapp\layouts\anmf\Layout\layouts\quiz\question.txt,e307779692b9b24cc10147ea289fec92
+C:\inetpub\tardproof\production\phpapp\layouts\anmf\Layout\layouts\quiz\results.txt,082f02dbb83e1612711ef034f05c1de0
+C:\inetpub\tardproof\production\phpapp\layouts\anmf\Layout\less\content\formatting.less,8ffc438ece31ae11517a1353ae058148
+C:\inetpub\tardproof\production\phpapp\layouts\anmf\Layout\less\layout\footer.less,bedce4d3364207bf5c3c426fab80c093
+C:\inetpub\tardproof\production\phpapp\layouts\anmf\Layout\less\layout\header.less,d4749dc96df40286f47cefcd3c71931f
+C:\inetpub\tardproof\production\phpapp\layouts\anmf\Layout\less\quiz\quiz.less,7ca337556f27fd2ddaea803e09ee276a
+C:\inetpub\tardproof\production\phpapp\layouts\anmf\Layout\less\variables.less,1cc688c86fb6d29bfe086c4841778eeb

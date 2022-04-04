@@ -1,0 +1,6 @@
+<div class='rp-completion' id='rp-notyetcompetent'>
+	<h1>{{title}}</h1>
+	<p>The course status is <strong>incomplete</strong>. Your current score is {{score}}.
+	To pass, you will need to achieve an overall score of {{passingScore}}.</p>
+</div>
+

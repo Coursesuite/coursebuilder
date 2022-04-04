@@ -1,0 +1,9 @@
+C:\inetpub\tardproof\production\phpapp\layouts\elsevier\.DS_Store,8bdba4fa333bb4c96633d94314f6a68e
+C:\inetpub\tardproof\production\phpapp\layouts\elsevier\editor\template.txt,b427c5845d58563b3eed62afab99a2b8
+C:\inetpub\tardproof\production\phpapp\layouts\elsevier\en-us\.DS_Store,4d0130ddae4db456014978921f6844c9
+C:\inetpub\tardproof\production\phpapp\layouts\elsevier\en-us\Content.html,3c2af12d4a6ae5486c08d3c42d901b43
+C:\inetpub\tardproof\production\phpapp\layouts\elsevier\en-us\Quiz.html,7dc5f83eacd848f1536974feccf0ef48
+C:\inetpub\tardproof\production\phpapp\layouts\elsevier\index.html,6e42e6262592cef851f050d0496a0f11
+C:\inetpub\tardproof\production\phpapp\layouts\elsevier\Layout\layouts\player.txt,e9559cf2d88ad724c6a7ad911586a4b1
+C:\inetpub\tardproof\production\phpapp\layouts\elsevier\Layout\less\layout\footer.less,f656dec489512fab7ed9b8f5d9f1e7a0
+C:\inetpub\tardproof\production\phpapp\layouts\elsevier\Layout\less\variables.less,70295ac4443c172daf3c99a19bf694d0

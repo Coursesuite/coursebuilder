@@ -1,0 +1,90 @@
+<table class='layout-edit'>
+	<thead>
+		<tr>
+			<td class="vis" width="16">
+				<input type="checkbox" title="Show image headers" data-type="boolean" data-id="layout.imageheader.visible" value="top"{{#if layout.header.visible}} checked{{/if}}>
+			</td>
+			<td class="left"><div id="hdl" data-type="image" class="browse-image" data-id="headerleft.content">{{{headerleft.content}}}</div>
+				<label><input type="checkbox" data-type="boolean" data-id="headerleft.visible"{{#if headerleft.visible}} checked{{/if}}> Left header visible</label>
+			</td>
+			<td class="right"><div id="hdr" data-type="image" class="browse-image" data-id="headerright.content">{{{headerright.content}}}</div>
+				<label><input type="checkbox" data-type="boolean" data-id="headerright.visible"{{#if headerright.visible}} checked{{/if}}> Right header visible</label>
+			</td>
+			<td width="50">
+				<input type="number" class="input-mini" min="40" title="Height of north pane (includes navigation)" data-id="layout.panesize.north" data-type="number" value="{{layout.panesize.north}}" />
+			</td>
+		</tr>
+	</thead>
+</table>
+<table class='layout-edit nav-colour'>
+	<thead>
+		<tr>
+			<td class="vis" width="16">
+				<input type="checkbox" data-type="boolean" title="Show name / description / nav button row" data-id="layout.titleheader.visible"{{#if layout.titleheader.visible}} checked{{/if}}>
+			</td>
+			<td class="left"><div class='nav-colour'>
+				<label><input type="text" data-type="string" data-id="course.name" value="{{course.name}}" placeholder="Course name"></label>
+				<label><input type="text" data-type="string" class="input-xlarge" data-id="course.description" value="{{course.description}}" placeholder="Course description"></label>
+				<label>Show <select data-id="layout.titleheader.text">
+					<option value="name"{{#compare layout.titleheader.text "name"}} selected{{/compare}}>Course name</option>
+					<option value="description"{{#compare layout.titleheader.text "description"}} selected{{/compare}}>Course description</option>
+					<option value="both"{{#compare layout.titleheader.text "both"}} selected{{/compare}}>Name & Description</option>
+				</select></label>
+			</div></td>
+			<td class="right">
+				<div><label><input type="checkbox" data-type="boolean" data-id="layout.titleheader.navigation"{{#if layout.titleheader.navigation}} checked{{/if}}> Navigation buttons visible</label></div>
+				<table width='100%' class='no-border'>
+				<tr>
+					<td><input type="text" data-type="string" class="input-mini" data-id="navigation.previous.label" value="{{navigation.previous.label}}" placeholder="Previous button text"></td>
+					<td><input type="text" data-type="string" class="input-mini" data-id="navigation.home.label" value="{{navigation.home.label}}" placeholder="Home button text"></td>
+					<td><input type="text" data-type="string" class="input-mini" data-id="navigation.next.label" value="{{navigation.next.label}}" placeholder="Next button text"></td>
+				</tr>
+				<tr>
+					<td><label><input type="checkbox" data-type="boolean" data-id="navigation.previous.visible"{{#if navigation.previous.visible}} checked{{/if}}> Button visible</label></td>
+					<td><label><input type="checkbox" data-type="boolean" data-id="navigation.home.visible"{{#if navigation.home.visible}} checked{{/if}}> Button visible</label></td>
+					<td><label><input type="checkbox" data-type="boolean" data-id="navigation.next.visible"{{#if navigation.next.visible}} checked{{/if}}> Button visible</label></td>
+				</tr>
+			</table>
+			</td>
+		</tr>
+	</thead>
+</table>
+<table class='layout-edit'>
+	<tbody>
+		<tr>
+			<td class='nav'><div class='nav-colour'>
+				<div id="toch" data-type="image" class="browse-image" data-id="tocheader.content">{{{tocheader.content}}}</div>
+				<label><input type="checkbox" data-type="boolean" data-id="tocheader.visible"{{#if tocheader.visible}} checked{{/if}}> Toc header visible</label>
+				<div class="pick-colour"><input data-type="string" data-id="layout.basecolour" type="text" class="input-small" id="primary-colour" placeholder="Base Colour" value="{{layout.basecolour}}"></div>
+			</div></td>
+			<td class='content'>
+				<h1>Content panel</h1>
+				<p>Content and interactions are loaded in this area</p>
+				<p><label>Min width <input type="number" class="input-mini" min="400" title="Size of content before nav collapses" data-id="layout.minwidth" data-type="number" value="{{layout.minwidth}}" /></label></p>
+				<div class="pick-colour"><input data-type="string" data-id="layout.pagecolour" type="text" class="input-small" id="page-colour" placeholder="Page background colour" value="{{layout.pagecolour}}"></div>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<table class='layout-edit nav-colour'>
+	<tfoot>
+		<tr>
+			<td class="vis" width="16">
+				<input type="checkbox" data-type="boolean" title="Show footer" data-id="layout.footer.visible" {{#if layout.footer.visible}} checked{{/if}}>
+			</td>
+			<td class="left"><div><input data-type="string" data-id="copyright.content" type="text" id="primary-colour" placeholder="Copyright text" value="{{{copyright.content}}}"></div>
+				<label><input type="checkbox" data-type="boolean" data-id="copyright.visible"{{#if copyright.visible}} checked{{/if}}> Copyright text visible</label>
+			</td>
+			<td class="right">
+				<label><input type="checkbox" data-type="boolean" data-id="navigation.progress.visible"{{#if navigation.progress.visible}} checked{{/if}}> {{navigation.progress.label}} visible</label>
+				<label><input type="checkbox" data-type="boolean" data-id="navigation.glossary.visible"{{#if navigation.glossary.visible}} checked{{/if}}> {{navigation.glossary.label}} visible</label>
+				<label><input type="checkbox" data-type="boolean" data-id="navigation.resources.visible"{{#if navigation.resources.visible}} checked{{/if}}> {{navigation.resources.label}} visible</label>
+				<label><input type="checkbox" data-type="boolean" data-id="navigation.help.visible"{{#if navigation.help.visible}} checked{{/if}}> {{navigation.help.label}} visible</label>
+				<label><input type="checkbox" data-type="boolean" data-id="layout.footer.navigation"{{#if layout.footer.navigation}} checked{{/if}}> Navigation buttons visible</label>
+			</td>
+			<td width="50">
+				<input type="number" class="input-mini" min="40" title="Height of south pane" data-id="layout.panesize.south" data-type="number" value="{{layout.panesize.south}}" />
+			</td>
+		</tr>
+	</tfoot>
+</table>

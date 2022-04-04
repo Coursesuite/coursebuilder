@@ -1,0 +1,8 @@
+<form id="codemirror" action="/app/template/{{id}}/upload/{{file}}/" class="visible-form" method="post" enctype="multipart/form-data">
+<p>Upload a new file to the selected folder in the template</p>
+<p><input type="file" name="file"></p>
+<p><input type="submit" value="Upload" class="btn btn-success"></p>
+
+<p>TODO / UNFUNCTIONAL</p>
+
+</form>

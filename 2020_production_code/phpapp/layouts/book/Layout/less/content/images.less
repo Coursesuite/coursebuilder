@@ -1,0 +1,165 @@
+a img {
+	border: none;
+}
+
+img.box-shadow {
+  .polaroid(5px);
+}
+img.round {
+  .polaroid(5px);
+  .border-radius(250px);
+}
+
+img.big-shadow {
+  .polaroid(20px);
+}
+img.half-size {
+	max-width: 100px;
+}
+img.iconic {
+	width: 64px;
+}
+div[style] img {
+	margin: 0 @gridGutter;
+}
+
+
+.inset-header {
+	.display-right {
+		padding: 25px;
+	}
+}
+
+.image-margin-left {
+	margin-left: @gridGutter;
+}
+.image-margin-right {
+	margin-right: @gridGutter;
+}
+.col-1-4 {
+	img.box-shadow {
+		max-width: 222px;
+	}
+	&.inset-header {
+		img {
+			max-width: 222px;
+		}
+	}
+}
+.col-2-5, .col-1-2, .col-1-4 {
+	img.box-shadow {
+		margin-bottom: 5px !important;
+	}
+}
+
+.grid.header-inset .display-right img.rp-fadeinfast {
+	margin-top: 25px;
+}
+
+.fit-images {
+	text-align: center;
+}
+
+figure {
+	-webkit-margin-before: 0;
+	-webkit-margin-after: 0;
+	-webkit-margin-start: 0;
+	-webkit-margin-end: 0;
+	position: relative;
+	.clearfix;
+	&.image-caption img {
+		max-width: 100%;
+		height: auto;
+		display: block;
+	}
+	figcaption {
+		bottom: 0;
+		width: 100%;
+		position: absolute;
+		padding: @gridGutter;
+	}
+	&.theme figcaption {
+		background-color: fade(@baseColour,66%);
+		.readableColour(@baseColour);
+		.readableColourShadow(@baseColour);
+	}
+	&.white figcaption {
+		background-color: rgba(255,255,255,.66);
+		color: @baseText;
+		.white-shadow();
+	}
+	&.black figcaption {
+		background-color: rgba(0,0,0,.66);
+		color: @baseBackground;
+		.text-shadow();
+	}
+}
+
+
+
+/*
+  
+  text-align: center;
+  img {
+     display: none;
+     max-width: 200px;
+   }
+  
+  img.visible {
+    display: block;
+  }
+  
+  .rp-image-section {
+    img {
+        .plain();
+        max-width: 120px;
+        float: right;
+        &:first-child {
+          float: left;
+        }
+        &:after {
+          content: ".";
+          display: block;
+          clear: both;
+          visibility: hidden;
+          line-height: 0;
+          height: 0;          
+        }
+    }
+  }
+}
+
+#tabs img.rp-small-right {
+  .polaroid(5px);
+  float: right;
+  max-width: 160px;
+}
+*/
+
+.img-zoom {
+	display:inline-block;
+	position: relative;
+	&.tablet img:hover { cursor: url(../css/grab.cur), default; }
+	&.tablet img:active { cursor: url(../css/grabbed.cur), default; }
+	&:after {
+		content:'';
+		display:block; 
+		width:33px; 
+		height:33px; 
+		position:absolute; 
+		top:0;
+		right:0;
+		background:url(../css/magnify.png);
+	}
+	img {
+		display: block;
+		&::selection { background-color: transparent; }
+	}
+	span {
+		position: absolute;
+		top: 3px;
+		right: 28px;
+		color: #555;
+		font: bold 13px/1 sans-serif;
+	}
+}

@@ -1,0 +1,20 @@
+<div class="activity-match" data-scormid="rpqiz_{{uniqueid}}" data-uservalue="{{user}}" data-logic="{{logic}}">
+<table class="activities">
+	<thead>
+		<tr>
+			<td></td>
+			<th>{{dropcol}}</th>
+			<th>{{dragcol}}</th>
+		</tr>
+	</thead>
+	<tbody>
+	{{#each pair}}
+	<tr data-required="{{q.order}}">
+		<th class="question"><div class="text">{{{q.text}}}</div></th>
+		<td class="drop"></td>
+		<td class="source"><div data-answer="{{a.order}}">{{{a.text}}}</div></td>
+	</tr>
+	{{/each}}
+	</tbody>
+</table>
+</div>

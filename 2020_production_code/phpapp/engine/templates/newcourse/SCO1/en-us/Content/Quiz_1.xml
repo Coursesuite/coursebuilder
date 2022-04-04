@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<test id="" showStatus="" timeLimit="0">
+<introduction><![CDATA[get on with it!]]></introduction>
+<passedMessage><![CDATA[You have passed the test with a score of %%score.]]></passedMessage>
+<failedMessage><![CDATA[You have failed the test with a score of %%score.]]></failedMessage>
+<incompleteMessage><![CDATA[You have not completed the test.]]></incompleteMessage>
+<completedMessage><![CDATA[The test is complete.]]></completedMessage>
+<attemptsMessage><![CDATA[]]></attemptsMessage>
+<maxAttemptsReachedMessage><![CDATA[]]></maxAttemptsReachedMessage>
+<indexLayout>vertical</indexLayout>
+	<questionPool deliver="all">
+		<question id="q0.0" type="QuestionTF" randomize="false" layout="stack">
+		<prompt><![CDATA[One plus One is Two]]></prompt>
+		<choice correct="true"><![CDATA[Two]]></choice>
+		<choice><![CDATA[Three]]></choice>
+		<feedbackCorrect><![CDATA[]]></feedbackCorrect>
+		<feedbackIncorrect><![CDATA[]]></feedbackIncorrect>
+		<review><![CDATA[]]></review>
+		</question>
+	</questionPool>
+</test>

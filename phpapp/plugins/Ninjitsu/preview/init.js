@@ -1,5 +1,5 @@
 function render() {
-	console.log("render in init.js in ninjitsu:preview : ", PluginModel);
+	// console.log("render in init.js in ninjitsu:preview : ", PluginModel);
 	var optimised = js_optimisePage(PluginModel.content, PluginModel.template, "");
 	window.parent.postMessage({html:optimised,action:"preview"});
 	document.getElementById("output").innerHTML = optimised.split("@sco_root@").join(PluginModel.mappedfolder + "/SCO1");

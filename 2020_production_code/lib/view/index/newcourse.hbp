@@ -1,0 +1,12 @@
+<header class='template-header'>
+<div class='centering'>
+<div class='hinting'><h1>Start a new course</h1><h2>Drag here to upload</h2></div>
+<div class='icons'>
+	{{#each templates}}
+	<figure>
+		<a href='#{{name}}'><img src='{{icon}}'></a>
+		<figcaption><a href='#{{name}}'>{{name}}</a></figcaption>
+	</figure>
+	{{/each}}
+</div>
+</div></header>

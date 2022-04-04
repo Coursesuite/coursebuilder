@@ -1,0 +1,25 @@
+<div id='{{id}}-tab-toolbar' class='well toolbar-well dock-next'>
+	{{#with data}}
+	<div class='flexible'>
+		<div class='flex'>
+			<div id='toolbar-grids'>
+				<ul class='nav nav-pills' id="page_grid">
+					<li class='pull-left disabled'><a href='#'>Page Grid:</a></li>
+			{{#each grids}}
+					<li{{#compare value ../grid}} class='active'{{/compare}}><a href='#' data-grid='{{value}}'>{{{label}}}</a></li>
+			{{/each}}
+				</ul>
+			</div>
+			<div class='btn-group' id='toolbar-buttons'>
+			<button data-command='//insert-media//' class='btn'><i class='icon-picture'></i> Add media...</button>
+			{{#each purpose}}{{#each group}}{{#each commands}}
+			{{#if icon}}<button data-command='{{command}}' class='btn' title='{{text}}'><i class='{{icon}}'></i></button>{{/if}}
+			{{/each}}{{/each}}{{/each}}
+			</div>
+		</div>
+		<div id='toolbar-save'>
+			<button id='content-save' class='btn btn-primary'><i class='icon-save'></i> Save</button>
+		</div>
+	</div>
+	{{/with}}
+</div>

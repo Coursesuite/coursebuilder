@@ -1,0 +1,16 @@
+<form>
+	<p>Click on a term <b>once</b> to select it; click it <b>twice</b> to edit. Delete existing terms using the <i class="icon-remove"></i> icon (or pressing backspace). Enter new terms by typing them in at the end then pressing Enter. Terms are ordered alphabetically when you save. You can change the glossary heading label under Course Config.</p>
+	{{#if returnmode}}<p class="standout">To insert a glossary term into the editor, click once on a term <b>once</b> to select it, then press Save.</p>{{/if}}
+	<ul id="termTags">
+		{{#each terms}}
+		<li data-dfn="{{definition}}" data-term="{{term}}">
+			{{term}}
+		</li>
+		{{/each}}
+	</ul>
+	<div id='termEdit'>
+		<div><input type="text" name="term" class="input-block-level" placeholder="Enter a term"></div>
+		<div><textarea name="definition" class="input-block-level" rows="2" placeholder="Enter its definition"></textarea></div>
+		<div><input type="button" class="btn" value="Save"></div>
+	</div>
+</form>

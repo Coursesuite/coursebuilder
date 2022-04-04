@@ -1,0 +1,14 @@
+<h1>{{#exists label}}{{label}}{{else}}Glossary{{/exists}}</h1>
+{{#exists terms}}
+<table class='glossary-table'>
+{{#each terms}}
+<tr><td colspan="2"><hr></td></tr>
+<tr id="{{term}}">
+	<th>{{term}}</th>
+	<td>{{{definition}}}</td>
+</tr>
+{{/each}}
+</table>
+{{else}}
+<p>Sorry, no glossary terms have been defined in this course.</p>
+{{/exists}}

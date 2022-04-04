@@ -1,0 +1,37 @@
+{{#if overridden}}
+<form method="post" action="/engine/action.asp?id={{id}}&action=override_reset" method="post" class="pull-right">
+	<p class="text-center"><input type="submit" class="btn btn-primary" value="Reset to default"></p>
+</form>
+{{/if}}
+<p class='lead'>Override files in the <b>{{settings.layout.template}}</b> template just for this course</p>
+
+{{#if overridden}}
+
+<div class="template-editor-layout container-fluid no-padding">
+	<div class="row-fluid">
+		<div class="template-filetree-container span3">
+		<ul><li>Root node</li></ul>
+		</div>
+		<div class="template-codemirror-container span9">
+		<p><b>Double-click</b> a file in the tree to edit it (The <b>save</b> button will appear at the bottom of the editor). You must <b>play</b> the course in order to copy your changes into the course</p>	
+		</div>
+	</div>
+</div>
+
+{{else}}
+
+	<p>You are using the standard template. To override files, click the button below to create a custom copy of the files in this template.</p>
+
+{{/if}}
+
+<div class="template-editor-layout container-fluid no-padding">
+	<div class="row-fluid">
+		<div class="offset3 span9">
+<form method="post" action="/engine/action.asp?id={{id}}&action=override_{{#if overridden}}overwrite{{else}}create{{/if}}" method="post" class="visible-form">
+		{{#if overridden}}<p>This course is already customised. If you copy customisations from another template, you'll lose any changes you have made in this template.</p>{{/if}}
+	<p>Copy customisations from course: <select name="copy_from"><option value="" selected>Base {{settings.layout.template}} template</option>
+	{{#each copyfrom}}<option value="{{hash}}">{{name}}</option>{{/each}}</select> <input type="submit" class="btn btn-primary" value="Copy template"></p>
+</form>
+</div>
+</div>
+</div>

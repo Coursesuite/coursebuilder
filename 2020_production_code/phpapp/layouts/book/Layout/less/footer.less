@@ -1,0 +1,25 @@
+.ui-layout-south {
+	background: @baseColour url(../css/footer.png) repeat-x bottom;
+	.inset-shadow(0,3px,5px,10);
+	.navigation-button-wrapper {
+		float: right;
+		padding: @gridGutter;
+  		a {
+		  	.readableColour(@baseColour);
+		  	.readableColourShadow(@baseColour);
+		  	text-decoration: none;
+		  	&:hover {
+			  	.halfColour(@baseColour);
+		  	}
+		  	.icon-2x;
+		  	margin-left: 1em;
+  		}
+  	}
+	h2 {
+		margin: 0;
+		padding: @gridGutter;
+		float: left;
+		.readableColour(@baseColour);
+		.readableColourShadow(@baseColour);
+	}
+}

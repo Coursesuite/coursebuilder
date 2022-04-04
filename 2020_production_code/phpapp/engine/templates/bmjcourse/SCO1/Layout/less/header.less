@@ -1,0 +1,45 @@
+#header_all {
+	#WelcomeTitle {
+	  	position: relative;
+	  	height: @northHeight;
+	  	background: @baseColour url(@headerBackgroundImage) center;
+	  	background-size: 100% auto;
+
+		h2 {
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			margin: 0 0 10px 20px;
+			font-style: italic;
+			color: #fff;
+			font-size: (@fontSize + 16);
+			text-shadow: 1px 1px 0px #000,
+						-1px -1px 3px rgba(255,255,255,.1);
+		}
+	}
+	.navigation-button-wrapper {
+		position: absolute;
+		right: 0;
+		bottom: 0;
+		width: 180px;
+		padding: 10px 0 10px 40px;
+		border-radius: 50px 0 0 0;
+		background-color: #fff;
+		box-shadow: inset 3px 3px 5px rgba(0,0,0,.1); 
+		a {
+			color: #7DBB00;
+			text-decoration: none;
+			i {
+				.icon-2x;
+			}
+			&:hover {
+				color: #007CBD; // spin(#7DBB00,120);
+			}
+		}
+	}
+}
+
+// drop shadow for IE8
+.lt-ie9 #header_all #WelcomeTitle h2 {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=1, Direction=135, Color='#000000')";
+}

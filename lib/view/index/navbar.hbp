@@ -1,6 +1,6 @@
 <header>
     <div class="logo">
-        <a class="brand" href="/"><img src="/css/coursesuite.svg" width="30" height="30" title="another CourseSuite app"><span>Course</span> Ninja</a>
+        <a class="brand" href="/"><img src="/img/engine.png" height="40" title="another CourseSuite app"><span>Course</span> Engine</a>
     </div>
     <div class="search">
         <div class="search-container">

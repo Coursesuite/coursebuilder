@@ -1,0 +1,35 @@
+<div class="container">
+	<div class="row" id="new-ticket">
+		<div class="span8">
+			<textarea rows="4" class="input-block-level" placeholder="Enter the bug description in this box. If a screenshot is required, click the dashed box on the right and press ctrl-v."></textarea>
+		</div>
+		<div class="span4">
+			<div id="paste_screenshot" title="You can capture a screenshot by pressing alt-printscreen on the window, or copying the image from a paint program.">[Screenshot: click here then ctrl-v]</div>
+			<div class="form-inline">
+				<label class="inline">Importance:</label>
+				<label class="radio inline" title="Major">
+				  <input type="radio" id="inlineCheckbox1" value="major" name="level"><i class='icon-frown'></i>
+				</label>
+				<label class="radio inline" title="Meh">
+				  <input type="radio" id="inlineCheckbox3" value="meh" name="level" checked><i class='icon-meh'></i>
+				</label>
+				<label class="radio inline" title="Minor">
+				  <input type="radio" id="inlineCheckbox2" value="minor" name="level"><i class='icon-smile'></i>
+				</label>
+				<button type="button" class="btn btn-primary">Log</button>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<ul class="tickets">
+		{{#each ticket}}
+			<li>
+				{{#compare level "major"}}<i class='icon-frown'></i>{{/compare}}
+				{{#compare level "meh"}}<i class='icon-meh'></i>{{/compare}}
+				{{#compare level "minor"}}<i class='icon-smile'></i>{{/compare}}
+				<a href="#{{id}}">BUG-{{id}}</a>
+			</li>
+		{{/each}}
+		</ul>
+	</div>
+</div>

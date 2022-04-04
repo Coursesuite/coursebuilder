@@ -1,0 +1,20 @@
+<div class="inline-survey" data-scormid="rpqiz_{{uniqueid}}">
+	<div class="list">
+	{{#each row}}
+	{{setIndex @index}}
+	<div class="range clearblock">
+		<div class="label pull-left">{{{label}}}</div>
+		<div class="group">
+		{{#each ../range}}
+			<input type="radio" id="group_{{../outerIndex}}_{{../../uniqueid}}_{{@index}}" name="group_{{../outerIndex}}_{{../../uniqueid}}" value="{{@index}}"{{#compare ../selected @index}} checked="checked"{{/compare}}>
+			<label for="group_{{../outerIndex}}_{{../../uniqueid}}_{{@index}}">{{label}}</label>
+		{{/each}}
+		</div>
+	</div>
+	{{/each}}
+	</div>
+	<div class="submit clearblock">
+		<a href="#save" class="standard-button"><i class="icon-save"></i>Save</a>
+		<span class="feedback {{#unless feedback}}hide{{/unless}}">Your selection has been saved.</span>
+	</div>
+</div>

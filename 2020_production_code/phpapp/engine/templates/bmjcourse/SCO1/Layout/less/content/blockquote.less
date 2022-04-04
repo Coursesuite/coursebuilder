@@ -1,0 +1,49 @@
+blockquote {
+  text-align: justify;
+  padding: 1em;
+  .clearfix;
+}
+
+.rp-standout-quote {
+  line-height: 1.5em;
+  font-style: italic;
+  margin: 1em;
+  text-align: justify
+}
+
+/* callouts are like blockquotes; Expects a H3 and P inside it */
+#rp-callout {
+  
+  .border-radius(4px);
+  .box-shadow(0,2px,4px,30);
+
+  padding: 1em;
+  margin: 1em 1em 1em 3em;
+  width: 400px;
+
+  h3 {
+    background: url('../media/placeholder_40.png') no-repeat 0px .23em;
+    padding: .3em 0 .3em 43px;
+  }
+
+  p {
+    font-style: italic;
+    padding-left: 40px;
+  }
+}
+
+.block-line-h4 {
+	padding-left: @gridGutter;
+	display: block;
+	border-left: 1px solid @colour120;
+}
+.block-line-h5 {
+	padding-left: @gridGutter;
+	display: block;
+	border-left: 1px solid @colour240;
+}
+.block-line-h6 {
+	padding-left: @gridGutter;
+	display: block;
+	border-left: 1px solid @baseColour;
+}

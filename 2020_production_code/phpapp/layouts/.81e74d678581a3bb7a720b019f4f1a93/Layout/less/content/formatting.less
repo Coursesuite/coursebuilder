@@ -1,0 +1,291 @@
+h1 {
+	color: #354984;
+}
+
+h2 {
+	color: #06BAB1;
+}
+
+h1, h2 {
+  	font-family: 'Open Sans', sans-serif;
+  	font-weight: bold;
+  	font-size: 36px;
+  	text-align: center;
+}
+
+h3, h4, h5, h6 {
+	color: @baseText;
+	font-weight: bold;
+}
+
+h3, h4, h5, h6 {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 1.1em;
+	a {
+		color: inherit;
+		text-decoration: none;
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+}
+
+a {
+	color: @secondaryColour;
+	&:hover {
+		color: #06BAB1;
+	}
+}
+
+
+sup {
+	top: 0;
+	vertical-align: super;
+	font-size: ((@fontSize/4)*3); // should be normalised
+	color: #808da1;
+	cursor: help;
+	&:hover {
+	    color: spin(#808da1,180);
+	}
+}
+
+sub {
+	color: desaturate(#808da1, 50%);
+}
+
+// hack on top of font-awesome to allow superscript icons
+.icon-super {
+	vertical-align: super;
+	font-size: .75em;
+	&.icon-border {
+		border-width: 1px;
+		.border-radius(4px);
+	}
+}
+
+.glossary-term, .tiptext, .overlay-textlink {
+	text-decoration: none;
+	border-bottom: 1px dashed @baseBorder;
+	cursor: pointer;
+	&.no-tiptext-icon {
+	  border-bottom: none;
+	}
+}
+
+
+input[type=button],
+button,
+a.rp-button-dialogue {
+	.standard-button(@baseBorderFill);
+	&.disabled {
+		cursor: default;
+		.disabled-button(@baseBorderFill);
+	}
+}
+
+.navigation-button-wrapper {
+	a.circular {
+	    .border-radius(50px);
+	    padding: 4px 8px;
+	    i {
+		    margin-right: 0;
+	    }
+	}
+
+}
+
+i.mr { // icons to the right of text, not the left, so we margin the left not the right
+  margin-left: .3em;
+  margin-right: 0;
+}
+
+a.rp-button-dialogue {
+  .readableColour(@baseBorderFill);
+}
+
+input[type=button], button {
+  margin-bottom: .3em; 
+}
+
+#TOCContainer a {
+	text-decoration: none;
+	&:hover {
+		text-decoration: none;
+	}
+}
+
+#contentContainer {
+	border: none;
+}
+
+
+// page classes (to avoid using external css sheet) //
+
+.intro-page {
+  	h1.small {
+      	font-size: 30px;
+  	}
+  	h1.large {
+      	font-size: 42px;
+  	}
+}
+
+.sessions-page {
+  	p {
+      	font-size: 28px;
+  	}
+  	p.blue {
+      	color: #354984;
+  	}
+}
+
+.activity-page {
+  	h1 {
+      color: #06BAB1;
+  	}
+}
+
+.summary-page {
+  	h1.small {
+      font-size: 30px;
+      padding-top: 0;
+      padding-bottom: 0;
+      margin: 0;
+  }
+  .teacherpd_small {
+  font-size: 16px;
+  }
+}
+
+.colour-headings {
+  	.green {
+      	color: #06BAB1;
+  	}
+  	.blue {
+      	color: #354984;
+  	}
+}
+
+
+
+
+
+
+
+/* tim ... fix up formatting of bullets inside popups that wrap using css columns */
+
+.css-cols {
+  column-fill: auto;
+  .rp-bullets, .rp-numberts {
+    margin: 0;
+    display: block;
+    list-style-position: outside;
+    li {
+      display: list-item;
+      list-style-position: unset;
+      &::before {
+        content: "";
+     display: none;
+      }
+    }
+  }
+}
+
+
+/* which generation are you fade in effect, animation in "functions.less" */
+
+.which-gen div#main .grid .col-1-5 {
+    opacity:0;
+    animation: fadeDown .3s;
+    animation-direction: normal;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}
+.which-gen div#main .grid .col-1-5:nth-of-type(5) {
+    animation-delay: .5s;
+}
+.which-gen div#main .grid .col-1-5:nth-of-type(4) {
+    animation-delay: .4s;
+}
+.which-gen div#main .grid .col-1-5:nth-of-type(3) {
+    animation-delay: .3s;
+}
+.which-gen div#main .grid .col-1-5:nth-of-type(2) {
+    animation-delay: .2s;
+}
+.which-gen div#main .grid .col-1-5:nth-of-type(1) {
+    animation-delay: .1s;
+}
+
+.video #main iframe {
+  width: 640px;
+  height: 360px;
+  background-color:rgba(255,255,255,.5);
+}
+
+.sessionCounter {
+	counter-reset: sessions;
+}
+.sessionCounter p::before {
+	counter-increment: sessions;
+    content: "Session " counter(sessions) ": ";
+    height: 2em;
+    float: left;
+    margin-right: .75em;
+}
+
+/* FORMATTING FOR QUESTIONS IN SESSION 2 */
+
+/*size formatting for 'the shape of things to come' question */
+
+.id-5d54de02c9c90 .page-23-txt div.activity-match .activities{
+  border-spacing: 5px;
+  th {
+  	width: 30%;
+}
+}
+
+/* formatting for 'community of practice' checkbox */
+/* modified by tim to move the save button to the right */
+.id-5d54de02c9c90 .page-21-txt div.inline-checklist {
+  font-size: 16px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  .list {
+    flex:1;
+  }
+  .submit {
+    padding-top:0;
+    text-align:right;
+    .feedback {
+      display:block;
+      max-width:250px;
+    }
+  }
+
+}
+
+.id-5d54de02c9c90 .page-23-txt {
+  .display-full {
+    p:first-of-type {
+      font-size:0.9em;
+    }
+  }
+  .resit-button {
+    > * {
+    	display: inline-block;
+  	}
+    p {
+      margin: 0 1em !important;
+    }
+  }
+}
+
+
+
+
+
+
+
+

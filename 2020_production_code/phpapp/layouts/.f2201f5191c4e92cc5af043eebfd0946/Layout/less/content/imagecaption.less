@@ -1,0 +1,34 @@
+figure {
+	-webkit-margin-before: 0;
+	-webkit-margin-after: 0;
+	-webkit-margin-start: 0;
+	-webkit-margin-end: 0;
+	position: relative;
+	.clearfix;
+	&.image-caption img {
+		max-width: 100%;
+		height: auto;
+		display: block;
+	}
+	figcaption {
+		bottom: 0;
+		width: 100%;
+		position: absolute;
+		padding: @standardGutter;
+	}
+	&.theme figcaption {
+		background-color: fade(@primaryColour,66%);
+		.readableColour(@primaryColour);
+		.readableColourShadow(@primaryColour);
+	}
+	&.white figcaption {
+		background-color: rgba(255,255,255,.66);
+		color: @baseText;
+		.white-shadow();
+	}
+	&.black figcaption {
+		background-color: rgba(0,0,0,.66);
+		color: @pageBackground;
+		.text-shadow();
+	}
+}

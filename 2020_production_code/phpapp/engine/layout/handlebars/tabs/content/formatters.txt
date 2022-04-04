@@ -1,0 +1,15 @@
+{{#with data}}
+	<select id="content-commands" size="20">
+		{{#each purpose}}
+		<optgroup label='==== {{name}} ====' class='formatter-purpose'>
+			{{#each group}}
+			<optgroup label='{{label}}' class='formatter-group'>
+				{{#each commands}}
+				<option value='{{command}}'{{#if easyedit}} data-easy-edit='true'{{/if}}{{#if pilledit}} data-pill-edit='true'{{/if}}{{#compare nestable false}} data-nestable='false'{{/compare}}>{{text}}</option>
+				{{/each}}
+			</optgroup>
+			{{/each}}
+		</optgroup>
+		{{/each}}
+	</select>
+{{/with}}

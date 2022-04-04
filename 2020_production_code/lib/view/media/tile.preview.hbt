@@ -1,0 +1,6 @@
+{{#each tiles}}
+	<figure>
+		{{thumbnail image}}
+		<figcaption><i class="fa fa-check"></i></figcaption>
+	</figure>
+{{/each}}

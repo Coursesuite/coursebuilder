@@ -1,0 +1,20 @@
+<p class='pull-right'><a href="#add" id="pillAdd" class="btn"><i class="icon-plus-sign"></i> add another tab</a></p>
+<p>Each tab represents a page or item. Click them to to edit that page; click the <i class='icon-remove'></i> to remove a tab; drag tabs into the order you want them.</p>
+<br />
+<div id="tabbed-editor">
+	<ul>
+	{{#each tabs}}
+		<li data-filename="{{filename}}_{{@index}}">
+			<a href="#{{filename}}_{{@index}}">
+				<i class='pull-right icon-remove'></i>Item {{@index}}
+			</a>
+		</li>
+	{{/each}}
+	</ul>
+	{{#each tabs}}
+	<div id="{{filename}}_{{@index}}">
+		<input class="input-block-level" type="text" placeholder="Give your page a title." value="{{label}}">
+		<textarea class="input-block-level" rows="15" placeholder="Here is where the markup for item {{@index}} goes. This will get saved in a file called '{{filename}}_{{@index}}.html' and appended as a child under the selected page in the treeview.">{{{content}}}</textarea>
+	</div>
+	{{/each}}
+</div>

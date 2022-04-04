@@ -1,0 +1,10 @@
+<ul class="nav nav-tabs">
+	<li><a href='#current' data-toggle='tab'>Yours</a></li>
+	<li><a href='#revision' data-toggle='tab'>Theirs</a></li>
+	<li class='active'><a href='#diff' data-toggle='tab'>Diff</a></li>
+</ul>
+<div class="tab-content" id='revision-diff'>
+	<div class='tab-pane' id='current'><pre style='font-family:inherit'>{{current}}</pre></div>
+	<div class='tab-pane' id='revision'><textarea rows='20' class='input-block-level'>{{revision}}</textarea></div>
+	<div class='tab-pane active' id='diff'><pre style='font-family:inherit' id='diff-text'></pre></div>
+</div>

@@ -19,6 +19,7 @@ class View
 	protected $initjs = array();
 	protected $page = "";
 	protected $action = "";
+    protected $render_template = null;
 
 	public function renderTemplates() {
 		if (isset($this->tmpl)) {
@@ -44,6 +45,9 @@ class View
 	{
         if ($name === "js") {
             $this->js[] = $param;
+
+        } else if ($name === "template") {
+            $this->render_template = $param;
 
         } else if ($name === "loadjs") {
             if (file_exists($param)) {
@@ -435,9 +439,13 @@ class View
             $buffer = ob_start();
         }
 
+        if (!is_null($this->render_template)) {
+            $base = $this->render_template;
+        }
+
         $folder = Config::get('PATH_VIEW') . str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, substr($filename, 0, strrpos($filename, "/")));
 
-		if (file_exists("{$folder}/header.php")) {
+		if (file_exists("{$folder}/header.php") && is_null($this->render_template)) {
 			require "{$folder}/header.php";
         } else if (!is_null($base)) {
             require Config::get('PATH_VIEW') . "_templates/" . $base . "_header.php";
@@ -451,7 +459,7 @@ class View
 	        echo $renderer($assoc);
 	    }
 
-        if (file_exists("{$folder}/footer.php")) {
+        if (file_exists("{$folder}/footer.php") && is_null($this->render_template)) {
 			require "{$folder}/footer.php";
         } else if (!is_null($base)) {
             require Config::get('PATH_VIEW') . "_templates/" . $base . "_footer.php";

@@ -1,0 +1,21 @@
+<div class="activity-match-rows" data-scormid="rpqiz_{{uniqueid}}" data-uservalue="{{user}}" data-logic="{{logic}}">
+<table class="activities">
+<thead>
+<tr>
+	<td></td>
+	<th>{{dropcol}}</th>
+	<th>{{dragcol}}</th>
+</tr>
+</thead>
+<tbody>
+	{{#each questions}}<tr>
+	<th>{{@key}}</th>
+	<td class="drop" data-required="{{.}}"> </td>
+	{{#compare . 0}}<td rowspan="{{../../total}}" class="options"><div class="columns">
+	{{!-- looks wrong but this version of handlebars has a scope bug I think --}}
+		{{#each ../../answers}}<div class="option" data-order="{{order}}" data-answer="{{answer}}">{{{text}}}</div>{{/each}}
+	</div></td>{{/compare}}
+	</tr>{{/each}}
+</tbody>
+</table>
+</div>

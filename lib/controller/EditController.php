@@ -73,6 +73,17 @@ class EditController extends Controller
         $this->View->render("edit/sharing", $model);
     }
 
+    public function resources($course_id = 0) {
+        $cm = new CourseModel($course_id);
+        $cm->validateAccess(Session::CurrentUserId());
+        $this->View->requires("minimal");
+        $this->View->requires("edit/navbar");
+        $this->View->requires("/css/app/navbar.css");
+        $course = $cm->get_model(); // to get the public model
+        $model = ["context"=>$course_id, "course"=>$course];
+        $this->View->render("edit/resources", $model);
+    }
+
     public function template($course_id = 0, $action = "view") {
         $cm = new CourseModel($course_id);
         $cm->validateAccess(Session::CurrentUserId());
@@ -81,6 +92,13 @@ class EditController extends Controller
         $this->View->requires("/css/app/navbar.css");
         $course = $cm->get_model(); // to get the public model
         $model = ["context"=>$course_id, "course"=>$course, "action"=>$action];
+
+        $p = Config::get("PATH_REAL_WEBROOT") . "/newcourses/";
+        foreach (new \DirectoryIterator($p) as $fileInfo) {
+            if ($fileInfo->isDot()) continue;
+            $model["files"][] = $fileInfo->getFilename();
+        }
+
         $this->View->render("edit/template", $model);
     }
 
@@ -410,6 +428,7 @@ class EditController extends Controller
     public function preview($page_id = 0) {
         $pm = new PageModel($page_id);
         $pm->Course->validateAccess(Session::CurrentUserId());
+        $pm->Course->compileCss();
         $t = $pm->template; if (empty($t)) $t = "auto";
         $model = [
             "html" => $pm->html,
@@ -425,10 +444,13 @@ class EditController extends Controller
         $this->View->requires("loadjs", Config::get("LIB")."/templates/runtimes/textplayer/Layout/js/shivs.js");
         $this->View->requires("loadjs", Config::get("LIB")."/templates/runtimes/textplayer/Layout/js/core.js");
         $this->View->requires("https://code.jquery.com/jquery-1.12.4.min.js");
+        $this->View->requires("https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css");
+        $this->View->requires("https://code.jquery.com/ui/1.12.1/jquery-ui.min.js");
         $this->View->requires("loadjs", Config::get("LIB")."/templates/runtimes/textplayer/Layout/js/render.js");
         $this->View->requires("loadjs", Config::get("LIB")."/templates/runtimes/textplayer/Layout/js/run.js");
         $this->View->requires($pm->Course->Path."/SCO1/Layout/css/app.css");
         $this->View->requires("plugins/Ninjitsu/preview/", $model);
+        $this->View->requires("template","preview"); // forced override for render()
 
         $this->View->render("edit/preview", $model);
     }

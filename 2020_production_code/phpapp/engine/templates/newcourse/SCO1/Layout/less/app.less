@@ -1,0 +1,65 @@
+/* base colour scheme, from which all colours are derived */
+@baseColour:#7fb903;
+@baseBackground:#ffffff;
+@baseBorder: #cccccc;
+@baseBorderFill: #eeeeee;
+
+@correct: #66B800;
+@incorrect: #D63B38;
+
+@baseText: #000000;
+@altText: #6A9B05;
+@headerFont: 'Roboto Condensed';
+@bodyFont: 'Helvetica';
+@fontSize: 13px;
+
+@gridGutter: 10px; // margin around content, between columns
+@tocIndent: 9px;
+
+
+@headerBackgroundImage: "../../en-us/Content/media/header_bg.png";
+
+
+@cornerRadius: 2px;
+
+@import url(http://fonts.googleapis.com/css?family=Roboto+Condensed:700italic,400);
+
+/* sizes */
+@lineHeight: unit((3 * (@fontSize/2)), "px"); /* roughly right-feeling line height for any given font size */
+@northHeight: 80px;
+@southHeight: 50px;
+
+/* less importers */
+
+@import "mixins";
+@import "helpers";
+@import "media-queries";
+@import "printing";
+@import "colours";
+@import "buttons";
+@import "layout";
+@import "grid";
+
+@import "footer";
+@import "header";
+
+@import "content/content"; /* replaces pages.css */
+@import "quiz"; /* replaces pages.css */
+
+/* standard css (plugins, etc) */
+@import "../css/frumbox/jquery.frumbox.css";
+@import "../css/jquery.qtip.min.css";
+// @import "../css/jquery-ui/jquery-ui-1.8.12.custom.css";
+// @import "../css/font/font-awesome.css";
+
+@import "jqueryui";
+
+/* font awesome stuff */
+@FontAwesomePath:    "../css/font";
+@FontAwesomeVersion: "3.1.0";
+@borderColor:        #eee;
+@iconMuted:          #eee;
+@iconLight:          #fff;
+@iconDark:           #333;
+
+@import "font-awesome/font-awesome";

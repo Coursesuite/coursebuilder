@@ -1,0 +1,4 @@
+<div class="fold-container">
+	<div class="top-split">{{{top}}}</div>
+	<div class="bottom-split">{{{bottom}}}</div>
+</div>

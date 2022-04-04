@@ -1,0 +1,7 @@
+<div class='flexible'>
+	<div class='flex' id='tab-body'></div>
+	<div id='tab-formatter'></div>
+</div>
+<p class="content-editor-small">You can drag images and PDF files directly to the editor to link/embed them</p>
+
+<div id='content-revisions-block'></div>

@@ -1,0 +1,7 @@
+<div class="grid {{classname}}">
+{{#each column}}
+	<div class="col-1-{{../total}}">
+		{{{.}}}
+	</div>
+{{/each}}
+</div>

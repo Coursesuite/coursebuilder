@@ -1,0 +1,79 @@
+<div class="ui-layout-west">
+	<div class="header">Navigation</div>
+	<div class="content">
+
+		<div id="cs">
+            <h2>Navigation</h2>
+        </div>
+		<div class="well shrunken-padding">
+			<div id="xmlTree"></div>
+			<div class="nav-toolbar">
+				<a href="#" class="btn btn-info" id="toXML"><i class='icon-circle-blank'></i> Nav unchanged</a>
+			</div>
+		</div>
+		<h3 class="nav-warning">Warnings</h3>
+		<div class="nav-warning well shrunken-padding">
+			<ul id="nav-warning-text"></ul>
+		</div>
+			<h4>Nav revisions</h4>
+			<div id='nav-revisions-block'>[No revisions yet]</div>
+	
+	</div>
+</div>
+
+<div class="ui-layout-east">
+	<div class="header">Properties</div>
+	<div class="content">
+	
+	</div>
+	<div class="footer">Contextual help</div>
+</div>
+
+<div class="ui-layout-north">
+	<div class="header">
+		<div class="container">
+			<div class="row">
+				<div class="span8">
+					Home button
+				</div>
+				<div class="span4">
+					buggr | {{username}}
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="content">
+		<div class="container">
+			<div class="row">
+				<div class="span8">
+					{{course.name}} | course folder
+				</div>
+				<div class="span4">
+					download | play | close
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="ui-layout-center">
+
+	<h2 id="page-title">Properties</h2>
+	<div id="tabs">
+      <ul>
+        <li><a href="#tabs-0">Course config</a></li>
+        <li><a href="#tabs-3">Visual Layout</a></li>
+        <li><a href="#tabs-4">Hacks</a></li>
+        <li><a href="#tabs-1">Page</a></li>
+        <li><a href="#tabs-2">Content</a></li>
+        <li><a href="#tabs-5">Quiz</a></li>
+      </ul>
+      <div id="tabs-0"></div>
+      <div id="tabs-1"></div>
+      <div id="tabs-2"></div>
+      <div id="tabs-3"></div>
+      <div id="tabs-4"></div>
+      <div id="tabs-5"></div>
+    </div>
+
+</div>

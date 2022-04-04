@@ -1,0 +1,210 @@
+
+
+/* compliments */
+@colour180: spin(@baseColour, 180);
+@colour120: spin(@baseColour, 120);
+@colour240: spin(@baseColour, -120); /* or 240, but 0==360 and (0 - 120) = 240 */
+
+/*
+@darker1: darken(@@baseColour, 30%)
+@lighten1: lighten(@base, 15%);
+*/
+
+body {
+  background-color: @baseBackground;
+  color: @baseText;
+}
+
+a {
+  color: @baseColour;
+  &:hover {
+    color: @colour180;
+  }
+}
+
+
+#TOCContainer {
+	background: #7bbd00;
+	background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjN2JiZDAwIiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iMzUlIiBzdG9wLWNvbG9yPSIjOGVkNjAwIiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iNjQlIiBzdG9wLWNvbG9yPSIjN2RiYzAwIiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzZiYTAwMCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
+	background: -moz-linear-gradient(-45deg,  #7bbd00 0%, #8ed600 35%, #7dbc00 64%, #6ba000 100%);
+	background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#7bbd00), color-stop(35%,#8ed600), color-stop(64%,#7dbc00), color-stop(100%,#6ba000));
+	background: -webkit-linear-gradient(-45deg,  #7bbd00 0%,#8ed600 35%,#7dbc00 64%,#6ba000 100%);
+	background: -o-linear-gradient(-45deg,  #7bbd00 0%,#8ed600 35%,#7dbc00 64%,#6ba000 100%);
+	background: -ms-linear-gradient(-45deg,  #7bbd00 0%,#8ed600 35%,#7dbc00 64%,#6ba000 100%);
+	background: linear-gradient(135deg,  #7bbd00 0%,#8ed600 35%,#7dbc00 64%,#6ba000 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7bbd00', endColorstr='#6ba000',GradientType=1 );
+	
+	font-size: (@fontSize + 2); // needs to be a bit bigger for readability
+
+ // .border-radius-custom (0,0,0,);
+}
+
+.level1Container, .level2Container, .level3Container,
+.level4Container, .level5Container {
+  a {
+    .mixColour(@baseColour, 25%);
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+	  .mixColour(@baseColour, 50%);
+	  i {
+		  text-decoration: none;
+	  }
+    }
+    &.state-Selected {
+		.readableColour(@baseColour);
+		.rp-menuitem-text {
+			font-weight: 600;
+		}
+		i {
+			&.icon-muted {
+				color: #fff;
+			}
+		}
+		.node-status {
+			.opacity(90);
+		}
+
+    }
+    .node-status {
+      .opacity(50);
+    }
+  }
+}
+
+/* tree arrow in toc */
+a.toc-tree { 
+  &:hover {
+    text-decoration: none;
+  }
+}
+/* status dot in toc */
+.level1Container, .level2Container, .level3Container,
+.level4Container, .level5Container {
+  a span i {
+    .halfColour(@baseColour);
+  }
+}
+
+
+
+
+h1 {
+  color: @colour120
+}
+
+h2 {
+  color: @colour240;
+}
+
+h3 {
+  color: @baseColour;
+}
+
+h4, h5, h6 {
+  color: @baseText;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	a {
+		color: inherit;
+		text-decoration: none;
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+}
+
+h4 {
+  border-left: 5px solid @colour120;
+  background-color: fadeout(@colour120, 80%);
+  a {
+	  color: @colour120;
+  }
+}
+
+h5 {
+  border-left: 5px solid @colour240;
+  background-color: fadeout(@colour240, 80%);
+  a {
+	  color: @colour240;
+  }
+}
+
+
+h6 {
+  border-left: 5px solid @baseColour;
+  background-color: fadeout(@baseColour, 80%);
+  a {
+	  color: @baseColour;
+  }
+}
+
+.lt-ie9 {
+	h4 {
+	  border-left: 5px solid @colour120;
+	  background-color: transparent;
+	  color: @colour120;
+	}
+	
+	h5 {
+	  border-left: 5px solid @colour240;
+	  background-color: transparent;
+	  color: @colour240;
+	}
+	
+	h6 {
+	  border-left: 5px solid @baseColour;
+	  background-color: transparent;
+	  color: @baseColour;
+	}
+}
+
+blockquote {
+  .border-radius(25px);
+  color: @altText;
+  background-color: lighten(@baseBorderFill,10%);
+  border: 1px solid lighten(@baseBorder,10%);
+}
+
+sup {
+	vertical-align: super;
+	font-size: ((@fontSize/4)*3);
+	color: @baseColour;
+	cursor: help;
+	&:hover {
+	    color: @colour180;
+	}
+}
+
+#question {
+	.rank, .match {
+		.match-these, .drag-these {
+			li {
+			  border: 1px solid @colour120;
+			  background-color: fadeout(@colour120, 75%);
+			}
+		}
+		.match-to {
+			li {
+				border: 1px solid @colour240;
+				background-color: fadeout(@colour240, 75%);
+			}
+		}
+		.quiz-sortable li {
+			&:hover {
+				background-color: fadeout(@colour120, 50%);
+			}
+		}
+	}
+}
+
+
+/*
+.level {
+  color: #FFFFFF !important;
+}
+.levelVisited, a.levelVisited:visited {
+  color: #ffffff !important;
+}
+*/

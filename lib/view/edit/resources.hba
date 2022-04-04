@@ -1,0 +1,5 @@
+{{> navbar}}
+
+<main>
+	<h2>edit glossary, help, refererences, and other stuff like that</h2>
+</main>

@@ -1,0 +1,19 @@
+{{> navbar}}
+{{> newcourse}}
+{{> search}}
+
+<section class='course-list'>
+
+<div class='start-row'>
+	<div class='name'></div>
+	<div class='stage'>Label</div>
+	<div class='date'>Last modified</div>
+	<div class='tools'>Actions</div>
+</div>
+
+<div data-model="index/model" data-template="index-containers-hbt">
+	<i class="fa fa-circle-o-notch fa-spin"></i>
+	<span class="sr-only">Loading...</span>
+</div>
+
+</section>

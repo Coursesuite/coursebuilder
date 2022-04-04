@@ -1,0 +1,11 @@
+C:\inetpub\tardproof\production\phpapp\layouts\dec\editor\template.txt,45ca7e3ad02a65b3e50ad0526e4e4bb6
+C:\inetpub\tardproof\production\phpapp\layouts\dec\en-us\Content.html,d6d61f69418250ee583d7e642cc2db9f
+C:\inetpub\tardproof\production\phpapp\layouts\dec\en-us\media\dec_gtil.png,23b127eda534814e1d0387397b45a1c3
+C:\inetpub\tardproof\production\phpapp\layouts\dec\en-us\Quiz.html,3ae594eb56a3bf0ef4e91650c1a73d36
+C:\inetpub\tardproof\production\phpapp\layouts\dec\index.html,6e42e6262592cef851f050d0496a0f11
+C:\inetpub\tardproof\production\phpapp\layouts\dec\Layout\css\dec_banner4-1.jpg,7972df5d5b322a483f2c47011601a396
+C:\inetpub\tardproof\production\phpapp\layouts\dec\Layout\layouts\player.txt,a0ea578fed0f0e6bbd432d6d7c27cd44
+C:\inetpub\tardproof\production\phpapp\layouts\dec\Layout\less\layout\footer.less,f6c950aa6a70e802bd5e21de12abc50f
+C:\inetpub\tardproof\production\phpapp\layouts\dec\Layout\less\layout\header.less,f4ecceebb0215934b7f69889f9e47068
+C:\inetpub\tardproof\production\phpapp\layouts\dec\Layout\less\layout\toc.less,b8da26014037fca70e7c1c619baef772
+C:\inetpub\tardproof\production\phpapp\layouts\dec\Layout\less\variables.less,56247137ce2956016d487f6c6cc0b776

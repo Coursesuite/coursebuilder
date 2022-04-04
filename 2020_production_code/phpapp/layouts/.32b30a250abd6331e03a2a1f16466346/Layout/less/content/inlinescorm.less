@@ -1,0 +1,359 @@
+div.activity-match-set,
+div.activity-match,
+div.activity-match-rows,
+div.activity-match-cols {
+	border: 1px solid @baseBorder;
+	background-color: rgba(255,255,255,.25);
+	.border-radius(10px);
+
+	table.activities {
+		width: 100%;
+	    border-spacing: @standardGutter;
+	    border-collapse: separate;
+		margin: 0;
+		td {
+			padding: @standardGutter;
+			vertical-align: top;
+			div.columns {
+				column-count: 2; 
+				column-gap: 10px;
+				column-fill: auto;
+			}
+			&.options {
+				padding: 0;
+				.option {
+					background-color: rgba(255,255,255,.5);
+					padding: 5px;
+					margin-bottom: 5px;
+					-webkit-column-break-inside: avoid;
+					page-break-inside: avoid;
+					break-inside: avoid;
+					&:first-of-type:last-of-type {
+						display: inline-block; // firefix split trying to satisfy column-count:2 rule splits element
+					}
+				}
+			}
+		}
+		thead > th {
+			text-align: center;
+			font-weight: bold;
+		}
+		tbody > th {
+			text-align: left;
+			font-weight: bold;
+		}
+	}
+	.drop {
+		height: 42px; // min-height magic number
+		.option {
+			padding: 0;
+			background-color: transparent;
+		}
+	}
+	.drop, .source {
+		background-color: rgba(255,255,255,.75);
+	}
+	.ui-draggable {
+		cursor:move;
+	}
+	.ui-draggable-dragging {
+		margin-right: 0;
+		background-color: transparent;
+	}
+	.ui-state-default {
+		box-shadow: inset 0 0 5px 0 rgba(0,0,0,.5);
+	}
+	.ui-state-default.ui-state-hover {
+		background-color: rgba(255,255,224,.75);
+		box-shadow: inset 0 0 10px rgba(0,0,0,.5);
+	}
+}
+div.activity-match {
+  .activities thead {
+    th {
+		width: 33%;
+  	}
+    td {
+      width: 15%;
+    }
+  }
+}
+div.activity-match-rows {
+	.activities thead {
+      th:first-of-type {
+			width:25%;
+	  }
+      td {
+        width: 15%;
+      }
+  }
+}
+div.activity-match-cols {
+	.activities thead th:last-of-type {
+		width: 33%;
+	}
+}
+
+.activity-match-cols, .activity-match-rows, .activity-match, .activity-match-set {
+  .drop {
+    .correct::before {
+	    font-family: FontAwesome;
+	    font-weight: normal;
+	    font-style: normal;
+	    text-decoration: inherit;
+	    -webkit-font-smoothing: antialiased;
+	    -webkit-text-stroke-width: 0.2px;
+	    text-decoration: inherit;
+	    display: inline-block;
+	    speak: none;
+	    content: "\f00c";
+	    margin-right: .5em;
+    }
+    .incorrect::before {
+	    font-family: FontAwesome;
+	    font-weight: normal;
+	    font-style: normal;
+	    text-decoration: inherit;
+	    -webkit-font-smoothing: antialiased;
+	    -webkit-text-stroke-width: 0.2px;
+	    text-decoration: inherit;
+	    display: inline-block;
+	    speak: none;
+	    content: "\f068";
+	    margin-right: .5em;
+        opacity: .5;
+	}
+  }
+}
+
+div.inline-survey, div.inline-checklist, div.inline-checkimage, div.inline-checktf, div.inline-shortanswer {
+	border: 1px solid #aaa;
+	.border-radius(10px);
+	padding: 0;
+	table.activities {
+		.w20{ width:20% }
+		.w55{ width:55% }
+		.w5{ width:5% }
+		width: 100%;
+	    border-spacing: @standardGutter;
+	    border-collapse: separate;
+		margin: 0;
+      	th.question {
+            .clearblock;
+  			padding: @standardGutter 0;
+    		margin-bottom: @standardGutter;
+    		border-bottom: 1px solid @baseBorder;
+        }
+		th {
+         	padding: @standardGutter 0;
+			text-align: left;
+			font-weight: inherit;
+			&.separator {
+				position: relative;
+				> div {
+					position: absolute;
+					top: 0;
+					bottom: 0;
+					left: 50%;
+					border-left: 1px solid #aaa;
+				}
+			}
+		}
+		thead th {
+			font-size: 18px;
+          	text-align: center;
+			font-weight: bold;
+			color: #404040;
+		}
+		tbody {
+			td, th {
+			}
+		}
+		td {
+          	padding: @standardGutter;
+			background-color: #FFFFFF;
+			&.correct {
+				background-color: @correct;
+				.readableColour(@correct);
+			}
+			&.incorrect {
+				background-color: @incorrect;
+				.readableColour(@incorrect);
+			}
+		}
+		div[data-answer] {
+			cursor: pointer;
+			text-align: center;
+		}
+	}
+
+  padding: @standardGutter;
+  width: 100%;
+  .clearfix;
+  div.submit {
+    padding: 20px 0 10px;
+  }
+  a.standard-button {
+  	font-size: 24px;
+    display: inline-block;
+    i {
+	    margin-right: .3em;
+    }
+    text-decoration: none;
+  }
+  .feedback {
+    display: inline-block;
+   // margin-left: @standardGutter;
+    .provide-feedback(@baseBorderFill);
+    font-weight: normal;
+    span {
+      font-weight: bold;
+    }
+  }
+  div.range {
+    div.label {
+      text-align: center;
+      line-height: 1.4;
+      vertical-align: middle;
+      padding: .4em 1em;
+      background-color: @baseBorderFill;
+      border: 1px solid @baseBorder;
+      .box-shadow(0,3px,5px,10);
+      .border-radius(25px);
+      margin-right: @standardGutter;
+    }
+    margin-bottom: @standardGutter;
+    &:last-child {
+      margin-bottom: 0; // picked up by div.submit
+    }
+  }
+}
+
+div.inline-checktf {
+  div.item {
+  	.clearblock;
+  	padding: @standardGutter 0;
+  	margin-bottom: @standardGutter;
+    border-bottom: 1px solid @baseBorder;
+	div.radio-selector {
+	  .pull-right;
+	  white-space: nowrap;
+      label {
+        padding-left: 10px;
+      }
+	}
+  }
+}
+
+div.inline-checkimage {
+  .item {
+    overflow: hidden;
+    position: relative;
+    .pull-left;
+    img {
+      width:100%;
+      vertical-align:middle;
+    }
+    input {
+      position: absolute;
+      top: 1em;
+      right: 1em;
+    }
+    label {
+	    cursor: pointer;
+    }
+  }
+  .selected {
+    .box-shadow();
+  }
+}
+
+div.inline-shortanswer {
+	.counter {
+		color: fadeout(@primaryColour, 50%);
+	}
+}
+
+div.inline-checklist {
+  div.item {
+  	.clearblock;
+  	padding: @standardGutter 0;
+  	margin-bottom: @standardGutter;
+    border-bottom: 1px solid @baseBorder;
+	div.radio-selector {
+	  .pull-right;
+	  white-space: nowrap;
+	}
+  }
+}
+
+div.inline-checklist, div.inline-checktf, div.inline-checkimage {
+  div.item {
+    input {
+      -ms-transform: scale(2); /* IE */
+	  -moz-transform: scale(2); /* FF */
+  	  -webkit-transform: scale(2); /* Safari and Chrome */
+  	  -o-transform: scale(2); /* Opera */
+  	  transform: scale(2);
+      margin: 0 5px;
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

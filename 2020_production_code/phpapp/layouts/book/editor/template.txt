@@ -1,0 +1,83 @@
+<table class='layout-edit'>
+	<thead>
+		<tr>
+			<td><input type="number" class="input-mini" min="40" title="Height of north pane (includes navigation)" data-id="layout.panesize.north" data-type="number" value="{{layout.panesize.north}}"></td>
+			<td><span class='visible-box-marker'><a href='#'>&laquo;</a></span></td>
+			<td><span class='visible-box-marker'><a href='#'>Chapter 1</a></span></td>
+			<td><span class='visible-box-marker'><a href='#'>Chapter 2</a></span></td>
+			<td><span class='visible-box-marker'><a href='#'>Chapter 3</a></span></td>
+			<td><span class='visible-box-marker'>Chapter ..</span></td>
+			<td><span class='visible-box-marker'><a href='#'>Chapter N</a></span></td>
+			<td><span class='visible-box-marker'><a href='#'>&raquo;</a></span></td>
+		</tr>
+	</thead>
+</table>
+<table class='layout-edit'>
+	<tbody>
+		<tr>
+			<td>
+				<table class='layout-booklike'>
+					<tr>
+						<td width='42%' class='book-page-left'>
+							<div class='book-page-nav'><span class='visible-box-marker nav-colour'>&laquo;</span></div>
+							<h3>Odd-numbered page</h3>
+							<p>A book style layout, with the course home best represented by a seperate page.</p>
+							<p>Resources, Glossary etc are tabs on the side of the book, while the TOC is chapters across the top.</p>
+						</td>
+						<td width='42%' class='book-page-right'>
+							<div class='book-page-nav'><span class='visible-box-marker nav-colour'>&raquo;</span></div>
+							<h3>Even-numbered page</h3>
+							<p>Quiz pages appear in place of the book.</p>
+							<p>Navigation can't be deeply nested in this layout.</p>
+							<h4>H4 heading</h4>
+							<p>Completion denoted by icons on Chapter tiles</p>
+						</td>
+						<td width='16%' class='book-tabs'>
+							<p><b>Visible tabs</b></p>
+							<label><input type="checkbox" data-type="boolean" data-id="navigation.progress.visible"{{#if navigation.progress.visible}} checked{{/if}}> {{navigation.progress.label}}</label>
+							<label><input type="checkbox" data-type="boolean" data-id="navigation.glossary.visible"{{#if navigation.glossary.visible}} checked{{/if}}> {{navigation.glossary.label}}</label>
+							<label><input type="checkbox" data-type="boolean" data-id="navigation.resources.visible"{{#if navigation.resources.visible}} checked{{/if}}> {{navigation.resources.label}}</label>
+							<label><input type="checkbox" data-type="boolean" data-id="navigation.help.visible"{{#if navigation.help.visible}} checked{{/if}}> {{navigation.help.label}}</label>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<table class='layout-edit nav-colour  block-level-labels'>
+	<thead>
+		<tr>
+			<td>
+				<input type="number" class="input-mini" min="40" title="Height of south pane" data-id="layout.panesize.south" data-type="number" value="{{layout.panesize.south}}">
+			</td>
+			<td class="left"><div class='nav-colour'>
+				<label>Left text: <select data-id="layout.titleheader.text">
+					<option value="description"{{#compare layout.titleheader.text "none"}} selected{{/compare}}>None</option>
+					<option value="name"{{#compare layout.titleheader.text "name"}} selected{{/compare}}{{#compare layout.titleheader.text "both"}} selected{{/compare}}>Course name</option>
+					<option value="description"{{#compare layout.titleheader.text "description"}} selected{{/compare}}>Course description</option>
+				</select></label>
+			</div></td>
+			<td class="right">
+				<table><tr>
+					<td>
+						<label>Previous: <input type="text" data-type="string" class="input-mini" data-id="navigation.previous.label" value="{{navigation.previous.label}}"></label>
+						<label><input type="checkbox" data-type="boolean" data-id="navigation.previous.visible"{{#if navigation.previous.visible}} checked{{/if}}> visible</label>
+					</td>
+					<td>
+						<label>Home: <input type="text" data-type="string" class="input-mini" data-id="navigation.home.label" value="{{navigation.home.label}}"></label>
+						<label><input type="checkbox" data-type="boolean" data-id="navigation.home.visible"{{#if navigation.home.visible}} checked{{/if}}> visible</label>
+						<label>URL: <input type="text" data-type="string" class="input-mini" data-id="navigation.home.uri" value="{{navigation.home.uri}}"></label>
+					</td>
+					<td>
+						<label>Next: <input type="text" data-type="string" class="input-mini" data-id="navigation.next.label" value="{{navigation.next.label}}"></label>
+						<label><input type="checkbox" data-type="boolean" data-id="navigation.next.visible"{{#if navigation.next.visible}} checked{{/if}}> visible</label>
+					</td>
+				</tr></table>
+			</td>
+			<td>
+				<div class="pick-colour"><input data-type="string" data-id="layout.basecolour" type="text" class="input-small" id="primary-colour" placeholder="Base Colour" value="{{layout.basecolour}}"></div>
+			</td>
+		</tr>
+	</thead>
+</table>

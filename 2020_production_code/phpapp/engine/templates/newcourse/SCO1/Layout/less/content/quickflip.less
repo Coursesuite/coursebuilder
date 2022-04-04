@@ -1,0 +1,53 @@
+
+
+/* quickFlips */
+.flip-content {
+	@flip-width: 125px;
+	@flip-height: 125px; 
+	.rp-flip {
+		position: relative;
+		float: left;
+		display: inline-block;
+		width: @flip-width;
+		height: @flip-height;
+		overflow: hidden;
+		margin-right: (@gridGutter / 2);
+		a {
+			display: block;
+			padding: @gridGutter;
+			border: 1px solid @baseBorder;
+			.green-gradient;
+			// .gradient(top, @baseBackground, mix(@baseBackground,@baseColour,80%));
+			.inset-shadow(0,0,(@gridGutter/2),25);
+			.border-radius();
+			text-align: center;
+			text-decoration: none;
+			&:hover {
+				.gradient(top, @baseBackground, mix(@baseBackground,@baseColour,70%));
+			}
+		}
+		.flip-side2 a {
+			.grey-gradient;
+			// .gradient(top, @baseBackground, mix(@baseBackground,@baseBorderFill,50%));
+		}
+	}
+	&:after {
+		content: ".";
+		display: block;
+		clear: both;
+		visibility: hidden;
+		line-height: 0;
+		height: 0;
+	}
+	.quickFlipCta {
+		img {
+			max-width: 100%;
+		}
+	}
+}
+
+.temp-show {
+	position:absolute !important;
+	visibility:hidden !important;
+	display:block !important;
+}

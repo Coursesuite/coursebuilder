@@ -1,0 +1,178 @@
+
+.ui-layout-pane {
+
+  background: @baseBackground; 
+  border:   none;
+  overflow: auto;
+
+  padding: 0;
+  margin: 0;
+
+}
+
+.ui-layout-pane-west, .ui-layout-pane-north, .ui-layout-pane-south, .ui-layout-pane-east  {
+  overflow: hidden;
+}
+
+
+.ui-layout-east {
+	a[data-action] {
+
+		-webkit-transform: rotate(90deg);
+		-moz-transform: rotate(90deg);
+		-ms-transform: rotate(90deg);
+		-o-transform: rotate(90deg);
+		transform: rotate(90deg);
+		
+		/* also accepts left, right, top, bottom coordinates; not required, but a good idea for styling 
+		-webkit-transform-origin: 50% 50%;
+		-moz-transform-origin: 50% 50%;
+		-ms-transform-origin: 50% 50%;
+		-o-transform-origin: 50% 50%;
+		transform-origin: 50% 50%;*/
+		
+		/* Should be unset in IE9+ I think. */
+		filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+
+		display: block;
+		padding: @gridGutter;
+		position: absolute;
+		left: -35px;
+		top: 52px;
+		border: 1px solid @baseBorder;
+		border-bottom: none;
+		width: 100px;
+		
+	}
+	a[data-action='progress'] {
+		top: 160px;
+	}
+}
+
+
+/*
+* RESIZER-BARS
+*/
+.ui-layout-resizer  { /* all 'resizer-bars' */
+	background:   @baseBorderFill;
+	border:     1px solid @baseBorder;
+	border-width: 0;
+	&.ui-layout-resizer-west {
+		background: lighten(@baseBorderFill,10%) url(../css/menu.png) no-repeat center center;
+		border: none;
+		box-shadow: inset -5px 0 16px rgba(0,0,0,.1);
+	}
+}
+html.lt-ie9 .ui-layout-resizer-west {
+	background-color: #eee; // #BBD979;
+	border-right: 1px solid #ccc;
+}
+
+.ui-layout-resizer-drag {   /* REAL resizer while resize in progress */
+}
+
+.ui-layout-resizer-open:hover , /* hover-color to 'resize' */
+.ui-layout-resizer-dragging { /* resizer beging 'dragging' */
+  background: @baseBorderFill;
+  .opacity(25);
+}
+
+.ui-layout-resizer-dragging { /* CLONED resizer being dragged */
+  border:     1px solid @baseBorder;
+}
+
+.ui-layout-resizer-dragging-limit { /* CLONED resizer at min or max size-limit */
+    background: #E18D8D;
+}
+
+.ui-layout-resizer-closed:hover { /* hover-color to 'slide open' */
+	background-color: mix(lighten(@baseBorderFill, 10%), @baseColour);
+}
+
+.ui-layout-resizer-sliding {  /* resizer when pane was 'slid open' */
+  .opacity(10); /* show only a slight shadow */
+   &:hover {
+    .opacity(100);
+   }
+}
+
+/* sliding resizer - add 'outside-border' to resizer on:hover */
+.ui-layout-resizer-north-sliding:hover  { border-bottom-width:  1px; }
+.ui-layout-resizer-south-sliding:hover  { border-top-width:   1px; }
+.ui-layout-resizer-west-sliding:hover { border-right-width: 1px; }
+.ui-layout-resizer-east-sliding:hover { border-left-width:  1px; }
+
+
+/*
+* TOGGLER-BUTTONS
+*/
+.ui-layout-toggler {
+  color: #666;
+  border: 1px solid #BBB; /* match pane-border */
+  background-color: #999;
+}
+.ui-layout-resizer:hover .ui-layout-toggler {
+  .opacity(60);
+}
+.ui-layout-resizer:hover .ui-layout-toggler:hover { /* specificity */
+  background-color: #FC6;
+  .opacity(100);
+}
+.ui-layout-toggler-north ,
+.ui-layout-toggler-south {
+  border-width: 0 1px;
+}
+.ui-layout-toggler-west ,
+.ui-layout-toggler-east {
+  border-width: 1px 0;
+}
+/* hide the toggler-button when the pane is 'slid open' */
+.ui-layout-resizer-sliding .ui-layout-toggler {
+  display: none;
+}
+/*
+* style the text we put INSIDE the east/west togglers
+*/
+.ui-layout-toggler .content {
+  font-size:    12px;
+  font-weight:  bold;
+  color:      #666;
+  padding-bottom: 0.35ex; /* to 'vertically center' text inside text-span */
+}
+
+.ui-layout-toggler-closed { /* closed toggler-button */
+  background:   @baseBorderFill;
+  border:     1px solid @baseBorder;
+}
+
+/* class to make the 'iframe mask' visible */
+.ui-layout-mask {
+  .opacity(20);
+  background-color: #666 !important;
+}
+
+
+.ui-layout-toggler-west-open {
+  background-image: url(../media/toc-hide.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.ui-layout-toggler-west-closed {
+  background-image: url(../media/toc-show.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+
+
+
+#contentContainer {
+  padding: (@gridGutter * 2);
+  overflow: hidden;
+}
+
+
+

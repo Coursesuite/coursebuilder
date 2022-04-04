@@ -1,0 +1,137 @@
+{
+	"course": {
+		"id": "mycourse01",
+		"name": "Course Name",
+		"description": "This is the default course description",
+		"language": "en-us",
+		"passingScore": 75,
+        "completionMessage" : "You can print and view your progress report from the <i>Progress</i> button (bottom)."
+	},
+	"headerleft": {
+		"content": "<a href=\"http://www.coursesuite.com.au\" target=\"_blank\"><img src='Content/media/logo2.png' alt=\"CourseSuite online courses\"/></a>",
+		"visible": true
+	},
+	"headerright": {
+		"content": "header on the right",
+		"visible": true
+	},
+    "tocheader": {
+    	"visible": false,
+    	"content": "<img src='Content/media/tocheader.png' />"
+	},
+    "copyright": {
+    	"visible": true,
+    	"content": "&copy; Copyright 2014, <a href=\"http://www.coursesuite.com.au\" target=\"_blank\">CourseSuite Pty Ltd</a>."
+    },
+    "navigation": {
+        "progress": {
+            "label": "Progress",
+            "icon": "icon-tasks",
+            "visible": true,
+            "class": "bottom-link",
+            "tooltip": "Display your progress within the course"
+        },
+        "glossary": {
+            "label": "Glossary",
+            "icon": "icon-search",
+            "visible": true,
+            "class":"bottom-link",
+            "tooltip": "Show the full glossary"
+        },
+        "resources": {
+            "label": "References",
+            "icon": "icon-tags",
+            "visible": true,
+            "class":"bottom-link",
+            "tooltip": "Display a list of references noted in this course"
+
+        },
+        "help": {
+            "label": "Help",
+            "icon": "icon-question-sign",
+            "visible": true,
+            "class":"bottom-link",
+            "tooltip": "Show help associated with this course"
+        },
+        "previous": {
+            "label": "",
+            "icon": "icon-circle-arrow-left",
+            "visible": true,
+            "class": "circular",
+            "tooltip": ""
+        },
+        "home": {
+            "label": "",
+            "icon": "icon-home",
+            "visible": true,
+            "uri": "",
+            "class": "circular",
+            "tooltip": ""
+        },
+        "next": {
+            "label": "",
+            "icon": "icon-circle-arrow-right",
+            "visible": true,
+            "class": "circular",
+            "tooltip": ""
+        }
+    },
+    "layout": {
+        "basecolour": "#54df1d",
+        "pagecolour": "#ffffff",
+        "maxzoom": 1,
+        "autohide": true,
+        "toc": false,
+        "template": "coursesuite",
+        "panesize": {
+            "north": 80,
+            "south": 50,
+            "west": 246,
+            "east": 0
+        },
+        "imageheader": {
+            "visible": false
+        },
+        "titleheader": {
+            "visible": true,
+            "navigation": true,
+            "text": "name"
+        },
+        "footer": {
+            "visible": true,
+            "navigation": true
+        },
+        "minwidth": 1000,
+        "header": {
+            "style": "description",
+            "visible": true
+        },
+        "bodyunit": "pc",
+        "bodyheight": 100
+    },
+    "strings": [
+		{"key":"PrTestLiteral","text": "Test"},
+		{"key":"XsNavPrev","text": "Previous Question"},
+		{"key":"XsNavNext","text": "Next Question"},
+		{"key":"XsNavRetakeTest","text": "Retake Test"},
+		{"key":"XsQuizNavFirst","text": "Start Quiz"},
+		{"key":"XsTestNavFirst","text": "Start Test"},
+		{"key":"XsNavIntro","text": "Introduction"},
+		{"key":"XsNavResults","text": "Results"},
+		{"key":"XsNavGradeTest","text": "Grade Test"},
+		{"key":"XsQuizMaxAttemptReached","text": "You have now reached the maximum number of attempts."},
+		{"key":"XsIntroQuiz","text": "This quiz checks your knowledge of previous sections and information. To navigate between questions, tap through the links to the right or use the buttons below each question. Check your answers as you go using the 'Check Answer' button.  When ready, tap the 'Start Quiz' button below to begin."},
+		{"key":"XsIntroTest","text": "The test status bar shows your location within the test and the status of each question in the test."},
+		{"key":"XsQuizIntroTitle","text": "Quiz Introduction"},
+		{"key":"XsTestIntroTitle","text": "Test Introduction"},
+		{"key":"XsItemTitle","text": ">%%testtype Status"},
+		{"key":"XsSummaryTitle","text": "%%type results"},
+		{"key":"XsMsgDirectionsNoResponse","text":"Unanswered"},
+		{"key":"XsMissedQuestions","text":"Incorrect responses"}
+	],
+	"engine": {
+		"name": "textplayer",
+		"version": 1.35,
+		"sco": "1.2"
+	}
+}

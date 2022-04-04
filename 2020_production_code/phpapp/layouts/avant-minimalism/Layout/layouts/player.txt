@@ -1,0 +1,57 @@
+<div id="loading-animation"></div>
+
+<div id="contentContainer" class="ui-layout-center" role="main">
+	{{! the content will get embedded here using jquery }}
+</div>
+
+<div class="ui-layout-south">
+	<footer id="BottomMenu" class="BottomBar">
+		{{#if navigation.home.visible}}
+		<a class="NavLink Home {{navigation.home.class}}" href="#null" data-action="home" title="{{navigation.home.tooltip}}">{{#if navigation.home.icon}}<i class='{{navigation.home.icon}}'></i>{{/if}}<span>{{navigation.home.label}}</span></a>
+		{{/if}}
+
+		{{#if navigation.toggle.visible}}
+		<a class="NavLink Menu" href="#null" data-action="toggle" title="{{navigation.toggle.tooltip}}">{{#if navigation.toggle.icon}}<i class='icon-align-justify'></i>{{/if}}<span>{{navigation.toggle.label}}</span></a>
+		{{/if}}
+
+		<span class="flex-spacer"></span>
+
+		{{#if navigation.progress.visible}}
+		<a class="{{navigation.progress.class}}" href="#null" data-action="progress" title="{{navigation.progress.tooltip}}">{{#if navigation.progress.icon}}<i class='{{navigation.progress.icon}}'></i>{{/if}}<span>{{navigation.progress.label}}</span></a>
+		{{/if}}
+
+		{{#if navigation.glossary.visible}}
+		<a class="{{navigation.glossary.class}}" href="#null" data-action="glossary" title="{{navigation.glossary.tooltip}}">{{#if navigation.glossary.icon}}<i class='{{navigation.glossary.icon}}'></i>{{/if}}<span>{{navigation.glossary.label}}</span></a>
+		{{/if}}
+
+		{{#if navigation.resources.visible}}
+		<a class="{{navigation.resources.class}}" href="#null" data-action="references" title="{{navigation.resources.tooltip}}">{{#if navigation.resources.icon}}<i class='{{navigation.resources.icon}}'></i>{{/if}}<span>{{navigation.resources.label}}</span></a>
+		{{/if}}
+
+		{{#if navigation.help.visible}}
+		<a class="{{navigation.help.class}}" href="#null" data-action="help" title="{{navigation.help.tooltip}}">{{#if navigation.help.icon}}<i class='{{navigation.help.icon}}'></i>{{/if}}<span>{{navigation.help.label}}</span></a>
+		{{/if}}
+
+		{{#if navigation.previous.visible}}
+		<a class="NavLink Previous {{navigation.previous.class}}" href="#null" data-action="back" title="{{navigation.previous.tooltip}}">{{#if navigation.previous.icon}}<i class='{{navigation.previous.icon}}'></i>{{/if}}<span>{{navigation.previous.label}}</span></a>
+		{{/if}}
+
+		{{#if navigation.next.visible}}
+		<a class="NavLink Next {{navigation.next.class}}" href="#null" data-action="forward" title="{{navigation.next.tooltip}}"><span>{{navigation.next.label}}</span>{{#if navigation.next.icon}}<i class='{{navigation.next.icon}}'></i>{{/if}}</a>
+		{{/if}}
+
+{{!--
+		<a class="NavLink Menu" href="#null" data-action="toggle" title="{{navigation.toggle.tooltip}}">{{navigation.toggle.label}}</a>
+		<span class="flex-spacer"></span>
+		<a class="NavLink Previous {{navigation.previous.class}}" href="#null" data-action="back" title="{{navigation.previous.tooltip}}"><i class='{{navigation.previous.icon}}'></i><span>{{navigation.previous.label}}</span></a>
+		<a class="NavLink Next {{navigation.next.class}}" href="#null" data-action="forward" title="{{navigation.next.tooltip}}"><span>{{navigation.next.label}}</span><i class='{{navigation.next.icon}}'></i></a>
+--}}
+	</footer>
+	<div id="audioPlayer"></div>
+</div>
+
+<div id="TOCContainer" class="ui-layout-west">
+	<a href="#" data-action="toggle"><i class="icon-remove-sign"></i></a>
+	<div id="TOC"></div>
+</div>
+

@@ -80,3 +80,8 @@ body > header > .search button {
 	color: #858585;
 	border: none;
 }
+
+body > header > div.logo > a {
+	display: flex;
+	align-items: center;
+}

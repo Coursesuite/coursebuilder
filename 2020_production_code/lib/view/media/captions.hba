@@ -1,0 +1,24 @@
+<form method="POST" class="mdc-data-table">
+<table class="mdc-data-table__table media-caption-table" aria-label="Image caption editor">
+<thead>
+	<tr class="mdc-data-table__header-row">
+		<th class="mdc-data-table__header-cell" role="columnheader" scope="col">Image</th>
+		<th class="mdc-data-table__header-cell" role="columnheader" scope="col">Alt</th>
+		<th class="mdc-data-table__header-cell" role="columnheader" scope="col">Caption</th>
+	</tr>
+</thead>
+<tbody class="mdc-data-table__content">
+{{#each captions}}
+<tr class="mdc-data-table__row">
+	<td class="mdc-data-table__cell"><img src="{{thumbnail (concat ../path @key) 150}}"></td>
+	<td class="mdc-data-table__cell"><input type='hidden' name='src[]' value='{{@key}}'><input type='text' name='alt[]' value='{{alt}}'></td>
+	<td class="mdc-data-table__cell"><textarea name='caption[]' rows='5' cols='40'>{{caption}}</textarea></td>
+</tr>
+{{/each}}
+</tbody>
+<tfoot class="mdc-data-table__footer>
+<tr class="mdc-data-table__row">
+	<th><input type="submit" value="Save" class="btn btn-primary"></th>
+</tr>
+</table>
+</form>

@@ -1,0 +1,17 @@
+C:\inetpub\tardproof\production\phpapp\layouts\anmf-oneattempt\editor\template.txt,eee442680834f93c97b44e99ecb278fd
+C:\inetpub\tardproof\production\phpapp\layouts\anmf-oneattempt\en-us\Content.html,46a62fd594df89e68827debf76daed87
+C:\inetpub\tardproof\production\phpapp\layouts\anmf-oneattempt\en-us\Quiz.html,c71c54e33b13fcdf20e5cc51c5c8e037
+C:\inetpub\tardproof\production\phpapp\layouts\anmf-oneattempt\index.html,6e42e6262592cef851f050d0496a0f11
+C:\inetpub\tardproof\production\phpapp\layouts\anmf-oneattempt\Layout\js\core.js,6a88e205d986d3732b25c9b8a1a12ea8
+C:\inetpub\tardproof\production\phpapp\layouts\anmf-oneattempt\Layout\js\quiz.js,545f78c6437d751ca1ffda207bf97e5d
+C:\inetpub\tardproof\production\phpapp\layouts\anmf-oneattempt\Layout\js\render.js,eb2bf49aeb706134b7255ae7cc2a0994
+C:\inetpub\tardproof\production\phpapp\layouts\anmf-oneattempt\Layout\js\run.js,d2166ecbebf0553503a6e3530cad243e
+C:\inetpub\tardproof\production\phpapp\layouts\anmf-oneattempt\Layout\layouts\completion\competent.txt,b013680f598ed01b092046b1f3827da1
+C:\inetpub\tardproof\production\phpapp\layouts\anmf-oneattempt\Layout\layouts\player.txt,cb53f97ed7ffab1a30efb172f9008dca
+C:\inetpub\tardproof\production\phpapp\layouts\anmf-oneattempt\Layout\layouts\quiz\question.txt,e307779692b9b24cc10147ea289fec92
+C:\inetpub\tardproof\production\phpapp\layouts\anmf-oneattempt\Layout\layouts\quiz\results.txt,e4e817c8b4871d6213493a80d100eb39
+C:\inetpub\tardproof\production\phpapp\layouts\anmf-oneattempt\Layout\less\content\formatting.less,8ffc438ece31ae11517a1353ae058148
+C:\inetpub\tardproof\production\phpapp\layouts\anmf-oneattempt\Layout\less\layout\footer.less,bedce4d3364207bf5c3c426fab80c093
+C:\inetpub\tardproof\production\phpapp\layouts\anmf-oneattempt\Layout\less\layout\header.less,d4749dc96df40286f47cefcd3c71931f
+C:\inetpub\tardproof\production\phpapp\layouts\anmf-oneattempt\Layout\less\quiz\quiz.less,f02910d5e81858e0a46d07bf72e3e060
+C:\inetpub\tardproof\production\phpapp\layouts\anmf-oneattempt\Layout\less\variables.less,1cc688c86fb6d29bfe086c4841778eeb

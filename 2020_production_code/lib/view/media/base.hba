@@ -1,0 +1,32 @@
+<section id='media-container'>
+	{{#equals layout "insert"}}
+	<aside id='media-action-selection'>
+		{{#each actions}}
+		<a href="javascript:UI.Action.Change('{{name}}');" class="waves-effect waves-orange" data-command="{{name}}">{{label}}</a>
+		{{/each}}
+	</aside>
+	{{/equals}}
+	<article id='media-action-container'>
+		<header id='media-action-toolbar'>
+			<div class='media-action-toolbar-title'>
+				<h1>Action title</h1>
+				<a href="javascript:parent.MediaOverlay.Close();"><i class="material-icons">clear</i></a>
+			</div>
+			<div class='media-action-toolbar-sections'>
+				<div id="tabs">
+					<a href="#action.upload">Upload items</a>
+					<a href="#action.showfiles">Files in library</a>
+					<a href="#action.showmedia">Media in library</a>
+				</div>
+			</div>
+		</header>
+		<section id='media-action-workspace'>
+			<article id='media-action-workspace-tiles' class='loading'></article>
+			<aside id='media-action-workspace-properties'>Select something ...</aisde>
+		</section>
+		<footer id='media-selection-toolbar'>
+			<div><div id='command-output'>No selection</div></div>
+			<a class='btn waves-effect waves-light' href='javascript:UI.Action.Finalise()'>{{#equals layout "insert"}}Insert{{else}}Close{{/equals}}</a>
+		</footer>
+	</article>
+</section>

@@ -54,7 +54,7 @@ class Application {
         } else {
 	        // echo "path controller is " . Config::get("PATH_CONTROLLER");
             // load 404 error page
-            var_dump(Config::get("PATH_CONTROLLER"));
+            //var_dump(Config::get("PATH_CONTROLLER"));
             require Config::get("PATH_CONTROLLER") . 'ErrorController.php';
             $this->controller = new ErrorController;
             $this->controller->error404();

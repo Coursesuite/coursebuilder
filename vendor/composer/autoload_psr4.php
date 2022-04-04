@@ -14,5 +14,5 @@ return array(
     'MyCLabs\\Enum\\' => array($vendorDir . '/myclabs/php-enum/src'),
     'LightnCandy\\' => array($vendorDir . '/zordius/lightncandy/src'),
     'ColorThief\\' => array($vendorDir . '/ksubileau/color-thief-php/lib/ColorThief'),
-    '' => array($baseDir . '/lib/core', $baseDir . '/lib/model'),
+    '' => array($baseDir . '/lib/core', $baseDir . '/lib/model', $baseDir . '/lib/collection'),
 );

@@ -28,6 +28,7 @@ section.course-list .course-row {
   transition: background-color .1s;
   border: 1px solid #d3d3d3;
   border-bottom-width: 0px;
+  padding: 1em .5em; /* more spacing makes it friendlier */
 }
 section.course-list .course-row:hover {
   background-color: #f8f8f8;
